@@ -11,3 +11,9 @@ declare global {
 }
 
 export {};
+
+declare module '*.svg?component' {
+  import type { SvelteComponentTyped } from 'svelte';
+  const content: SvelteComponentTyped;
+  export default content;
+}
