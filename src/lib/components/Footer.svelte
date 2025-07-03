@@ -1,4 +1,4 @@
-<footer class="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
+<footer class="footer sm:footer-horizontal bg-base-200 text-neutral-content p-10">
   <aside>
     <svg
       version="1.1"
