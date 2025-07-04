@@ -3,13 +3,13 @@
         REDBUD
     </span>
     <span class="text-2xl mt-2 text-center">
-        A tool for development with the REDAMANCY engine
+        A tool for development with the SWAGENGINE
     </span>
 </div>
 
 <div class="absolute top-3/4 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
     <h1 class="text-xl text-center">
-        Awesome webtool for the REDAMANCY engine, designed for both developers and modders. The go-to way of command, entity, item, and tile creation. Select a project or create one to start.
+        Designed for both developers and modders. The go-to way of command, entity, item, and tile creation. Select a project or create one to start. For more information, visit the About page.
     </h1>
 </div>
 
