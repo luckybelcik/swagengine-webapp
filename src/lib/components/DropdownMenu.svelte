@@ -4,7 +4,7 @@
 
 <div class="dropdown dropdown-end">
   <!-- svelte-ignore a11y_consider_explicit_label -->
-  <button tabindex="0" class="btn m-1 btn-square btn-lg">
+  <button tabindex="0" class="btn m-1 btn-square btn-lg bg-base-300 hover:bg-base-200">
     <svg
       width="35px"
       height="35px"
@@ -18,7 +18,7 @@
     </svg>
   </button>
 
-  <ul class="dropdown-content menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow-xl">
+  <ul class="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow-xl">
     <li>
       <a href="/" class={$page.url.pathname === '/' ? 'active' : ''}>Home</a>
     </li>
@@ -26,7 +26,7 @@
       <a href="/about" class={$page.url.pathname === '/about' ? 'active' : ''}>About</a>
     </li>
     <li>
-      <a href="/projects" class={$page.url.pathname.startsWith('/projects') ? 'active' : ''}>Projects</a>
+      <a href="/editor" class={$page.url.pathname.startsWith('/editor') ? 'active' : ''}>Editor</a>
     </li>
     </ul>
 </div>

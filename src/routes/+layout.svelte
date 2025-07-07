@@ -1,12 +1,13 @@
 <script>
     let { children } = $props();
+    import { page } from '$app/stores';
     import "../app.css";
     import Footer from "../lib/components/Footer.svelte";
     import DropdownMenu from "../lib/components/DropdownMenu.svelte";
 </script>
 
 <div>
-  <div class="fixed right-5 top-5">
+  <div class="fixed right-0 top-0">
     <DropdownMenu />
   </div>
 
@@ -14,6 +15,8 @@
     {@render children()}
   </main>
 
-  <Footer />
+  {#if !$page.url.pathname.startsWith('/editor')}
+    <Footer />
+  {/if}
 </div>
 
