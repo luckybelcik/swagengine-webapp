@@ -1,0 +1,5 @@
+{
+    "fields": [
+        { "name": "break_speed_wood", "type": "float" }
+    ]
+}

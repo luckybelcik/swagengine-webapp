@@ -1,0 +1,12 @@
+{
+    "hooks": {
+        "base": {
+            "onCreate": { "description": "Function to execute when the item is created." }
+        },
+        
+        "tool_component": {
+            "onBreakTile": { "description": "Function to execute when a tile is broken." },
+            "onBreakTool": { "description": "Function to execute when the tool breaks." }
+        }
+    }
+}

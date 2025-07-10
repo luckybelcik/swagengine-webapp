@@ -1,0 +1,6 @@
+{
+  "enum_rarity": {
+    "type": "enum",
+    "values": ["common", "uncommon", "rare", "epic", "legendary"]
+  }
+}

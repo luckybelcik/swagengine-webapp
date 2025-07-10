@@ -1,0 +1,5 @@
+{
+  "fields": [
+    { "name": "max_hp", "type": "integer" }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "name": "max_stack_size", "type": "integer" },
+    { "name": "item_rarity", "type": "rarity" }
+  ]
+}

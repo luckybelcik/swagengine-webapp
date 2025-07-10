@@ -1,0 +1,8 @@
+{
+    "fields": [
+        { "name": "swing_speed", "type": "float" },
+        { "name": "sword_size", "type": "float" },
+        { "name": "damage_dealt", "type": "float" },
+        { "name": "critical_chance", "type": "float" }
+    ]
+}
