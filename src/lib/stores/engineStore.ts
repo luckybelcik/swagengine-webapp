@@ -52,6 +52,7 @@ export interface Element {
 
 export interface EngineProjectData {
   name: string;
+  id: string;
   description: string;
   author: string;
   projectVersion: string;
@@ -97,7 +98,8 @@ const initialEngineStore: EngineStore = {
     }
   ],
   projectData: {
-    name: 'newProject',
+    name: 'New Project',
+    id: 'new_project',
     description: 'this is the default project description',
     author: 'Author',
     projectVersion: '0.0.0',
@@ -112,6 +114,13 @@ export const setProjectName = (name: string) => {
   engineStore.update(state => ({
     ...state,
     projectData: { ...state.projectData, name }
+  }));
+};
+
+export const setProjectID = (id: string) => {
+  engineStore.update(state => ({
+    ...state,
+    projectData: { ...state.projectData, id }
   }));
 };
 
@@ -149,6 +158,10 @@ export const getProjectVersion = (): string => {
 
 export const getProjectName = (): string => {
   return get(engineStore).projectData.name;
+}
+
+export const getProjectID = (): string => {
+  return get(engineStore).projectData.id;
 }
 
 export const getEngineVersion = (): string => {

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { getProjectName, setProjectName } from "$lib/stores/engineStore";
-  import { nameValidation } from "./editor/utils/validation";
+  import { getProjectName, setProjectID, setProjectName } from "$lib/stores/engineStore";
+  import { idValidation, nameValidation } from "./editor/utils/validation";
   import { goto } from "$app/navigation";
 
   let showCreateProjectModal = $state(false);
   let newProjectNameInput = $state('');
-  let projectName = $state('');
+  let newProjectIdInput = $state('');
 
   let ErrorMessage = $state('');
   let ErrorField = $state(0);
@@ -14,7 +14,8 @@
   const IdError = 0b0010;
 
   function openCreateProjetModal() {
-    projectName = 'projectName'
+    newProjectNameInput = ''
+    newProjectIdInput = ''
 
     showCreateProjectModal = true
   }
@@ -27,10 +28,9 @@
     ErrorMessage = '';
     ErrorField = 0;
     const projectName = newProjectNameInput.trim();
+    const projectID = newProjectIdInput.trim().toLowerCase().replace(/ /g,"_");
 
     let validation;
-
-    // name checks
 
     validation = nameValidation(projectName);
     console.log('VALIDATION:', validation);
@@ -40,9 +40,18 @@
       return;
     }
 
+    validation = idValidation(projectID);
+    console.log('VALIDATION:', validation);
+    if (validation !== 'safe') {
+      ErrorMessage = validation;
+      ErrorField |= IdError;
+      return;
+    }
+
     try {
       closeCreateProjectModal();
       setProjectName(projectName);
+      setProjectID(projectID);
       goto('/editor');
     } catch (error) {
       // @ts-ignore
@@ -68,11 +77,27 @@
           class="input input-bordered w-full {ErrorField & (1 << 0) ? 'input-error' : ''}"
           bind:value={newProjectNameInput}
         />
+
+        <div class="label">
+          <span class="label-text">Project ID</span>
+        </div>
+        <input
+          type="text"
+          placeholder="e.g., new_project"
+          class="input input-bordered w-full {ErrorField & (1 << 1) ? 'input-error' : ''}"
+          bind:value={newProjectIdInput}
+        />
+
+        {#if ErrorMessage}
+          <div class="label">
+            <span class="label-text-alt text-error">{ErrorMessage}</span>
+          </div>
+        {/if}
       </label>
 
       <div class="modal-action">
         <button class="btn btn-ghost" onclick={closeCreateProjectModal}>Cancel</button>
-        <button class="btn btn-primary" onclick={handleCreateProject}>Create Element</button>
+        <button class="btn btn-primary" onclick={handleCreateProject}>Create Project</button>
       </div>
     </div>
     <form method="dialog" class="modal-backdrop" onclick={closeCreateProjectModal}>
