@@ -1,5 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_walls", "type": "float" }
+        { "name": "break_speed_walls", "type": "float" },
+        { "name": "break_power_walls", "type": "integer" }
     ]
 }

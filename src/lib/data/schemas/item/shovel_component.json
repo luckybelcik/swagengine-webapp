@@ -1,5 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_dirt", "type": "float" }
+        { "name": "break_speed_dirt", "type": "float" },
+        { "name": "break_power_dirt", "type": "integer" }
     ]
 }
