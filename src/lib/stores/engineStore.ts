@@ -109,7 +109,7 @@ const initialEngineStore: EngineStore = {
     author: 'Author',
     projectVersion: '0.0.0',
     engineVersion: '0.0.1',
-    webAppVersion: '0.0.2'
+    webAppVersion: '0.0.3'
   }
 };
 
@@ -224,9 +224,19 @@ export const deleteElement = (id: string) => {
 export const updateElement = (id: string, updates: Partial<Element>) => {
   engineStore.update(currentData => ({
     ...currentData,
-    elements: currentData.elements.map(element =>
-      element.id === id ? { ...element, ...updates } : element
-    )
+    elements: currentData.elements.map(element => {
+      if (element.id === id) {
+        const updatedElement = { ...element, ...updates };
+        if (updates.data) {
+          updatedElement.data = {
+            ...element.data,
+            ...updates.data
+          };
+        }
+        return updatedElement;
+      }
+      return element;
+    })
   }));
 };
 
@@ -241,3 +251,50 @@ export const getAllFields = (schema: Schema): Field[] => {
 
   return fields;
 }
+
+export const addComponent = (elementId: string, component_name: string) => {
+  engineStore.update(store => {
+    const elementToUpdate = store.elements.find(el => el.id === elementId);
+
+    if (elementToUpdate) {
+      const newComponents = [...(elementToUpdate.data.components || []), component_name];
+
+      return {
+        ...store,
+        elements: store.elements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }
+            : el
+        ),
+      };
+    }
+    return store;
+  });
+};
+
+export const removeComponent = (elementId: string, component_name: string) => {
+  engineStore.update(store => {
+    const elementToUpdate = store.elements.find(el => el.id === elementId);
+
+    if (elementToUpdate) {
+      const currentComponents = elementToUpdate.data.components || [];
+      const indexToDelete = currentComponents.indexOf(component_name);
+
+      if (indexToDelete !== -1) {
+        // Create a *new* array to maintain immutability and trigger reactivity
+        const newComponents = [...currentComponents]; // Copy the array
+
+        // Perform the swap-and-pop on the new copy
+        if (indexToDelete !== newComponents.length - 1) {
+            newComponents[indexToDelete] = newComponents[newComponents.length - 1];
+        }
+        newComponents.pop();
+
+        // Return a new element object with the updated data
+        return {
+          ...store, // Keep other store properties
+          elements: store.elements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }: el ),
+        };
+      }
+    }
+    return store; // Return original store if element not found or component not found
+  });
+};

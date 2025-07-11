@@ -1,5 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_wood", "type": "float" }
+        { "name": "break_speed_wood", "type": "float" },
+        { "name": "break_power_wood", "type": "integer" }
     ]
 }

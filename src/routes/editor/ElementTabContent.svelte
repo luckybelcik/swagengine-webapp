@@ -8,7 +8,10 @@
     type Schema,
     type Element,
 
-    getAllFields
+    getAllFields,
+
+    removeComponent
+
 
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
@@ -16,11 +19,10 @@
   import FieldRenderer from './components/FieldRenderer.svelte';
   import ValidatedInput from './components/ValidatedInput.svelte';
   import MethodsGrid from './components/MethodsGrid.svelte';
-    import RawDataModal from './components/RawDataModal.svelte';
-    import ComponentAdditionModal from './components/ComponentAdditionModal.svelte';
+  import RawDataModal from './components/RawDataModal.svelte';
+  import ComponentAdditionModal from './components/ComponentAdditionModal.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
-
 
   const store = $derived(get(engineStore));
 
@@ -75,9 +77,12 @@
   function openComponentAdditionModal() {
     showComponentAdditionModal = true;
   }
+
+  let debugComponents = $derived(element?.data?.components || []);
 </script>
 
 {#if schema && element}
+  <p>Debug Components: {debugComponents.join(', ')}</p>
   <ValidatedInput
     label="Element Name"
     value={element.name}
@@ -108,7 +113,10 @@
     </div>
     <div class="collapse-content space-y-3">
       {#each schema().components as component (component.name)}
-        <div class="text-xl font-bold w-full">{component.name}</div>
+        <div class="flex justify-between items-center w-full">
+          <div class="text-xl font-bold">{component.name}</div>
+          <button class="btn btn-error btn-sm" onclick={() => removeComponent(element.id, component.name)}>Remove</button>
+        </div>
         {#each component.fields as field }
           <FieldRenderer
             {field}
