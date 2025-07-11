@@ -1,3 +1,5 @@
+import type { BaseOrComponentDefinition, Component, Schema } from "$lib/stores/engineStore";
+
 type JSONModule = Record<string, any>;
 
 export const modules: Record<string, JSONModule> = import.meta.glob('./schemas/**/*.json', {

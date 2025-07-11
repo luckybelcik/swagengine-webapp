@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getAvailableComponentsForType } from "$lib/data/_definitions";
+    import { getAvailableComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
 
   let { showModal = $bindable(), element } = $props<{
     showModal: boolean;
@@ -60,6 +60,7 @@
                 <div class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer">
                     <div class="card-body p-4">
                         <h4 class="text-m font-bold mb-1 truncate text-center">{component}</h4>
+                        <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, component)}</h4>
                     </div>
                 </div>
             {/each}
