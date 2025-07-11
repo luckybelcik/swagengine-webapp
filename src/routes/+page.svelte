@@ -1,3 +1,10 @@
+<script lang="ts">
+    function newProject() {
+        const newURL: string = window.location.href + 'editor';
+        window.location.replace(newURL)
+    }
+</script>
+
 <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
     <span class="text-8xl text-primary text-center">
         REDBUD
@@ -31,7 +38,7 @@
                 <path d="M2 11V4.6C2 4.26863 2.26863 4 2.6 4H8.77805C8.92127 4 9.05977 4.05124 9.16852 4.14445L12.3315 6.85555C12.4402 6.94876 12.5787 7 12.722 7H14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </button>
         <div class="divider divider-horizontal">OR</div>
-        <button class="btn btn-outline btn-xl">
+        <button class="btn btn-outline btn-xl" onclick={newProject}>
             Create Project
             <svg
                 class="stroke-current"

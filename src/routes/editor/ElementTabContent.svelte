@@ -9,13 +9,15 @@
     type Element
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
+    import { idValidation, nameValidation } from './utils/validation.js';
+    import Navbar from '$lib/components/Navbar.svelte';
 
-  export let elementId: string;
+  const { elementId } = $props<{ elementId: string }>();
 
-  let schema: Schema | null = null;
-  let element: Element | undefined;
+  let schema = $state<Schema | null>(null);
+  let element = $state<Element | undefined>(undefined);
 
-  $: {
+  $effect(() => {
     const store = get(engineStore);
     element = store.elements.find(el => el.id === elementId);
     if (element) {
@@ -23,7 +25,7 @@
       console.log('element:', element);
       console.log('schema:', schema);
     }
-  }
+  });
 
   function getEnumValues(typeName: string): string[] {
     const enumDef = schema?.types?.[`enum_${typeName}`];
@@ -40,19 +42,24 @@
     });
   }
 
+  let NameErrorMessage = $state('');
+
   // @ts-ignore
   function handleNameChange(event) {
     if (element) {
-      updateElement(element.id, { name: event.target.value });
-      setTabName(element.id, event.target.value); // Update tab name to match element name
-      element.name = event.target.value;
-    }
-  }
+      const name = event.target.value;
+      const validation = nameValidation(name);
 
-  // @ts-ignore
-  function handleIDChange(event) {
-    if (element) {
-      updateElement(element.id, { id: event.target.value });
+      if (validation !== 'safe') {
+        NameErrorMessage = validation;
+        return;
+      }
+
+      NameErrorMessage = '';
+
+      updateElement(element.id, { name: name });
+      setTabName(element.id, name); // Update tab name to match element name
+      element.name = name;
     }
   }
 
@@ -78,22 +85,23 @@
     </div>
     <input
       type="text"
-      class="input input-bordered w-auto ml-3"
+      class="input input-bordered w-auto ml-3 {NameErrorMessage ? 'input-error' : ''}"
       value={element.name}
-      on:change={handleNameChange}
+      onchange={handleNameChange}
     />
   </label>
 
-  <div class="w-full pl-4 p-1 pt-2">
+  {#if NameErrorMessage}
+    <div class="label">
+      <span class="label-text-alt text-error">{NameErrorMessage}</span>
+    </div>
+  {/if}
+
+  <div class="w-full pl-4 p-2 pb-1">
     <div class="label">
       <span class="label-text">Element ID</span>
     </div>
-    <input
-      type="text"
-      class="input input-bordered w-auto ml-3"
-      value={element.id}
-      on:change={handleIDChange}
-    />
+    <div class="input w-auto opacity-60 ml-3">{element.id}</div>
   </div>
 
   <div class="w-full pl-4 p-1">
@@ -126,7 +134,7 @@
               type="number"
               step="1"
               value={element.data?.[field.name] ?? ''}
-              on:input={(e: Event) => {
+              oninput={(e: Event) => {
                 const target = e.target as HTMLInputElement;
                 updateField(field.name, parseInt(target.value, 10));
               }}
@@ -139,7 +147,7 @@
               type="number"
               step="any"
               value={element.data?.[field.name] ?? ''}
-              on:input={(e: Event) => {
+              oninput={(e: Event) => {
                 const target = e.target as HTMLInputElement;
                 updateField(field.name, parseFloat(target.value));
               }}
@@ -151,7 +159,7 @@
               id={field.name}
               type="checkbox"
               checked={element.data?.[field.name] ?? false}
-              on:change={(e: Event) => {
+              onchange={(e: Event) => {
                 const target = e.target as HTMLInputElement;
                 updateField(field.name, target.checked);
               }}
@@ -162,7 +170,7 @@
             <select
               id={field.name}
               value={element.data?.[field.name] ?? ''}
-              on:change={(e: Event) => {
+              onchange={(e: Event) => {
                 const target = e.target as HTMLSelectElement;
                 updateField(field.name, target.value);
               }}
@@ -179,7 +187,7 @@
               id={field.name}
               type="text"
               value={element.data?.[field.name] ?? ''}
-              on:input={(e: Event) => {
+              oninput={(e: Event) => {
                 const target = e.target as HTMLInputElement;
                 updateField(field.name, target.value);
               }}
@@ -209,8 +217,8 @@
   </div>
 
   <div class="mt-6 flex justify-end gap-2">
-    <button class="btn btn-base" on:click={openRawDataModal}>View Raw Data</button>
-    <button class="btn btn-error" on:click={handleDeleteElement}>Delete Element</button>
+    <button class="btn btn-base" onclick={openRawDataModal}>View Raw Data</button>
+    <button class="btn btn-error" onclick={handleDeleteElement}>Delete Element</button>
   </div>
 
   <dialog id="raw_data_modal" class="modal">

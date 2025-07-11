@@ -25,8 +25,5 @@
     <li>
       <a href="/about" class={$page.url.pathname === '/about' ? 'active' : ''}>About</a>
     </li>
-    <li>
-      <a href="/editor" class={$page.url.pathname.startsWith('/editor') ? 'active' : ''}>Editor</a>
-    </li>
     </ul>
 </div>

@@ -7,6 +7,7 @@
       getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount } from '$lib/stores/engineStore';
     import { loadSchema } from "./utils/schemaLoader.js";
     import { getAvailableComponentsForType, getDefinition } from "../../lib/data/_definitions"
+    import { idValidation, nameValidation, typeValidation } from "./utils/validation";
 
     // --- Modal State and Logic ---
   let showCreateElementModal = $state(false);
@@ -14,7 +15,7 @@
   let newElementIdInput = $state('');
   let newElementTypeInput = $state('');
   let newElementComponents = $state('');
-  let idErrorMessage = $state('');
+  let ErrorMessage = $state('');
   let ErrorField = $state(0);
   let elementCount = $state(getElementCount());
 
@@ -31,7 +32,7 @@
     newElementIdInput = '';
     newElementTypeInput = '';
     newElementComponents = '';
-    idErrorMessage = '';
+    ErrorMessage = '';
     ErrorField = 0;
     showCreateElementModal = true;
   }
@@ -41,7 +42,7 @@
   }
 
   function handleCreateElement() {
-    idErrorMessage = '';
+    ErrorMessage = '';
     ErrorField = 0;
     const newName = newElementNameInput.trim();
     const newId = newElementIdInput.trim().toLowerCase().replace(/ /g,"_");
@@ -54,56 +55,32 @@
     .map(c => c.replace(/ /g,"_"))
     .map(c=> c.endsWith("_component") ? c : c.concat("_component"));
 
+    let validation;
+
     // name checks
 
-    if (newName.length < 1 || newName.length > 20) {
-      idErrorMessage = 'Name must be between 1 and 20 characters long.';
+    validation = nameValidation(newName);
+    console.log('VALIDATION:', validation);
+    if (validation !== 'safe') {
+      ErrorMessage = validation;
       ErrorField |= NameError;
       return;
     }
 
     // id checks
 
-    if (!newId) {
-      idErrorMessage = 'Element ID cannot be empty.';
-      ErrorField |= IdError;
-      return;
-    }
-
-    if (elementIdExists(newId)) {
-      idErrorMessage = `Element ID '${newId}' already exists.`;
-      ErrorField |= IdError;
-      return;
-    }
-
-    if (!/^[a-zA-Z0-9_]+$/.test(newId)) {
-        idErrorMessage = 'ID can only contain letters, numbers, and underscores.';
-        ErrorField |= IdError;
-        return;
-    }
-
-    if (newId.length < 3 || newId.length > 20) {
-      idErrorMessage = 'ID must be between 3 and 20 characters long.';
-      ErrorField |= IdError;
-      return;
-    }
-
-    if (newId.startsWith('_') || newId.endsWith('_')) {
-      idErrorMessage = 'ID cannot start or end with an underscore.';
+    validation = idValidation(newId);
+    if (validation !== 'safe') {
+      ErrorMessage = validation;
       ErrorField |= IdError;
       return;
     }
 
     // type checks
 
-    if (!newType) {
-      idErrorMessage = 'Element Type cannot be empty.';
-      ErrorField |= TypeError;
-      return;
-    }
-
-    if (!FIXED_ELEMENT_TYPES.includes(newType as typeof FIXED_ELEMENT_TYPES[number])) {
-      idErrorMessage = `Element type '${newType}' is not valid.`;
+    validation = typeValidation(newType);
+    if (validation !== 'safe') {
+      ErrorMessage = validation;
       ErrorField |= TypeError;
       return;
     }
@@ -126,7 +103,7 @@
       // @ts-ignore
       console.error("Error creating element:", error.message);
       // @ts-ignore
-      idErrorMessage = `Failed to create element: ${error.message}`;
+      ErrorMessage = `Failed to create element: ${error.message}`;
     }
   }
 </script>
@@ -210,9 +187,9 @@
               bind:value={newElementComponents}
             />
 
-            {#if idErrorMessage}
+            {#if ErrorMessage}
               <div class="label">
-                <span class="label-text-alt text-error">{idErrorMessage}</span>
+                <span class="label-text-alt text-error">{ErrorMessage}</span>
               </div>
             {/if}
           </label>
