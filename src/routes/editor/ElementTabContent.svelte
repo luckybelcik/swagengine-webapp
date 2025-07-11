@@ -6,7 +6,10 @@
     updateElement,
     deleteElement,
     type Schema,
-    type Element
+    type Element,
+
+    getAllFields
+
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
   import { softValidation } from './utils/validation.js';
@@ -104,13 +107,16 @@
       <div class="text-xl font-bold w-full">Element Data</div>
     </div>
     <div class="collapse-content space-y-3">
-      {#each schema() && schema() !== null && schema().fields ? schema().fields : [] as field (field.name)}
-        <FieldRenderer
-          {field}
-          value={element.data?.[field.name]}
-          {getEnumValues}
-          onChange={updateField}
-        />
+      {#each schema().components as component (component.name)}
+        <div class="text-xl font-bold w-full">{component.name}</div>
+        {#each component.fields as field }
+          <FieldRenderer
+            {field}
+            value={element.data?.[field.name]}
+            {getEnumValues}
+            onChange={updateField}
+          />
+        {/each}
       {/each}
 
       <button class="btn w-full" onclick={openComponentAdditionModal}>Add Component</button>

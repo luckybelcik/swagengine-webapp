@@ -42,4 +42,22 @@ export function getAvailableComponentsForType(type: string): string[] {
   return components;
 }
 
+/**
+ * Returns the number of fields on a given component.
+ * @param type - The base element type (e.g., 'item').
+ * @param componentName - The name of the component (e.g., 'weapon').
+ * @returns The number of fields, or 0 if the component or its 'fields' property is not found.
+ */
+export function getNumberOfFieldsOnComponent(type: string, componentName: string): number {
+    const componentDefinition = getDefinition(type, componentName);
+
+    if (componentDefinition && typeof componentDefinition === 'object' && 'fields' in componentDefinition) {
+        const fields = (componentDefinition as Record<string, any>).fields;
+        if (Array.isArray(fields)) {
+            return fields.length;
+        }
+    }
+    return 0;
+}
+
 export const globalTypesDefinition: unknown = modules['./schemas/types.json'] || {};

@@ -11,20 +11,25 @@ export type MethodHookType = typeof FIXED_ENTITY_METHOD_HOOKS[number] | typeof F
 
 // --- TYPES ---
 
-export type FieldDefinition = {
+export type Field = {
   name: string;
   type: string;
 };
 
-export type EnumDefinition = {
+export type Enum = {
   type: "enum";
   values: string[];
 };
 
+export type Component = {
+  name: string;
+  fields: Field[]
+}
+
 export type Schema = {
   type: string;
-  fields: FieldDefinition[];
-  types?: Record<string, EnumDefinition>;
+  components: Component[];
+  types?: Record<string, Enum>;
   availableHooks?: Record<string, HookDefinition>;
 };
 
@@ -70,7 +75,7 @@ export interface HookDefinition {
 }
 
 export interface BaseOrComponentDefinition {
-  fields?: FieldDefinition[];
+  fields?: Field[];
 }
 
 export interface HooksDefinition {
@@ -224,3 +229,15 @@ export const updateElement = (id: string, updates: Partial<Element>) => {
     )
   }));
 };
+
+export const getAllFields = (schema: Schema): Field[] => {
+  let fields: Field[] = [];
+
+  schema.components.forEach(component => {
+    component.fields.forEach(field => {
+      fields.push(field);
+    });
+  });
+
+  return fields;
+}

@@ -1,27 +1,27 @@
 import { getAvailableComponentsForType, getDefinition, globalTypesDefinition } from '$lib/data/_definitions';
 import type {
-  FieldDefinition,
+  Field,
   HookDefinition,
   Schema,
   BaseOrComponentDefinition,
-  HooksDefinition
+  HooksDefinition,
+  Component
 } from '../../../lib/stores/engineStore';
 
 export function loadSchema(elementType: string, components: string[] = []): Schema {
   const baseDef = getDefinition(elementType, 'base') as BaseOrComponentDefinition | null;
-  let fields: FieldDefinition[] = [...(baseDef?.fields || [])];
+  let fields: Field[] = [...(baseDef?.fields || [])];
+  let componentList: Component[] = [];
 
   for (const component of components) {
     const componentDef = getDefinition(elementType, component) as BaseOrComponentDefinition | null;
     if (componentDef?.fields) {
-      fields.push(...componentDef.fields);
-    } else if (component == "debug") {
-      for (const availableComponent of getAvailableComponentsForType(elementType)) {
-        const componentDefinition = getDefinition(elementType, availableComponent) as BaseOrComponentDefinition | null;
-        if (componentDefinition?.fields) {
-          fields.push(...componentDefinition.fields);
-        }
-      }
+      fields = componentDef.fields;
+      
+      componentList.push({
+        name: component,
+        fields
+      });
     }
   }
 
@@ -41,5 +41,5 @@ export function loadSchema(elementType: string, components: string[] = []): Sche
 
   const types = globalTypesDefinition as Record<string, any>;
 
-  return { type: elementType, fields, availableHooks: hooks, types };
+  return { type: elementType, components: componentList, availableHooks: hooks, types };
 }
