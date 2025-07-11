@@ -12,6 +12,7 @@
   import { nameValidation } from './utils/validation.js';
   import FieldRenderer from '$lib/components/FieldRenderer.svelte';
   import ValidatedInput from '$lib/components/ValidatedInput.svelte';
+    import MethodsGrid from '$lib/components/MethodsGrid.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
 
@@ -111,18 +112,9 @@
 
   <p class="text-xl font-bold p-4">Methods</p>
 
-  <div class="grid grid-cols-fill-180 grid-cols-7 gap-4 p-4">
-    {#each element.methods as method (method)}
-      <button
-        class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer"
-      >
-        <div class="card-body p-4">
-          <h4 class="text-lg font-bold mb-1 truncate text-center">{method.type}</h4>
-          <p class="text-sm opacity-70">Length: {method.code.length}</p>
-          </div>
-      </button>
-    {/each}
-  </div>
+  <MethodsGrid
+    methods={element.methods}
+  />
 
   <div class="mt-6 flex justify-end gap-2">
     <button class="btn btn-base" onclick={openRawDataModal}>View Raw Data</button>
