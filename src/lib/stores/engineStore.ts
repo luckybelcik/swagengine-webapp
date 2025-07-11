@@ -164,6 +164,10 @@ export const getProjectID = (): string => {
   return get(engineStore).projectData.id;
 }
 
+export const getProjectAuthor = (): string => {
+  return get(engineStore).projectData.author;
+}
+
 export const getEngineVersion = (): string => {
   return get(engineStore).projectData.engineVersion;
 }
