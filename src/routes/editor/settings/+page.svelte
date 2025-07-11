@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ValidatedInput from '$lib/components/ValidatedInput.svelte';
+  import ValidatedInput from '../components/ValidatedInput.svelte';
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor } from "$lib/stores/engineStore";
   import { nameValidation } from "../utils/validation";
 

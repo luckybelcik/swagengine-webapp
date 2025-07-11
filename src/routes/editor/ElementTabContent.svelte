@@ -10,27 +10,28 @@
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
   import { nameValidation } from './utils/validation.js';
-  import FieldRenderer from '$lib/components/FieldRenderer.svelte';
-  import ValidatedInput from '$lib/components/ValidatedInput.svelte';
-    import MethodsGrid from '$lib/components/MethodsGrid.svelte';
+  import FieldRenderer from './components/FieldRenderer.svelte';
+  import ValidatedInput from './components/ValidatedInput.svelte';
+  import MethodsGrid from './components/MethodsGrid.svelte';
+    import RawDataModal from './components/RawDataModal.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
 
-  let schema = $state<Schema | null>(null);
-  let element = $state<Element | undefined>(undefined);
 
-  $effect(() => {
-    const store = get(engineStore);
-    element = store.elements.find(el => el.id === elementId);
+  const store = $derived(get(engineStore));
+
+  let element = $derived(store.elements.find(el => el.id === elementId));
+
+  let schema = $derived(() => {
     if (element) {
-      schema = loadSchema(element.type, element.data?.components ?? []);
-      console.log('element:', element);
-      console.log('schema:', schema);
+      return loadSchema(element.type, element.data?.components ?? []);
     }
+    return null;
   });
 
   function getEnumValues(typeName: string): string[] {
-    const enumDef = schema?.types?.[`enum_${typeName}`];
+    const resolvedSchema = typeof schema === 'function' ? schema() : schema;
+    const enumDef = resolvedSchema?.types?.[`enum_${typeName}`];
     return enumDef?.type === "enum" ? enumDef.values : [];
   }
 
@@ -59,11 +60,10 @@
     }
   }
 
+  let showRawDataModal: boolean = $state(false);
+
   function openRawDataModal() {
-    const modal = document.getElementById('raw_data_modal');
-    if (modal instanceof HTMLDialogElement) { // Ensure it's a dialog element
-      modal.showModal();
-    }
+    showRawDataModal = true;
   }
 </script>
 
@@ -97,7 +97,7 @@
       <div class="text-xl font-bold w-full">Element Data</div>
     </div>
     <div class="collapse-content space-y-3">
-      {#each schema.fields as field (field.name)}
+      {#each schema() && schema().fields ? schema().fields : [] as field (field.name)}
         <FieldRenderer
           {field}
           value={element.data?.[field.name]}
@@ -121,24 +121,10 @@
     <button class="btn btn-error" onclick={handleDeleteElement}>Delete Element</button>
   </div>
 
-  <dialog id="raw_data_modal" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
-      <h3 class="font-bold text-lg">Raw Element Data</h3>
-      <p>Note: if you just changed the element ID, you need to re-open the tab for the change to take place</p>
-      <div class="py-4">
-        {#if element}
-          <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-96">{JSON.stringify(element, null, 2).trim()}</pre>
-        {:else}
-          <p class="text-gray-500 italic">No element selected or loaded.</p>
-        {/if}
-      </div>
-      <div class="modal-action">
-        <form method="dialog">
-          <button class="btn">Close</button>
-        </form>
-      </div>
-    </div>
-  </dialog>
+  <RawDataModal
+    bind:showModal={showRawDataModal}
+    element={element}
+  />
   
 {:else}
   <p class="text-center text-gray-500 p-4">No schema loaded or element not found.</p>

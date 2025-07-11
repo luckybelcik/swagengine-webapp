@@ -12,7 +12,7 @@
   let inputValue = value;
   let errorMessage = '';
 
-  function handleChange(event) {
+  function handleChange(event: any) {
     inputValue = event.target.value;
     const validation = validate(inputValue);
 
