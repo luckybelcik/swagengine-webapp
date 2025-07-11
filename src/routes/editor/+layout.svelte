@@ -3,8 +3,8 @@
     import "../../app.css";
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
-      getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount } from '$lib/stores/engineStore';
-    import { getAvailableComponentsForType } from "../../lib/data/_definitions"
+      getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount, 
+      FIXED_ELEMENT_TYPES} from '$lib/stores/engineStore';
     import { strictValidation, softValidation, typeValidation } from "./utils/validation";
     import FormModal from "./components/FormModal.svelte";
 
@@ -34,13 +34,6 @@
     const newName = values.elementName.trim();
     const newId = values.elementID.trim().toLowerCase().replace(/ /g,"_");
     const newType = values.elementType.trim().toLowerCase().replace(/ /g,"_");
-    const newComponents: string[] = values.elementComponents
-    .trim()
-    .toLowerCase()
-    .split(',')
-    .map(c => c.trim())
-    .map(c => c.replace(/ /g,"_"))
-    .map(c=> c.endsWith("_component") ? c : c.concat("_component"));
 
     let validation;
 
@@ -68,12 +61,8 @@
 
     try {
       let newElement = null;
-      if (newComponents.length == 1 && newComponents[0] == "debug_component") {
-        const newerComponents = getAvailableComponentsForType(newType);
-        newElement = createNewElement(newName, newId, newType, newerComponents);
-      } else {
-        newElement = createNewElement(newName, newId, newType, newComponents);
-      }
+      newElement = createNewElement(newName, newId, newType);
+
       console.log(`Created new element with ID: ${newId} and Type: ${newType}`);
       console.log(`New element:`, newElement);
       elementCount++;
@@ -126,9 +115,8 @@
       { name: "elementID", label: "Element ID", placeholder: "e.g., new_element", 
         description: "Element IDs are used for element identification in code, etc. They can't be changed directly after creation because it corrupts existing items of that ID"},
       { name: "elementType", label: "Element Type", placeholder: "e.g., item, entity, tile", 
-        description: "Element types determine basic behavior"},
-      { name: "elementComponents", label: "Components", placeholder: "e.g., depends on element type", 
-        description: "Components provide additional behavior, like an item being a tool, or a tile being able to store items"},
+        description: "Element types determine basic behavior",
+        type: "enum", enum_values: [...FIXED_ELEMENT_TYPES] }
     ]}
     errorMessage={ErrorMessage}
     errorField={ErrorField}

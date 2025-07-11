@@ -5,6 +5,7 @@
     description: string;
     placeholder?: string;
     type?: string;
+    enum_values?: string[];
   }
 
   export let title = '';
@@ -32,14 +33,23 @@
     <label class="form-control w-full">
       {#each fields as field}
         <div class="label">
-          <span class="label-text">{field.label}</span>
+            <span class="label-text">{field.label}</span>
         </div>
-        <input
-          type="text"
-          placeholder={field.placeholder}
-          class="input input-bordered w-full {errorField === field.name ? 'input-error' : ''}"
-          bind:value={formValues[field.name]}
-        />
+        {#if field.type == "enum" && field.enum_values}
+            <select class="select select-bordered w-full" bind:value={formValues[field.name]}>
+                <option disabled selected value="">-- Select {field.type} --</option>
+                {#each field.enum_values as opt}
+                    <option value={opt}>{opt}</option>
+                {/each}
+            </select>
+        {:else}
+            <input
+              type="text"
+              placeholder={field.placeholder}
+              class="input input-bordered w-full {errorField === field.name ? 'input-error' : ''}"
+              bind:value={formValues[field.name]}
+            />
+        {/if}
         <p class="mb-4 text-xs opacity-30 hover:opacity-80 transition-opacity duration-500">{field.description}</p>
       {/each}
 

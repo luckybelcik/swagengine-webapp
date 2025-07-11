@@ -191,7 +191,7 @@ export const elementIdExists = (id: string): boolean => {
   return get(engineStore).elements.some(element => element.id === id);
 };
 
-export const createNewElement = (name: string, id: string, type: string, components: string[]): Element => {
+export const createNewElement = (name: string, id: string, type: string, components?: string[]): Element => {
   if (elementIdExists(id)) {
     throw new Error(`Element with ID '${id}' already exists.`);
   }
