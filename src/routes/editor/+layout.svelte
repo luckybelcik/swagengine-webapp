@@ -98,8 +98,6 @@
       elementCount++;
       closeCreateElementModal();
     } catch (error) {
-      // This catch is primarily for unexpected errors from createNewBlankElement,
-      // as ID uniqueness is already checked.
       // @ts-ignore
       console.error("Error creating element:", error.message);
       // @ts-ignore
