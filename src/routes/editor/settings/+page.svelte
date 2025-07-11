@@ -1,7 +1,7 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor } from "$lib/stores/engineStore";
-  import { nameValidation } from "../utils/validation";
+  import { softValidation } from "../utils/validation";
 
   const projectID = getProjectID();
 
@@ -24,7 +24,7 @@
 <ValidatedInput
   label="Project Name"
   value={projectName}
-  validate={nameValidation}
+  validate={softValidation}
   on:change={handleNameChange}
 />
 
@@ -38,6 +38,6 @@
 <ValidatedInput
   label="Project Author"
   value={projectAuthor}
-  validate={nameValidation}
+  validate={softValidation}
   on:change={handleAuthorChange}
 />

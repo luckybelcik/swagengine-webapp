@@ -1,32 +1,43 @@
 import { elementIdExists, FIXED_ELEMENT_TYPES } from "$lib/stores/engineStore";
 
-export const idValidation = (id: string): string => {
-    if (!id) {
-      return 'Element ID cannot be empty.';
+/**
+ * Used for strict validation, mainly for IDs.
+ * @param input The input string to validate
+ * @param isId Decides whether to check if duplicate element IDs exists
+ * @returns Returns an error message if failed, 'safe' if succeeded
+ */
+export const strictValidation = (input: string, isId?:boolean ): string => {
+    if (!input) {
+      return 'This field cannot be empty.';
     }
 
-    if (elementIdExists(id)) {
-      return `Element ID '${id}' already exists.`;
+    if (isId && elementIdExists(input)) {
+      return `Element ID '${input}' already exists.`;
     }
 
-    if (!/^[a-zA-Z0-9_]+$/.test(id)) {
-        return 'ID can only contain letters, numbers, and underscores.';
+    if (!/^[a-zA-Z0-9_]+$/.test(input)) {
+        return 'This field can only contain letters, numbers, and underscores.';
     }
 
-    if (id.length < 3 || id.length > 20) {
-      return 'ID must be between 3 and 20 characters long.';
+    if (input.length < 3 || input.length > 20) {
+      return 'This field must be between 3 and 20 characters long.';
     }
 
-    if (id.startsWith('_') || id.endsWith('_')) {
-      return 'ID cannot start or end with an underscore.';
+    if (input.startsWith('_') || input.endsWith('_')) {
+      return 'This field cannot start or end with an underscore.';
     }
 
     return 'safe';
 }
 
-export const nameValidation = (name: string): string => {
+/**
+ * Used for soft validation, like for names.
+ * @param name The input string to validate
+ * @returns Returns an error message if failed, 'safe' if succeeded
+ */
+export const softValidation = (name: string): string => {
     if (name.length < 1 || name.length > 20) {
-      return 'Name must be between 1 and 20 characters long.';
+      return 'This field must be between 1 and 20 characters long.';
     }
 
     return 'safe';

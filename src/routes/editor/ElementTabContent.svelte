@@ -9,7 +9,7 @@
     type Element
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
-  import { nameValidation } from './utils/validation.js';
+  import { softValidation } from './utils/validation.js';
   import FieldRenderer from './components/FieldRenderer.svelte';
   import ValidatedInput from './components/ValidatedInput.svelte';
   import MethodsGrid from './components/MethodsGrid.svelte';
@@ -71,7 +71,7 @@
   <ValidatedInput
     label="Element Name"
     value={element.name}
-    validate={nameValidation}
+    validate={softValidation}
     on:change={handleNameChange}
   />
 
@@ -97,7 +97,7 @@
       <div class="text-xl font-bold w-full">Element Data</div>
     </div>
     <div class="collapse-content space-y-3">
-      {#each schema() && schema().fields ? schema().fields : [] as field (field.name)}
+      {#each schema() && schema() !== null && schema().fields ? schema().fields : [] as field (field.name)}
         <FieldRenderer
           {field}
           value={element.data?.[field.name]}

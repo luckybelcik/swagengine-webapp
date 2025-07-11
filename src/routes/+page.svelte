@@ -1,22 +1,16 @@
 <script lang="ts">
-  import { getProjectName, setProjectID, setProjectName } from "$lib/stores/engineStore";
-  import { idValidation, nameValidation } from "./editor/utils/validation";
+  import { getProjectName, setProjectAuthor, setProjectID, setProjectName } from "$lib/stores/engineStore";
+  import { strictValidation, softValidation } from "./editor/utils/validation";
   import { goto } from "$app/navigation";
+    import FormModal from "./editor/components/FormModal.svelte";
+    import label from "daisyui/components/label";
 
   let showCreateProjectModal = $state(false);
-  let newProjectNameInput = $state('');
-  let newProjectIdInput = $state('');
 
   let ErrorMessage = $state('');
-  let ErrorField = $state(0);
-
-  const NameError = 0b0001;
-  const IdError = 0b0010;
+  let ErrorField = $state('');
 
   function openCreateProjetModal() {
-    newProjectNameInput = ''
-    newProjectIdInput = ''
-
     showCreateProjectModal = true
   }
 
@@ -24,27 +18,32 @@
     showCreateProjectModal = false
   }
 
-  function handleCreateProject() {
-    ErrorMessage = '';
-    ErrorField = 0;
-    const projectName = newProjectNameInput.trim();
-    const projectID = newProjectIdInput.trim().toLowerCase().replace(/ /g,"_");
+  function handleCreateProject(values: Record<string, string>) {
+    ErrorMessage = "";
+    ErrorField = '';
 
-    let validation;
+    const projectName = values.projectName.trim();
+    const projectID = values.projectId.trim().toLowerCase().replace(/ /g, "_");
+    const projectAuthor = values.projectAuthor.trim().toLowerCase().replace(/ /g, "_");
 
-    validation = nameValidation(projectName);
-    console.log('VALIDATION:', validation);
-    if (validation !== 'safe') {
+    let validation = softValidation(projectName);
+    if (validation !== "safe") {
       ErrorMessage = validation;
-      ErrorField |= NameError;
+      ErrorField = 'projectName';
       return;
     }
 
-    validation = idValidation(projectID);
-    console.log('VALIDATION:', validation);
-    if (validation !== 'safe') {
+    validation = strictValidation(projectID);
+    if (validation !== "safe") {
       ErrorMessage = validation;
-      ErrorField |= IdError;
+      ErrorField = 'projectId';
+      return;
+    }
+
+    validation = strictValidation(projectAuthor);
+    if (validation !== "safe") {
+      ErrorMessage = validation;
+      ErrorField = 'projectAuthor';
       return;
     }
 
@@ -52,58 +51,32 @@
       closeCreateProjectModal();
       setProjectName(projectName);
       setProjectID(projectID);
-      goto('/editor');
-    } catch (error) {
-      // @ts-ignore
-      console.error("Error creating element:", error.message);
-      // @ts-ignore
-      ErrorMessage = `Failed to create element: ${error.message}`;
+      setProjectAuthor(projectAuthor);
+      goto("/editor");
+    } catch (error: any) {
+      console.error("Error creating element:", error);
+      ErrorMessage = `Failed to create element: ${error.message ?? String(error)}`;
     }
   }
 </script>
 
 {#if showCreateProjectModal}
-  <dialog open class="modal modal-open">
-    <div class="modal-box">
-      <h3 class="font-bold text-lg">New Project</h3>
-      <p class="mt-4 mb-2">The project name is the main thing users will see</p>
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text">Project Name</span>
-        </div>
-        <input
-          type="text"
-          placeholder="e.g., New Project"
-          class="input input-bordered w-full {ErrorField & (1 << 0) ? 'input-error' : ''}"
-          bind:value={newProjectNameInput}
-        />
-
-        <div class="label">
-          <span class="label-text">Project ID</span>
-        </div>
-        <input
-          type="text"
-          placeholder="e.g., new_project"
-          class="input input-bordered w-full {ErrorField & (1 << 1) ? 'input-error' : ''}"
-          bind:value={newProjectIdInput}
-        />
-
-        {#if ErrorMessage}
-          <div class="label">
-            <span class="label-text-alt text-error">{ErrorMessage}</span>
-          </div>
-        {/if}
-      </label>
-
-      <div class="modal-action">
-        <button class="btn btn-ghost" onclick={closeCreateProjectModal}>Cancel</button>
-        <button class="btn btn-primary" onclick={handleCreateProject}>Create Project</button>
-      </div>
-    </div>
-    <form method="dialog" class="modal-backdrop" onclick={closeCreateProjectModal}>
-        <button>close</button>
-    </form>
-  </dialog>
+  <FormModal
+    title="New Project"
+    show={showCreateProjectModal}
+    onClose={closeCreateProjectModal}
+    onSubmit={handleCreateProject}
+    fields={[
+      { name: "projectName", label: "Project Name", placeholder: "e.g., New Project", 
+        description: "The project name is used for display purposes, it's what people will see." },
+      { name: "projectId", label: "Project ID", placeholder: "e.g., new_project",
+        description: "The project ID is used for identifying it in code, etc. The project ID should be unique." },
+      { name: "projectAuthor", label: "Author", placeholder: "You!",
+        description: "The Author is used mainly to give you credit, and as to avoid issues with project ID multiplication." }
+    ]}
+    errorMessage={ErrorMessage}
+    errorField={ErrorField}
+  />
 {/if}
 
 <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
