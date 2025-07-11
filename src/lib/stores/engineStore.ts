@@ -25,7 +25,7 @@ export type Schema = {
   type: string;
   fields: FieldDefinition[];
   types?: Record<string, EnumDefinition>;
-  hooks?: Record<string, HookDefinition>;
+  availableHooks?: Record<string, HookDefinition>;
 };
 
 export type ElementData = {

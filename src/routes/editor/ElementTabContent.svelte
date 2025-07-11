@@ -14,6 +14,7 @@
   import ValidatedInput from './components/ValidatedInput.svelte';
   import MethodsGrid from './components/MethodsGrid.svelte';
     import RawDataModal from './components/RawDataModal.svelte';
+    import ComponentAdditionModal from './components/ComponentAdditionModal.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
 
@@ -65,6 +66,12 @@
   function openRawDataModal() {
     showRawDataModal = true;
   }
+
+  let showComponentAdditionModal: boolean = $state(false);
+
+  function openComponentAdditionModal() {
+    showComponentAdditionModal = true;
+  }
 </script>
 
 {#if schema && element}
@@ -105,6 +112,8 @@
           onChange={updateField}
         />
       {/each}
+
+      <button class="btn w-full" onclick={openComponentAdditionModal}>Add Component</button>
     </div>
   </div>
 
@@ -123,6 +132,12 @@
 
   <RawDataModal
     bind:showModal={showRawDataModal}
+    element={element}
+    schema={schema()}
+  />
+
+  <ComponentAdditionModal
+    bind:showModal={showComponentAdditionModal}
     element={element}
   />
   

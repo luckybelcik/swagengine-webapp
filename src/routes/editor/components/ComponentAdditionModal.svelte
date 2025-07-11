@@ -1,8 +1,9 @@
 <script lang="ts">
-  let { showModal = $bindable(), element, schema } = $props<{
+    import { getAvailableComponentsForType } from "$lib/data/_definitions";
+
+  let { showModal = $bindable(), element } = $props<{
     showModal: boolean;
     element: any;
-    schema: any;
   }>();
 
   let dialogElement: HTMLDialogElement;
@@ -32,6 +33,16 @@
   function closeModal() {
     showModal = false;
   }
+
+  function getAvailableComponents(element: any): string[] {
+    let allComponents = getAvailableComponentsForType(element.type);
+    const currentComponents = element.data.components;
+    let availableComponents = allComponents.filter(allComp => {
+        return !currentComponents.some((currentComp: string) => currentComp === allComp);
+    });
+
+    return availableComponents;
+  }
 </script>
 
 <dialog
@@ -41,21 +52,20 @@
   onclick={handleClickOutside}
 >
   <div class="modal-box w-11/12 max-w-5xl">
-    <h3 class="font-bold text-lg">Raw Element Data</h3>
-    <p>Note: if you just changed the element ID, you need to re-open the tab for the change to take place</p>
+    <h3 class="font-bold text-lg text-center">Add Component</h3>
     <div class="py-4">
       {#if element}
-        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-96">{JSON.stringify(element, null, 2).trim()}</pre>
+        <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
+            {#each getAvailableComponents(element) as component}
+                <div class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer">
+                    <div class="card-body p-4">
+                        <h4 class="text-m font-bold mb-1 truncate text-center">{component}</h4>
+                    </div>
+                </div>
+            {/each}
+        </div>
       {:else}
         <p class="text-gray-500 italic">No element selected or loaded.</p>
-      {/if}
-
-      <div class="divider"></div>
-
-      {#if schema}
-        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-96">{JSON.stringify(schema, null, 2).trim()}</pre>
-      {:else}
-        <p class="text-gray-500 italic">No schema loaded.</p>
       {/if}
     </div>
     <div class="modal-action">

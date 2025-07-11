@@ -38,7 +38,7 @@
     let validation;
 
     validation = softValidation(newName);
-    console.log('VALIDATION:', validation);
+    
     if (validation !== 'safe') {
       ErrorMessage = validation;
       ErrorField = 'elementName';

@@ -41,5 +41,5 @@ export function loadSchema(elementType: string, components: string[] = []): Sche
 
   const types = globalTypesDefinition as Record<string, any>;
 
-  return { type: elementType, fields, hooks, types };
+  return { type: elementType, fields, availableHooks: hooks, types };
 }
