@@ -8,13 +8,13 @@
   let projectName = getProjectName();
   let projectAuthor = getProjectAuthor();
 
-  function handleNameChange(event) {
+  function handleNameChange(event: any) {
     if (event.detail.valid) {
       setProjectName(event.detail.value);
     }
   }
 
-  function handleAuthorChange(event) {
+  function handleAuthorChange(event: any) {
     if (event.detail.valid) {
       setProjectAuthor(event.detail.value);
     }

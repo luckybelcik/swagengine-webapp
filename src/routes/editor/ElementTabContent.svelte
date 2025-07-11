@@ -9,8 +9,9 @@
     type Element
   } from '$lib/stores/engineStore';
   import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
-    import { idValidation, nameValidation } from './utils/validation.js';
-    import Navbar from '$lib/components/Navbar.svelte';
+  import { nameValidation } from './utils/validation.js';
+  import FieldRenderer from '$lib/components/FieldRenderer.svelte';
+  import ValidatedInput from '$lib/components/ValidatedInput.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
 
@@ -42,24 +43,11 @@
     });
   }
 
-  let NameErrorMessage = $state('');
-
-  // @ts-ignore
-  function handleNameChange(event) {
-    if (element) {
-      const name = event.target.value;
-      const validation = nameValidation(name);
-
-      if (validation !== 'safe') {
-        NameErrorMessage = validation;
-        return;
-      }
-
-      NameErrorMessage = '';
-
-      updateElement(element.id, { name: name });
-      setTabName(element.id, name); // Update tab name to match element name
-      element.name = name;
+  function handleNameChange(event: any) {
+    if (event.detail.valid && element) {
+      updateElement(element.id, { name: event.detail.value });
+      setTabName(element.id, event.detail.value); // Update tab name to match element name
+      element.name = event.detail.value;
     }
   }
 
@@ -79,23 +67,12 @@
 </script>
 
 {#if schema && element}
-  <label class="form-control w-full pl-4">
-    <div class="label">
-      <span class="label-text">Element Name</span>
-    </div>
-    <input
-      type="text"
-      class="input input-bordered w-auto ml-3 {NameErrorMessage ? 'input-error' : ''}"
-      value={element.name}
-      onchange={handleNameChange}
-    />
-  </label>
-
-  {#if NameErrorMessage}
-    <div class="label">
-      <span class="label-text-alt text-error">{NameErrorMessage}</span>
-    </div>
-  {/if}
+  <ValidatedInput
+    label="Element Name"
+    value={element.name}
+    validate={nameValidation}
+    on:change={handleNameChange}
+  />
 
   <div class="w-full pl-4 p-2 pb-1">
     <div class="label">
@@ -120,81 +97,12 @@
     </div>
     <div class="collapse-content space-y-3">
       {#each schema.fields as field (field.name)}
-        <div class="field flex items-center">
-          <label
-            class="bg-base-200 text-base-content px-4 py-2 rounded-lg font-bold w-1/3 shrink-0"
-            for={field.name}
-          >
-            {field.name}
-          </label>
-
-          {#if field.type === "integer"}
-            <input
-              id={field.name}
-              type="number"
-              step="1"
-              value={element.data?.[field.name] ?? ''}
-              oninput={(e: Event) => {
-                const target = e.target as HTMLInputElement;
-                updateField(field.name, parseInt(target.value, 10));
-              }}
-              class="input input-bordered w-full"
-            />
-
-          {:else if field.type === "float"}
-            <input
-              id={field.name}
-              type="number"
-              step="any"
-              value={element.data?.[field.name] ?? ''}
-              oninput={(e: Event) => {
-                const target = e.target as HTMLInputElement;
-                updateField(field.name, parseFloat(target.value));
-              }}
-              class="input input-bordered w-full"
-            />
-
-          {:else if field.type === "boolean"}
-            <input
-              id={field.name}
-              type="checkbox"
-              checked={element.data?.[field.name] ?? false}
-              onchange={(e: Event) => {
-                const target = e.target as HTMLInputElement;
-                updateField(field.name, target.checked);
-              }}
-              class="toggle toggle-primary"
-            />
-
-          {:else if schema.types?.[`enum_${field.type}`]}
-            <select
-              id={field.name}
-              value={element.data?.[field.name] ?? ''}
-              onchange={(e: Event) => {
-                const target = e.target as HTMLSelectElement;
-                updateField(field.name, target.value);
-              }}
-              class="select select-bordered w-full"
-            >
-              <option disabled selected value="">-- Select {field.type} --</option>
-              {#each getEnumValues(field.type) as opt}
-                <option value={opt}>{opt}</option>
-              {/each}
-            </select>
-
-          {:else}
-            <input
-              id={field.name}
-              type="text"
-              value={element.data?.[field.name] ?? ''}
-              oninput={(e: Event) => {
-                const target = e.target as HTMLInputElement;
-                updateField(field.name, target.value);
-              }}
-              class="input input-bordered w-full"
-            />
-          {/if}
-        </div>
+        <FieldRenderer
+          {field}
+          value={element.data?.[field.name]}
+          {getEnumValues}
+          onChange={updateField}
+        />
       {/each}
     </div>
   </div>
