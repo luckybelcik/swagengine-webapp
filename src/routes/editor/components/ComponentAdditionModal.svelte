@@ -40,7 +40,7 @@
     const currentComponents = element.data.components;
     let availableComponents;
     if (allComponents.length > 0) {
-      if (currentComponents > 0) {
+      if (currentComponents.length > 0) {
         availableComponents = allComponents.filter(allComp => {
             return !currentComponents.some((currentComp: string) => currentComp === allComp);
         });
