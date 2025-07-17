@@ -5,6 +5,6 @@
   },
   "enum_hitbox_type": {
     "type": "enum",
-    "values": ["rectangle, circle"]
+    "values": ["rectangle", "circle"]
   }
 }
