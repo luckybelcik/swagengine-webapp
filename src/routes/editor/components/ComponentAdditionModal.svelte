@@ -38,9 +38,18 @@
   function getAvailableComponents(element: any): string[] {
     let allComponents = getAvailableComponentsForType(element.type);
     const currentComponents = element.data.components;
-    let availableComponents = allComponents.filter(allComp => {
-        return !currentComponents.some((currentComp: string) => currentComp === allComp);
-    });
+    let availableComponents;
+    if (allComponents.length > 0) {
+      if (currentComponents > 0) {
+        availableComponents = allComponents.filter(allComp => {
+            return !currentComponents.some((currentComp: string) => currentComp === allComp);
+        });
+      } else {
+        return allComponents;
+      }
+    } else {
+      return ["none"];
+    }
 
     return availableComponents;
   }
@@ -57,6 +66,7 @@
     <div class="py-4">
       {#if element}
         <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
+          {#if getAvailableComponents(element)}
             {#each getAvailableComponents(element) as component}
                 <div class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer">
                     <div class="card-body p-4" onclick={() => addComponent(element.id, component)}>
@@ -65,6 +75,9 @@
                     </div>
                 </div>
             {/each}
+          {:else}
+            <p>No components found :C</p>
+          {/if}  
         </div>
       {:else}
         <p class="text-gray-500 italic">No element selected or loaded.</p>

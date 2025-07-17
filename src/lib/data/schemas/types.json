@@ -2,5 +2,9 @@
   "enum_rarity": {
     "type": "enum",
     "values": ["common", "uncommon", "rare", "epic", "legendary"]
+  },
+  "enum_hitbox_type": {
+    "type": "enum",
+    "values": ["rectangle, circle"]
   }
 }

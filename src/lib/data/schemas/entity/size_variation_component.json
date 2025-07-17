@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "name": "size_variation_bigger", "type": "float"},
+    { "name": "size_variation_smaller", "type": "float" }
+  ]
+}

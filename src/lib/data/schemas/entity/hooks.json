@@ -1,0 +1,10 @@
+{
+    "hooks": {
+        "base": {
+            "onSpawn": { "description": "Function to execute when the entity is spawned." },
+            "onDeath": { "description": "Function to execute when the entity dies." },
+            "onHit": { "description": "Function to execute when the entity is hit." },
+            "onTick": { "description": "Function to execute when the entity is ticked." }
+        }
+    }
+}

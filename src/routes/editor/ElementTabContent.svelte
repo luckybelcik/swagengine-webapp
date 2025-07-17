@@ -77,12 +77,9 @@
   function openComponentAdditionModal() {
     showComponentAdditionModal = true;
   }
-
-  let debugComponents = $derived(element?.data?.components || []);
 </script>
 
-{#if schema && element}
-  <p>Debug Components: {debugComponents.join(', ')}</p>
+{#if schema() && element}
   <ValidatedInput
     label="Element Name"
     value={element.name}
@@ -112,21 +109,22 @@
       <div class="text-xl font-bold w-full">Element Data</div>
     </div>
     <div class="collapse-content space-y-3">
-      {#each schema().components as component (component.name)}
-        <div class="flex justify-between items-center w-full">
-          <div class="text-xl font-bold">{component.name}</div>
-          <button class="btn btn-error btn-sm" onclick={() => removeComponent(element.id, component.name)}>Remove</button>
-        </div>
-        {#each component.fields as field }
-          <FieldRenderer
-            {field}
-            value={element.data?.[field.name]}
-            {getEnumValues}
-            onChange={updateField}
-          />
+      {#if schema()?.components}
+        {#each schema().components as component (component.name)}
+          <div class="flex justify-between items-center w-full">
+            <div class="text-xl font-bold">{component.name}</div>
+            <button class="btn btn-error btn-sm" onclick={() => removeComponent(element.id, component.name)}>Remove</button>
+          </div>
+          {#each component.fields as field }
+            <FieldRenderer
+              {field}
+              value={element.data?.[field.name]}
+              {getEnumValues}
+              onChange={updateField}
+            />
+          {/each}
         {/each}
-      {/each}
-
+      {/if}
       <button class="btn w-full" onclick={openComponentAdditionModal}>Add Component</button>
     </div>
   </div>
