@@ -1,5 +1,5 @@
 <script>
-  import { page } from '$app/stores'; // Import the SvelteKit page store
+  import { page } from '$app/state'; // Import the SvelteKit page store
 </script>
 
 <div class="dropdown dropdown-end">
@@ -20,10 +20,10 @@
 
   <ul class="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow-xl">
     <li>
-      <a href="/" class={$page.url.pathname === '/' ? 'active' : ''}>Home</a>
+      <a href="/" class={page.url.pathname === '/' ? 'active' : ''}>Home</a>
     </li>
     <li>
-      <a href="/about" class={$page.url.pathname === '/about' ? 'active' : ''}>About</a>
+      <a href="/about" class={page.url.pathname === '/about' ? 'active' : ''}>About</a>
     </li>
     </ul>
 </div>
