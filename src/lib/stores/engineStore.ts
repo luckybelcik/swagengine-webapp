@@ -109,7 +109,7 @@ const initialEngineStore: EngineStore = {
     author: 'Author',
     projectVersion: '0.0.0',
     engineVersion: '0.0.1',
-    webAppVersion: '0.0.3'
+    webAppVersion: '0.0.4'
   }
 };
 
