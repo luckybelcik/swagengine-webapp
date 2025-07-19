@@ -6,20 +6,12 @@
     </svg>
   </div>
   
-  <ul class="dropdown-content bg-base-300 rounded-box z-1 w-25 p-2 shadow-2xl space-y-2">
+  <ul class="dropdown-content bg-base-300 rounded-box w-25 p-2 z-[9999] shadow-2xl space-y-2">
     <li>
       <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
-        aria-label="Default"
-        value="default" />
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
+        class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Sunset"
         value="sunset" />
     </li>
@@ -27,7 +19,7 @@
       <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
+        class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Valentine"
         value="valentine" />
     </li>
@@ -35,7 +27,7 @@
       <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
+        class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Black"
         value="black" />
     </li>
@@ -43,15 +35,7 @@
       <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
-        aria-label="Business"
-        value="business" />
-    </li>
-    <li>
-      <input
-        type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
+        class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Coffee"
         value="coffee" />
     </li>
@@ -59,7 +43,7 @@
       <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal"
+        class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Silk"
         value="silk" />
     </li>

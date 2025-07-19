@@ -103,7 +103,7 @@
 
   <div class="divider"></div>
   
-  <div class="collapse collapse-arrow form">
+  <div class="collapse collapse-arrow form relative">
     <input type="checkbox" />
     <div class="collapse-title">
       <div class="text-xl font-bold w-full">Element Data</div>

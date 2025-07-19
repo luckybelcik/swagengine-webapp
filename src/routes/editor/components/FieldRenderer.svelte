@@ -6,7 +6,7 @@
 </script>
 
 <div class="field flex items-center">
-  <label class="bg-base-200 text-base-content px-4 py-2 rounded-lg font-bold w-1/3 shrink-0" for={field.name}>
+  <label class="bg-base-200 text-base-content px-4 py-2 input mr-3 input-disabled font-bold w-1/5 shrink-0" for={field.name}>
     {field.name}
   </label>
 

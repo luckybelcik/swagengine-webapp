@@ -15,12 +15,8 @@
 <div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser">
     <h2 class="text-3xl font-bold mb-4">Element Browser</h2>
     <p class="text-lg mb-4">Search for elements or add new ones here.</p>
-    <label class="form-control w-full mb-4">
-        <div class="label">
-            <span class="label-text">Search Elements</span>
-        </div>
-        <input type="text" placeholder="Search by name..." class="input input-bordered w-full mb-8" />
-    </label>
+    <p class="opacity-60">Search Elements</p>
+    <input type="text" placeholder="Search by name..." class="input input-bordered mb-8" />
     <h3 class="text-xl font-semibold mb-5">Existing Elements (Click to open tab)</h3>
     {#if $engineStore.elements && $engineStore.elements.length > 0}
         <div class="grid grid-cols-fill-180 grid-cols-5 gap-4">
