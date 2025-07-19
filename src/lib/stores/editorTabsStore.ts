@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import type tab from 'daisyui/components/tab';
+import { writable, get } from 'svelte/store';
 
 // Define allowed tab types
 export type TabType = 'browser' | 'element' | 'asset' | 'method';
@@ -39,7 +40,7 @@ export const addOrActivateTab = (newTab: EditorTab) => {
   activeTabId.set(newTab.id);
 };
 
-export const removeTab = (id: string) => {
+export const closeTab = (id: string) => {
   openTabs.update(tabs => {
     const index = tabs.findIndex(tab => tab.id === id);
     if (index === -1) return tabs;
@@ -80,3 +81,19 @@ export const setTabName = (tabId: string, newName: string) => {
     )
   );
 };
+
+export const reloadTab = (tabId: string) => {
+  const tabs = get(openTabs);
+  let tabToReload: EditorTab;
+  tabs.forEach(tab => {
+    if (tab.id == tabId) {
+      tabToReload = tab;
+      console.log("lets reload cuh")
+      closeTab(tabId);
+      setTimeout(() => {
+        addOrActivateTab(tabToReload);
+      }, 0)
+      return;
+    }
+  });
+}

@@ -1,6 +1,8 @@
 <script lang="ts">
     import { getAvailableComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
+    import { activeTabId, reloadTab } from "$lib/stores/editorTabsStore";
     import { addComponent } from "$lib/stores/engineStore";
+    import { get } from "svelte/store";
     import { swapBackRemove } from "../utils/swapbackArray";
 
   let { showModal = $bindable(), element } = $props<{
@@ -36,6 +38,7 @@
 
   function closeModal() {
     showModal = false;
+    reloadTab(get(activeTabId))
   }
 
   function handleAddComponent(component_name: string) {
@@ -93,7 +96,7 @@
     </div>
     <div class="modal-action">
       <form method="dialog">
-        <button class="btn" onclick={closeModal}>Close</button>
+        <button class="btn btn-success" onclick={closeModal}>Save</button>
       </form>
     </div>
   </div>

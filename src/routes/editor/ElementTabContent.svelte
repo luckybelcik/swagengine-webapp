@@ -14,7 +14,7 @@
 
 
   } from '$lib/stores/engineStore';
-  import { removeTab, setTabName } from '$lib/stores/editorTabsStore.js'
+  import { closeTab, reloadTab, setTabName, activeTabId } from '$lib/stores/editorTabsStore.js'
   import { softValidation } from './utils/validation.js';
   import FieldRenderer from './components/FieldRenderer.svelte';
   import ValidatedInput from './components/ValidatedInput.svelte';
@@ -62,7 +62,15 @@
   function handleDeleteElement() {
     if (element && confirm(`Are you sure you want to delete element "${element.name}" (${element.id})?`)) {
       deleteElement(element.id);
-      removeTab(element.id);
+      closeTab(element.id);
+    }
+  }
+
+  function handleDeleteComponent(component_name: string) {
+    if (element) {
+      removeComponent(element?.id, component_name);
+      console.log("i mean it shouldve worked tbh")
+      reloadTab(get(activeTabId));
     }
   }
 
@@ -113,7 +121,7 @@
         {#each schema().components as component (component.name)}
           <div class="flex justify-between items-center w-full">
             <div class="text-xl font-bold">{component.name}</div>
-            <button class="btn btn-error btn-sm" onclick={() => removeComponent(element.id, component.name)}>Remove</button>
+            <button class="btn btn-error btn-sm" onclick={() => handleDeleteComponent(component.name)}>Remove</button>
           </div>
           {#each component.fields as field }
             <FieldRenderer

@@ -1,5 +1,5 @@
 <script>
-    import { openTabs, activeTabId, setActiveTab, removeTab } from '$lib/stores/editorTabsStore';
+    import { openTabs, activeTabId, setActiveTab, closeTab } from '$lib/stores/editorTabsStore';
     import BrowserTabContent from './BrowserTabContent.svelte';
     import ElementTabContent from './ElementTabContent.svelte';
 </script>
@@ -22,7 +22,7 @@
                         class="btn btn-xs btn-ghost btn-square ml-2 inline-flex items-center justify-center cursor-pointer"
                         role="button"
                         tabindex="0"
-                        on:click|stopPropagation={() => removeTab(tab.id)}
+                        on:click|stopPropagation={() => closeTab(tab.id)}
                         aria-label="Close {tab.name} tab"
                         >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
