@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getAvailableComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
     import { activeTabId, reloadTab } from "$lib/stores/editorTabsStore";
-    import { addComponent } from "$lib/stores/engineStore";
+    import { addComponent, hasComponent, removeComponent } from "$lib/stores/engineStore";
     import { get } from "svelte/store";
     import { swapBackRemove } from "../utils/swapbackArray";
 
@@ -13,6 +13,7 @@
   let dialogElement: HTMLDialogElement;
 
   let availableComponents = $state(getAvailableComponents(element));
+  const allComponents = getAvailableComponentsForType(element.type);
 
   $effect(() => {
     if (dialogElement) {
@@ -42,13 +43,22 @@
   }
 
   function handleAddComponent(component_name: string) {
-    availableComponents = swapBackRemove(availableComponents, component_name);
-    addComponent(element.id, component_name)
+    if (!hasComponent(element.id, component_name)) {
+      availableComponents = swapBackRemove(availableComponents, component_name);
+      addComponent(element.id, component_name);
+    }
+  }
+
+  function handleDeleteComponent(component_name: string) {
+    if (hasComponent(element.id, component_name)) {
+      availableComponents.push(component_name);  
+      removeComponent(element.id, component_name);
+    }
   }
 
   function getAvailableComponents(element: any): string[] {
-    let allComponents = getAvailableComponentsForType(element.type);
     const currentComponents = element.data.components;
+    const allComponents = getAvailableComponentsForType(element.type);
     let availableComponents;
     if (allComponents.length > 0) {
       if (currentComponents && currentComponents.length > 0) {
@@ -64,6 +74,16 @@
 
     return availableComponents;
   }
+
+  function shouldHighlight(component_name: string): boolean {
+    const index = availableComponents.indexOf(component_name);
+    
+    if (index == -1) {
+      return true;
+    }
+
+    return false;
+  }
 </script>
 
 <dialog
@@ -77,13 +97,26 @@
     <div class="py-4">
       {#if element}
         <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
-          {#if availableComponents && availableComponents.length > 0}
-            {#each availableComponents as component}
-                <div class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer">
-                    <div class="card-body p-4" onclick={() => handleAddComponent(component)}>
-                        <h4 class="text-m font-bold mb-1 truncate text-center">{component}</h4>
-                        <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, component)}</h4>
-                    </div>
+          {#if allComponents && allComponents.length > 0}
+            {#each allComponents as componentName}
+                <div 
+                class="card bg-base-200 opacity-40 shadow-sm hover:opacity-70 transition-opacity cursor-pointer"
+                class:opacity-100={shouldHighlight(componentName)}
+                class:bg-base-100={shouldHighlight(componentName)}
+                class:hover:opacity-100={shouldHighlight(componentName)}>
+                    <button class="card-body p-4" onclick={() => handleAddComponent(componentName)}>
+                        <h4 class="text-m font-bold mb-1 truncate text-center">{componentName}</h4>
+                        <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, componentName)}</h4>
+                    </button>
+                    <button
+                      class="delete-button btn btn-circle btn-error btn-xs absolute top-0 right-0 m-1"
+                      aria-label="delete"
+                      onclick={() => handleDeleteComponent(componentName)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                 </div>
             {/each}
           {:else}

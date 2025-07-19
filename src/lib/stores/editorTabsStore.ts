@@ -88,7 +88,6 @@ export const reloadTab = (tabId: string) => {
   tabs.forEach(tab => {
     if (tab.id == tabId) {
       tabToReload = tab;
-      console.log("lets reload cuh")
       closeTab(tabId);
       setTimeout(() => {
         addOrActivateTab(tabToReload);

@@ -20,7 +20,7 @@
   import ValidatedInput from './components/ValidatedInput.svelte';
   import MethodsGrid from './components/MethodsGrid.svelte';
   import RawDataModal from './components/RawDataModal.svelte';
-  import ComponentAdditionModal from './components/ComponentAdditionModal.svelte';
+  import ComponentModificationModal from './components/ComponentModificationModal.svelte';
 
   const { elementId } = $props<{ elementId: string }>();
 
@@ -66,24 +66,16 @@
     }
   }
 
-  function handleDeleteComponent(component_name: string) {
-    if (element) {
-      removeComponent(element?.id, component_name);
-      console.log("i mean it shouldve worked tbh")
-      reloadTab(get(activeTabId));
-    }
-  }
-
   let showRawDataModal: boolean = $state(false);
 
   function openRawDataModal() {
     showRawDataModal = true;
   }
 
-  let showComponentAdditionModal: boolean = $state(false);
+  let showComponentModificationModal: boolean = $state(false);
 
-  function openComponentAdditionModal() {
-    showComponentAdditionModal = true;
+  function openComponentModificationModal() {
+    showComponentModificationModal = true;
   }
 </script>
 
@@ -121,7 +113,6 @@
         {#each schema().components as component (component.name)}
           <div class="flex justify-between items-center w-full">
             <div class="text-xl font-bold">{component.name}</div>
-            <button class="btn btn-error btn-sm" onclick={() => handleDeleteComponent(component.name)}>Remove</button>
           </div>
           {#each component.fields as field }
             <FieldRenderer
@@ -133,7 +124,7 @@
           {/each}
         {/each}
       {/if}
-      <button class="btn w-full" onclick={openComponentAdditionModal}>Add Component</button>
+      <button class="btn w-full" onclick={openComponentModificationModal}>Modify Components</button>
     </div>
   </div>
 
@@ -156,8 +147,8 @@
     schema={schema()}
   />
 
-  <ComponentAdditionModal
-    bind:showModal={showComponentAdditionModal}
+  <ComponentModificationModal
+    bind:showModal={showComponentModificationModal}
     element={element}
   />
   

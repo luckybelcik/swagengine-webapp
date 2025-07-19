@@ -295,3 +295,15 @@ export const removeComponent = (elementId: string, component_name: string) => {
     return store;
   });
 };
+
+export const hasComponent = (elementId: string, component_name: string): boolean => {
+  const store = get(engineStore);
+  const element = store.elements.find(el => el.id === elementId);
+  const components = element?.data.components;
+  const index = components.indexOf(component_name);
+  if (index == -1) {
+    return false;
+  }
+
+  return true;
+}
