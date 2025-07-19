@@ -1,6 +1,7 @@
 <script lang="ts">
     import { getAvailableComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
     import { addComponent } from "$lib/stores/engineStore";
+    import { swapBackRemove } from "../utils/swapbackArray";
 
   let { showModal = $bindable(), element } = $props<{
     showModal: boolean;
@@ -8,6 +9,8 @@
   }>();
 
   let dialogElement: HTMLDialogElement;
+
+  let availableComponents = $state(getAvailableComponents(element));
 
   $effect(() => {
     if (dialogElement) {
@@ -33,6 +36,11 @@
 
   function closeModal() {
     showModal = false;
+  }
+
+  function handleAddComponent(component_name: string) {
+    availableComponents = swapBackRemove(availableComponents, component_name);
+    addComponent(element.id, component_name)
   }
 
   function getAvailableComponents(element: any): string[] {
@@ -66,10 +74,10 @@
     <div class="py-4">
       {#if element}
         <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
-          {#if getAvailableComponents(element)}
-            {#each getAvailableComponents(element) as component}
+          {#if availableComponents && availableComponents.length > 0}
+            {#each availableComponents as component}
                 <div class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer">
-                    <div class="card-body p-4" onclick={() => addComponent(element.id, component)}>
+                    <div class="card-body p-4" onclick={() => handleAddComponent(component)}>
                         <h4 class="text-m font-bold mb-1 truncate text-center">{component}</h4>
                         <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, component)}</h4>
                     </div>

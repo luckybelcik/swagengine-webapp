@@ -279,22 +279,19 @@ export const removeComponent = (elementId: string, component_name: string) => {
       const indexToDelete = currentComponents.indexOf(component_name);
 
       if (indexToDelete !== -1) {
-        // Create a *new* array to maintain immutability and trigger reactivity
-        const newComponents = [...currentComponents]; // Copy the array
+        const newComponents = [...currentComponents];
 
-        // Perform the swap-and-pop on the new copy
         if (indexToDelete !== newComponents.length - 1) {
             newComponents[indexToDelete] = newComponents[newComponents.length - 1];
         }
         newComponents.pop();
 
-        // Return a new element object with the updated data
         return {
-          ...store, // Keep other store properties
+          ...store,
           elements: store.elements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }: el ),
         };
       }
     }
-    return store; // Return original store if element not found or component not found
+    return store;
   });
 };
