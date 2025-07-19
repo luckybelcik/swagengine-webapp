@@ -4,10 +4,12 @@
     import "../app.css";
     import Footer from "../lib/components/Footer.svelte";
     import DropdownMenu from "../lib/components/DropdownMenu.svelte";
+    import ThemeSelector from '$lib/components/ThemeSelector.svelte';
 </script>
 
 <div>
   <div class="fixed right-0 top-0">
+    <ThemeSelector />
     <DropdownMenu />
   </div>
 
