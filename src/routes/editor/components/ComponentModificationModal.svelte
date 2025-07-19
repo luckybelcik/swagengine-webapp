@@ -99,25 +99,28 @@
         <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
           {#if allComponents && allComponents.length > 0}
             {#each allComponents as componentName}
-                <div 
-                class="card bg-base-200 opacity-40 shadow-sm hover:opacity-70 transition-opacity cursor-pointer"
-                class:opacity-100={shouldHighlight(componentName)}
-                class:bg-base-100={shouldHighlight(componentName)}
-                class:hover:opacity-100={shouldHighlight(componentName)}>
-                    <button class="card-body p-4" onclick={() => handleAddComponent(componentName)}>
-                        <h4 class="text-m font-bold mb-1 truncate text-center">{componentName}</h4>
-                        <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, componentName)}</h4>
-                    </button>
-                    <button
-                      class="delete-button btn btn-circle btn-error btn-xs absolute top-0 right-0 m-1"
-                      aria-label="delete"
-                      onclick={() => handleDeleteComponent(componentName)}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                </div>
+              <div 
+              class="card bg-base-200 opacity-40 shadow-sm hover:opacity-70 transition-opacity group"
+              class:opacity-100={shouldHighlight(componentName)}
+              class:bg-base-100={shouldHighlight(componentName)}
+              class:hover:opacity-100={shouldHighlight(componentName)}>
+                <button class="card-body p-4"
+                  class:hover:cursor-pointer={!shouldHighlight(componentName)}
+                  onclick={() => handleAddComponent(componentName)}>
+                  <h4 class="text-m font-bold mb-1 truncate text-center">{componentName}</h4>
+                  <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, componentName)}</h4>
+                </button>
+                <button
+                  class="btn btn-circle btn-error btn-xs absolute top-0 right-0 m-1 opacity-0 transition-opacity duration-200"
+                  class:group-hover:opacity-100={shouldHighlight(componentName)}
+                  aria-label="delete"
+                  onclick={() => handleDeleteComponent(componentName)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             {/each}
           {:else}
             <p>No components found :C</p>
