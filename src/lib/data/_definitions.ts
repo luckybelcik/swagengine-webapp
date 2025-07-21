@@ -51,7 +51,7 @@ export function getComponentsForType(type: string): string[] {
  * @returns The number of fields, or 0 if the component or its 'fields' property is not found.
  */
 export function getNumberOfFieldsOnComponent(type: string, componentName: string): number {
-    const componentDefinition = getDefinition(type, componentName);
+  const componentDefinition = getDefinition(type, componentName);
 
     if (componentDefinition && typeof componentDefinition === 'object' && 'fields' in componentDefinition) {
         const fields = (componentDefinition as Record<string, any>).fields;

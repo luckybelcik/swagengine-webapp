@@ -1,19 +1,27 @@
 <script lang="ts">
     import { getComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
     import { activeTabId, reloadTab } from "$lib/stores/editorTabsStore";
-    import { addComponent, hasComponent, removeComponent } from "$lib/stores/engineStore";
+    import { addComponent, engineStore, hasComponent, removeComponent, type Element } from "$lib/stores/engineStore";
     import { get } from "svelte/store";
     import { swapBackRemove } from "../utils/swapbackArray";
-
-  let { showModal = $bindable(), element } = $props<{
+    
+  let { showModal = $bindable() } = $props<{
     showModal: boolean;
-    element: any;
   }>();
 
-  let dialogElement: HTMLDialogElement;
+  const activeElement = $derived(() => {
+    const engineStoreValue = $engineStore;
+    const activeTabIdValue = $activeTabId;
 
-  let availableComponents = $state(getAvailableComponents(element));
-  const allComponents = getComponentsForType(element.type);
+    if (!activeTabIdValue || activeTabIdValue === 'browser') {
+      return undefined;
+    }
+
+    const element = engineStoreValue.elements.find(el => el.id === activeTabIdValue);
+    return element;
+  });
+
+  let dialogElement: HTMLDialogElement;
 
   $effect(() => {
     if (dialogElement) {
@@ -39,47 +47,58 @@
 
   function closeModal() {
     showModal = false;
-    reloadTab(get(activeTabId))
   }
 
   function handleAddComponent(component_name: string) {
-    const id = element.id;
-    if (!hasComponent(id, component_name)) {
-      console.log("Adding component", component_name, "to", {id})
-      availableComponents = swapBackRemove(availableComponents, component_name);
-      addComponent(id, component_name);
-    } else {
-      console.log("Adding component", component_name, "to", {id}, "failed")
+    const element = activeElement();
+    if (element){
+      const id = element.id;
+      if (!hasComponent(id, component_name)) {
+        console.log("Adding component", component_name, "to", {id})
+        addComponent(id, component_name);
+      } else {
+        console.log("Adding component", component_name, "to", {id}, "failed")
+      }
     }
   }
 
   function handleDeleteComponent(component_name: string) {
-    if (hasComponent(element.id, component_name)) {
-      availableComponents.push(component_name);  
+    const element = activeElement();
+    if (element && hasComponent(element.id, component_name)) {
       removeComponent(element.id, component_name);
     }
   }
 
-  function getAvailableComponents(element: any): string[] {
-    const currentComponents = element.data.components;
-    const allComponents = getComponentsForType(element.type);
-    let availableComponents;
-    if (allComponents.length > 0) {
-      if (currentComponents && currentComponents.length > 0) {
-        availableComponents = allComponents.filter(allComp => {
-            return !currentComponents.some((currentComp: string) => currentComp === allComp);
-        });
+  function getAvailableComponents(): string[] {
+    if (activeElement() && activeElement().data.components) {
+      const currentComponents = activeElement().data.components;
+      const allComponents = getComponentsForType(activeElement().type);
+      let availableComponents;
+      if (allComponents.length > 0) {
+        if (currentComponents && currentComponents.length > 0) {
+          availableComponents = allComponents.filter(allComp => {
+              return !currentComponents.some((currentComp: string) => currentComp === allComp);
+          });
+        } else {
+          return allComponents;
+        }
       } else {
-        return allComponents;
+        return ["none"];
       }
-    } else {
-      return ["none"];
+
+      return availableComponents;
     }
 
-    return availableComponents;
+    return ["none"];
   }
 
   function shouldHighlight(component_name: string): boolean {
+    const availableComponents = getAvailableComponents()
+
+    if (availableComponents.length == 1 && availableComponents[0] == "none") {
+      return false;
+    }
+
     const index = availableComponents.indexOf(component_name);
     
     if (index == -1) {
@@ -99,10 +118,10 @@
   <div class="modal-box w-11/12 max-w-5xl">
     <h3 class="font-bold text-lg text-center">Add Component</h3>
     <div class="py-4">
-      {#if element}
+      {#if activeElement()}
         <div class="grid grid-cols-fill-180 grid-cols-4 gap-4 p-4">
-          {#if allComponents && allComponents.length > 0}
-            {#each allComponents as componentName}
+          {#if getComponentsForType(activeElement().type) && getComponentsForType(activeElement().type).length > 0}
+            {#each getComponentsForType(activeElement().type) as componentName}
               <div 
               class="card bg-base-200 opacity-40 shadow-sm hover:opacity-70 transition-opacity group"
               class:opacity-100={shouldHighlight(componentName)}
@@ -112,7 +131,7 @@
                   class:hover:cursor-pointer={!shouldHighlight(componentName)}
                   onclick={() => handleAddComponent(componentName)}>
                   <h4 class="text-m font-bold mb-1 truncate text-center">{componentName}</h4>
-                  <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(element.type, componentName)}</h4>
+                  <h4 class="text-sm opacity-70 text-center">Field count: {getNumberOfFieldsOnComponent(activeElement().type, componentName)}</h4>
                 </button>
                 <button
                   class="btn btn-circle btn-error btn-xs absolute top-0 right-0 m-1 opacity-0 transition-opacity duration-200"

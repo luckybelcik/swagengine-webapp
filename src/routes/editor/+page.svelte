@@ -36,7 +36,7 @@
     {#if $activeTabId === 'browser'}
         <BrowserTabContent />
     {:else}
-        <ElementTabContent elementId={$activeTabId}/>
+        <ElementTabContent />
     {/if}
   </div>
 </div>

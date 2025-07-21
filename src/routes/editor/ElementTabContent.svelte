@@ -10,7 +10,10 @@
 
     getAllFields,
 
-    removeComponent
+    removeComponent,
+
+    type Field
+
 
 
   } from '$lib/stores/engineStore';
@@ -21,14 +24,22 @@
   import MethodsGrid from './components/MethodsGrid.svelte';
   import RawDataModal from './components/RawDataModal.svelte';
   import ComponentModificationModal from './components/ComponentModificationModal.svelte';
+  import { onMount } from 'svelte';
 
-  const { elementId } = $props<{ elementId: string }>();
+  const activeElement = $derived(() => {
+    const engineStoreValue = $engineStore;
+    const activeTabIdValue = $activeTabId;
 
-  const store = $derived(get(engineStore));
+    if (!activeTabIdValue || activeTabIdValue === 'browser') {
+      return undefined;
+    }
 
-  let element = $derived(store.elements.find(el => el.id === elementId));
+    const element = engineStoreValue.elements.find(el => el.id === activeTabIdValue);
+    return element;
+  });
 
   let schema = $derived(() => {
+    const element = activeElement()
     if (element) {
       return loadSchema(element.type);
     }
@@ -42,6 +53,7 @@
   }
 
   function updateField(name: string, value: any) {
+    const element = activeElement()
     if (!element) return;
     updateElement(element.id, {
       data: {
@@ -52,15 +64,16 @@
   }
 
   function handleNameChange(newName: string, valid: boolean) {
-    console.log("arf", valid)
+    const element = activeElement()
     if (valid && element) {
       updateElement(element.id, { name: newName });
-      setTabName(element.id, newName); // Update tab name to match element name
+      setTabName(element.id, newName);
       element.name = newName;
     }
   }
 
   function handleDeleteElement() {
+    const element = activeElement()
     if (element && confirm(`Are you sure you want to delete element "${element.name}" (${element.id})?`)) {
       deleteElement(element.id);
       closeTab(element.id);
@@ -78,28 +91,35 @@
   function openComponentModificationModal() {
     showComponentModificationModal = true;
   }
+
+  function getComponentFields(component_name: string): Field[]{
+    const allComponents = schema()?.components;
+    const component = allComponents?.find(component => component_name == component.name)
+    if (component?.fields) {
+      return component?.fields;
+    } else {
+      return [];
+    }
+  }
+
+  onMount(() => {
+    console.log("hi");
+  })
 </script>
 
-{#if schema() && element}
-  <ValidatedInput
-    label="Element Name"
-    value={element.name}
-    validate={softValidation}
-    onChange={handleNameChange}
-  />
-
+{#if schema() && activeElement()}
   <div class="w-full pl-4 p-2 pb-1">
     <div class="label">
       <span class="label-text">Element ID</span>
     </div>
-    <div class="input w-auto opacity-60 ml-3">{element.id}</div>
+    <div class="input w-auto opacity-60 ml-3">{activeElement()?.id}</div>
   </div>
 
   <div class="w-full pl-4 p-1">
     <div class="label">
       <span class="label-text">Element Type</span>
     </div>
-    <div class="input w-auto opacity-60 ml-3">{element.type}</div>
+    <div class="input w-auto opacity-60 ml-3">{activeElement()?.type}</div>
   </div>
 
   <div class="divider"></div>
@@ -110,15 +130,15 @@
       <div class="text-xl font-bold w-full">Element Data</div>
     </div>
     <div class="collapse-content space-y-3">
-      {#if schema()?.components}
-        {#each schema().components as component (component.name)}
+      {#if activeElement()?.data.components}
+        {#each activeElement()?.data.components as componentName}
           <div class="flex justify-between items-center w-full">
-            <div class="text-xl font-bold">{component.name}</div>
+            <div class="text-xl font-bold">{componentName}</div>
           </div>
-          {#each component.fields as field }
+          {#each getComponentFields(componentName) as field }
             <FieldRenderer
               {field}
-              value={element.data?.[field.name]}
+              value={activeElement()?.data?.[field.name]}
               {getEnumValues}
               onChange={updateField}
             />
@@ -134,7 +154,7 @@
   <p class="text-xl font-bold p-4">Methods</p>
 
   <MethodsGrid
-    methods={element.methods}
+    methods={activeElement()?.methods}
   />
 
   <div class="mt-6 flex justify-end gap-2">
@@ -144,13 +164,12 @@
 
   <RawDataModal
     bind:showModal={showRawDataModal}
-    element={element}
+    element={activeElement()}
     schema={schema()}
   />
 
   <ComponentModificationModal
     bind:showModal={showComponentModificationModal}
-    element={element}
   />
   
 {:else}
