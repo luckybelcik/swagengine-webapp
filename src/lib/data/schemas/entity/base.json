@@ -1,7 +1,7 @@
 {
   "fields": [
     { "name": "display_name", "type": "string"},
-    { "name": "max_hp", "type": "integer" },
+    { "name": "max_hp", "type": "u_int_64" },
     { "name": "size", "type": "float"}
   ]
 }

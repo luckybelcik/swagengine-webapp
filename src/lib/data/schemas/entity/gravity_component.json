@@ -1,5 +1,5 @@
 {
   "fields": [
-    { "name": "mass", "type": "integer" }
+    { "name": "mass", "type": "u_int_32" }
   ]
 }

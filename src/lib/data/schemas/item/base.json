@@ -1,6 +1,6 @@
 {
   "fields": [
-    { "name": "max_stack_size", "type": "integer" },
+    { "name": "max_stack_size", "type": "u_int_16" },
     { "name": "item_rarity", "type": "rarity" }
   ]
 }

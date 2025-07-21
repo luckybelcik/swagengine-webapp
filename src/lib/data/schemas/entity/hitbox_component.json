@@ -1,7 +1,7 @@
 {
   "fields": [
     { "name": "hitbox_type", "type": "hitbox_type"},
-    { "name": "also_hurtbox", "type": "boolean"},
+    { "name": "also_hurtbox", "type": "bool"},
     { "name": "sizeY", "type": "float" },
     { "name": "sizeX", "type": "float"}
   ]

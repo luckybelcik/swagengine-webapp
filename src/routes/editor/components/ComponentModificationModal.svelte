@@ -70,8 +70,8 @@
   }
 
   function getAvailableComponents(): string[] {
-    if (activeElement() && activeElement().data.components) {
-      const currentComponents = activeElement().data.components;
+    if (activeElement() && activeElement()?.data.components) {
+      const currentComponents = activeElement()?.data.components;
       const allComponents = getComponentsForType(activeElement().type);
       let availableComponents;
       if (allComponents.length > 0) {

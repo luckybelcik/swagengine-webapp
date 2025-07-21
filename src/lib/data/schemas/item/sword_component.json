@@ -2,7 +2,7 @@
     "fields": [
         { "name": "swing_speed", "type": "float" },
         { "name": "sword_size", "type": "float" },
-        { "name": "damage_dealt", "type": "float" },
-        { "name": "critical_chance", "type": "float" }
+        { "name": "damage_dealt", "type": "u_int_64" },
+        { "name": "critical_chance", "type": "percent" }
     ]
 }

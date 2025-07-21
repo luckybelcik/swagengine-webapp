@@ -110,7 +110,7 @@
 {#if schema() && activeElement()}
   <ValidatedInput
     label="Element Name"
-    value={activeElement().name}
+    value={activeElement()?.name}
     validate={softValidation}
     onChange={handleNameChange}
   />

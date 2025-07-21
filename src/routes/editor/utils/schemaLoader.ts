@@ -9,9 +9,7 @@ import type {
 } from '../../../lib/stores/engineStore';
 
 export function loadSchema(elementType: string): Schema {
-  console.log("Current type:", elementType);
   const components = getComponentsForType(elementType)
-  console.log("Components:", components);
   const baseDef = getDefinition(elementType, 'base') as BaseOrComponentDefinition | null;
   let fields: Field[] = [...(baseDef?.fields || [])];
   let componentList: Component[] = [];
