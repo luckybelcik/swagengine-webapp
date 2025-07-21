@@ -91,7 +91,7 @@
 
 {:else if isBigInt(field.type)}
   <input type="text" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
-  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">True value: {handleBigInt(value)}</div>
 
 {:else if isClamped(field.type)}
   <input type="number" step="1" bind:value on:input={() =>
@@ -99,7 +99,7 @@
     class="input input-bordered w-2/5"
   />
   <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
-    Corrected value: {handleNan(clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
+    True value: {handleNan(clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
   </div>
 
 {:else if isFloat(field.type)}
@@ -107,7 +107,7 @@
     class="input input-bordered w-2/5"
   />
   <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
-    Corrected value: {handleNan(parseFloat(value))}
+    True value: {handleNan(parseFloat(value))}
   </div>
 
 {:else}
