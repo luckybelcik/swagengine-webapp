@@ -43,9 +43,13 @@
   }
 
   function handleAddComponent(component_name: string) {
-    if (!hasComponent(element.id, component_name)) {
+    const id = element.id;
+    if (!hasComponent(id, component_name)) {
+      console.log("Adding component", component_name, "to", {id})
       availableComponents = swapBackRemove(availableComponents, component_name);
-      addComponent(element.id, component_name);
+      addComponent(id, component_name);
+    } else {
+      console.log("Adding component", component_name, "to", {id}, "failed")
     }
   }
 
