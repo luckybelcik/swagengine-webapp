@@ -19,6 +19,22 @@
   const UINT64_MIN = 0n;
   const UINT64_MAX = 18446744073709551615n;
 
+  const typeConfigs = {
+    u_int_8:  { min: 0, max: 255 },
+    u_int_16: { min: 0, max: 65535 },
+    u_int_32: { min: 0, max: 4294967295 },
+    int_8:    { min: -128, max: 127 },
+    int_16:   { min: -32768, max: 32767 },
+    int_32:   { min: -2147483648, max: 2147483647 },
+    percent:  { min: 0, max: 100 },
+  };
+
+  const isBigInt = (type: string) => type === 'int_64' || type === 'u_int_64';
+  const isClamped = (type: string) => type in typeConfigs;
+  const isFloat = (type: string) => type === 'float';
+  const isBool = (type: string) => type === 'bool';
+  const isEnum = (type: string) => getEnumValues(type).length > 0;
+
   const handleBigInt = (value: string): string => {
     const inputValue = value;
 
@@ -62,58 +78,39 @@
     <div class="opacity-60 font-normal text-xs">({field.type})</div>
   </label>
 
-  {#if field.type === "u_int_8"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 255))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 255))}</div>
+  {#if isBool(field.type)}
+  <input type="checkbox" checked={value} on:change={() => onChange(field.name, !value)} class="toggle toggle-primary" />
 
-  {:else if field.type === "u_int_16"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 65535))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 65535))}</div>
+{:else if isEnum(field.type)}
+  <select bind:value on:change={() => onChange(field.name, value)} class="select select-bordered w-full">
+    <option disabled selected value="">-- Select {field.type} --</option>
+    {#each getEnumValues(field.type) as opt}
+      <option value={opt}>{opt}</option>
+    {/each}
+  </select>
 
-  {:else if field.type === "u_int_32"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 4294967295))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 4294967295))}</div>
+{:else if isBigInt(field.type)}
+  <input type="text" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
 
-  {:else if field.type === "u_int_64"}
-    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
+{:else if isClamped(field.type)}
+  <input type="number" step="1" bind:value on:input={() =>
+      onChange(field.name, clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
+    class="input input-bordered w-2/5"
+  />
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
+    Corrected value: {handleNan(clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
+  </div>
 
-  {:else if field.type === "int_8"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -128, 127))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -128, 127))}</div>
+{:else if isFloat(field.type)}
+  <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))}
+    class="input input-bordered w-2/5"
+  />
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
+    Corrected value: {handleNan(parseFloat(value))}
+  </div>
 
-  {:else if field.type === "int_16"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -32768, 32767))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -32768, 32767))}</div>
-
-  {:else if field.type === "int_32"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -2147483648, 2147483647))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -2147483648, 2147483647))}</div>
-
-  {:else if field.type === "int_64"}
-    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
-
-  {:else if field.type === "percent"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 100))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 100))}</div>
-
-  {:else if field.type === "float"}
-    <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))} class="input input-bordered w-2/5" />
-    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(parseFloat(value))}</div>
-
-  {:else if field.type === "bool"}
-    <input type="checkbox" checked={value} on:change={() => onChange(field.name, !value)} class="toggle toggle-primary" />
-
-  {:else if getEnumValues(field.type).length}
-    <select bind:value on:change={() => onChange(field.name, value)} class="select select-bordered w-full">
-      <option disabled selected value="">-- Select {field.type} --</option>
-      {#each getEnumValues(field.type) as opt}
-        <option value={opt}>{opt}</option>
-      {/each}
-    </select>
-
-  {:else}
-    <input type="text" bind:value on:input={() => onChange(field.name, value)} class="input input-bordered w-full" />
-  {/if}
+{:else}
+  <input type="text" bind:value on:input={() => onChange(field.name, value)} class="input input-bordered w-full" />
+{/if}
 </div>
