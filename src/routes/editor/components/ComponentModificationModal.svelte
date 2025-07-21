@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getAvailableComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
+    import { getComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
     import { activeTabId, reloadTab } from "$lib/stores/editorTabsStore";
     import { addComponent, hasComponent, removeComponent } from "$lib/stores/engineStore";
     import { get } from "svelte/store";
@@ -13,7 +13,7 @@
   let dialogElement: HTMLDialogElement;
 
   let availableComponents = $state(getAvailableComponents(element));
-  const allComponents = getAvailableComponentsForType(element.type);
+  const allComponents = getComponentsForType(element.type);
 
   $effect(() => {
     if (dialogElement) {
@@ -62,7 +62,7 @@
 
   function getAvailableComponents(element: any): string[] {
     const currentComponents = element.data.components;
-    const allComponents = getAvailableComponentsForType(element.type);
+    const allComponents = getComponentsForType(element.type);
     let availableComponents;
     if (allComponents.length > 0) {
       if (currentComponents && currentComponents.length > 0) {

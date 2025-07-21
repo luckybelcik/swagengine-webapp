@@ -1,4 +1,4 @@
-import { getAvailableComponentsForType, getDefinition, globalTypesDefinition } from '$lib/data/_definitions';
+import { getComponentsForType, getDefinition, globalTypesDefinition } from '$lib/data/_definitions';
 import type {
   Field,
   HookDefinition,
@@ -8,8 +8,10 @@ import type {
   Component
 } from '../../../lib/stores/engineStore';
 
-export function loadSchema(elementType: string, components: string[] = []): Schema {
+export function loadSchema(elementType: string): Schema {
   console.log("Current type:", elementType);
+  const components = getComponentsForType(elementType)
+  console.log("Components:", components);
   const baseDef = getDefinition(elementType, 'base') as BaseOrComponentDefinition | null;
   let fields: Field[] = [...(baseDef?.fields || [])];
   let componentList: Component[] = [];

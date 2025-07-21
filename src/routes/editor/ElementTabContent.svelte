@@ -30,7 +30,7 @@
 
   let schema = $derived(() => {
     if (element) {
-      return loadSchema(element.type, element.data?.components ?? []);
+      return loadSchema(element.type);
     }
     return null;
   });
@@ -51,11 +51,12 @@
     });
   }
 
-  function handleNameChange(event: any) {
-    if (event.detail.valid && element) {
-      updateElement(element.id, { name: event.detail.value });
-      setTabName(element.id, event.detail.value); // Update tab name to match element name
-      element.name = event.detail.value;
+  function handleNameChange(newName: string, valid: boolean) {
+    console.log("arf", valid)
+    if (valid && element) {
+      updateElement(element.id, { name: newName });
+      setTabName(element.id, newName); // Update tab name to match element name
+      element.name = newName;
     }
   }
 
@@ -84,7 +85,7 @@
     label="Element Name"
     value={element.name}
     validate={softValidation}
-    on:change={handleNameChange}
+    onChange={handleNameChange}
   />
 
   <div class="w-full pl-4 p-2 pb-1">

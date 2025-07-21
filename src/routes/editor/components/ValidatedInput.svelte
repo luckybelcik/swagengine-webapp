@@ -1,28 +1,26 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { onMount } from 'svelte';
 
-  export let label = '';
-  export let value = '';
-  export let validate: (input: string) => string | 'safe';
-  export let placeholder = '';
+  const { label, value, validate, placeholder, onChange } = $props<{ label : string, value: string, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void}>();
 
-  const dispatch = createEventDispatcher();
-
-  let inputValue = value;
-  let errorMessage = '';
+  let inputValue = $state(value);
+  
+  let errorMessage = $derived(() => {
+    const validation = validate(inputValue);
+    return validation === 'safe' ? '' : validation;
+  });
 
   function handleChange(event: any) {
-    inputValue = event.target.value;
-    const validation = validate(inputValue);
-
-    errorMessage = validation === 'safe' ? '' : validation;
-
-    dispatch('change', { value: inputValue, valid: !errorMessage });
+    inputValue = (event.target as HTMLInputElement).value;
+    onChange(inputValue, !errorMessage());
   }
 
   onMount(() => {
     handleChange({ target: { value: inputValue } });
+  });
+
+  $effect(() => {
+    onChange(inputValue, !errorMessage());
   });
 </script>
 
@@ -33,15 +31,15 @@
 
   <input
     type="text"
-    class="input input-bordered w-auto ml-3 {errorMessage ? 'input-error' : ''}"
+    class="input input-bordered w-auto ml-3 {errorMessage() ? 'input-error' : ''}"
     bind:value={inputValue}
-    on:input={handleChange}
+    oninput={handleChange}
     placeholder={placeholder}
   />
 
-  {#if errorMessage}
+  {#if errorMessage()}
     <div class="label">
-      <span class="label-text-alt text-error">{errorMessage}</span>
+      <span class="label-text-alt text-error">{errorMessage()}</span>
     </div>
   {/if}
 </label>

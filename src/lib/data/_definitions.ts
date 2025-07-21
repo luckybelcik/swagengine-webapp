@@ -28,7 +28,7 @@ export function getDefinition(type: string, name: string): unknown | null {
  * @param type - The base element type (e.g., 'item').
  * @returns An array of component names (e.g., ['tool', 'weapon']).
  */
-export function getAvailableComponentsForType(type: string): string[] {
+export function getComponentsForType(type: string): string[] {
   const components: string[] = [];
   for (const path in modules) {
     if (path.startsWith(`./schemas/${type}/`) && path.endsWith('.json')) {
