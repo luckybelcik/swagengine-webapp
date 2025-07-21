@@ -108,6 +108,13 @@
 </script>
 
 {#if schema() && activeElement()}
+  <ValidatedInput
+    label="Element Name"
+    value={activeElement().name}
+    validate={softValidation}
+    onChange={handleNameChange}
+  />
+
   <div class="w-full pl-4 p-2 pb-1">
     <div class="label">
       <span class="label-text">Element ID</span>

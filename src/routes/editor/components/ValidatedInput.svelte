@@ -12,7 +12,9 @@
 
   function handleChange(event: any) {
     inputValue = (event.target as HTMLInputElement).value;
-    onChange(inputValue, !errorMessage());
+    if (value != inputValue) {
+      onChange(inputValue, !errorMessage());
+    }
   }
 
   onMount(() => {
@@ -20,7 +22,9 @@
   });
 
   $effect(() => {
-    onChange(inputValue, !errorMessage());
+    if (value != inputValue) {
+      onChange(inputValue, !errorMessage());
+    }
   });
 </script>
 
