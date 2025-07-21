@@ -22,24 +22,36 @@
   const handleBigInt = (value: string): string => {
     const inputValue = value;
 
+    if (inputValue == undefined) {
+      return "0";
+    }
+
     const cleanedValue = inputValue.replace(/[^0-9-]/g, '');
     const isNegative = cleanedValue.startsWith('-');
     const digitsOnly = isNegative ? cleanedValue.substring(1) : cleanedValue;
 
     if (digitsOnly === '' && !isNegative) {
         onChange(field.name, null);
-        return "n0";
+        return "0";
     }
 
     let tempBigInt = BigInt(cleanedValue);
 
     if (field.type === "int_64") {
-      return "n".concat(clampBigInt(tempBigInt, INT64_MIN, INT64_MAX).toString());
+      return clampBigInt(tempBigInt, INT64_MIN, INT64_MAX).toString();
     } else if (field.type === "u_int_64") {
-      return "n".concat(clampBigInt(tempBigInt, UINT64_MIN, UINT64_MAX).toString());
+      return clampBigInt(tempBigInt, UINT64_MIN, UINT64_MAX).toString();
     }
 
-    return "n0";
+    return "0";
+  }
+
+  const handleNan = (value: any): string => {
+    if (value == undefined || Number.isNaN(value)) {
+      return "0";
+    } else {
+      return value.toString();
+    }
   }
 
 </script>
@@ -51,34 +63,44 @@
   </label>
 
   {#if field.type === "u_int_8"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 255))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 255))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 255))}</div>
 
   {:else if field.type === "u_int_16"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 65535))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 65535))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 65535))}</div>
 
   {:else if field.type === "u_int_32"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 4294967295))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 4294967295))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 4294967295))}</div>
 
   {:else if field.type === "u_int_64"}
-    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-full" />
+    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
 
   {:else if field.type === "int_8"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -128, 127))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -128, 127))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -128, 127))}</div>
 
   {:else if field.type === "int_16"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -32768, 32767))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -32768, 32767))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -32768, 32767))}</div>
 
   {:else if field.type === "int_32"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -2147483648, 2147483647))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), -2147483648, 2147483647))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), -2147483648, 2147483647))}</div>
 
   {:else if field.type === "int_64"}
-    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-full" />
+    <input type="text" step="1" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleBigInt(value)}</div>
 
   {:else if field.type === "percent"}
-    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 100))} class="input input-bordered w-full" />
+    <input type="number" step="1" bind:value on:input={() => onChange(field.name, clamp(parseInt(value, 10), 0, 100))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(clamp(parseInt(value, 10), 0, 100))}</div>
 
   {:else if field.type === "float"}
-    <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))} class="input input-bordered w-full" />
+    <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))} class="input input-bordered w-2/5" />
+    <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">Corrected value: {handleNan(parseFloat(value))}</div>
 
   {:else if field.type === "bool"}
     <input type="checkbox" checked={value} on:change={() => onChange(field.name, !value)} class="toggle toggle-primary" />

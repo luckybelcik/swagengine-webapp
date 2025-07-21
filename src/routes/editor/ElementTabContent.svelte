@@ -35,6 +35,7 @@
     }
 
     const element = engineStoreValue.elements.find(el => el.id === activeTabIdValue);
+    console.debug("Updated element")
     return element;
   });
 
@@ -101,10 +102,6 @@
       return [];
     }
   }
-
-  onMount(() => {
-    console.log("hi");
-  })
 </script>
 
 {#if schema() && activeElement()}
@@ -144,10 +141,10 @@
           </div>
           {#each getComponentFields(componentName) as field }
             <FieldRenderer
-              {field}
-              value={activeElement()?.data?.[field.name]}
-              {getEnumValues}
-              onChange={updateField}
+            {field}
+            value={activeElement()?.data?.[field.name]}
+            {getEnumValues}
+            onChange={updateField}
             />
           {/each}
         {/each}
