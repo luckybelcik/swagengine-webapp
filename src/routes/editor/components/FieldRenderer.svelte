@@ -8,13 +8,14 @@
 <div class="field flex items-center">
   <label class="bg-base-200 text-base-content px-4 py-2 input mr-3 input-disabled font-bold w-1/5 shrink-0" for={field.name}>
     {field.name}
+    <div class="opacity-60 font-normal text-xs">({field.type})</div>
   </label>
 
   {#if field.type === "integer"}
     <input type="number" step="1" bind:value on:input={() => onChange(field.name, parseInt(value, 10))} class="input input-bordered w-full" />
 
   {:else if field.type === "float"}
-    <input type="number" step="any" bind:value on:input={() => onChange(field.name, parseFloat(value))} class="input input-bordered w-full" />
+    <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))} class="input input-bordered w-full" />
 
   {:else if field.type === "boolean"}
     <input type="checkbox" checked={value} on:change={() => onChange(field.name, !value)} class="toggle toggle-primary" />
