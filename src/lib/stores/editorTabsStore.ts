@@ -89,6 +89,7 @@ export const reloadTab = (tabId: string) => {
     if (tab.id == tabId) {
       tabToReload = tab;
       closeTab(tabId);
+      setActiveTab('browser');
       setTimeout(() => {
         addOrActivateTab(tabToReload);
       }, 0)
