@@ -1,25 +1,17 @@
 <script lang="ts">
-  const { label, value, validate, placeholder, onChange } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void}>();
-
-  let inputValue = $state(value);
+  let { label, value, validate, placeholder, onChange } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void}>();
   
   let errorMessage = $derived(() => {
-    const validation = validate(inputValue);
+    const validation = validate(value);
     return validation === 'safe' ? '' : validation;
   });
 
   function handleChange(event: any) {
-    inputValue = (event.target as HTMLInputElement).value;
-    if (value != inputValue) {
-      onChange(inputValue, !errorMessage());
+    value = (event.target as HTMLInputElement).value;
+    if (value) {
+      onChange(value, !errorMessage());
     }
   }
-
-  $effect(() => {
-    if (value != inputValue) {
-      onChange(inputValue, !errorMessage());
-    }
-  });
 </script>
 
 <label class="form-control w-full pl-4">
@@ -30,7 +22,7 @@
   <input
     type="text"
     class="input input-bordered w-auto ml-3 {errorMessage() ? 'input-error' : ''}"
-    bind:value={inputValue}
+    bind:value
     oninput={handleChange}
     placeholder={placeholder}
   />
