@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-
   const { label, value, validate, placeholder, onChange } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void}>();
 
   let inputValue = $state(value);
@@ -16,10 +14,6 @@
       onChange(inputValue, !errorMessage());
     }
   }
-
-  onMount(() => {
-    handleChange({ target: { value: inputValue } });
-  });
 
   $effect(() => {
     if (value != inputValue) {
