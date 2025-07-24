@@ -105,25 +105,23 @@
 </script>
 
 {#if schema() && activeElement()}
-  <ValidatedInput
-    label="Element Name"
-    value={activeElement()?.name}
-    validate={softValidation}
-    onChange={handleNameChange}
-  />
+  <div class="w-full pl-4 p-2 pb-1 flex flex-col gap-2">
+    <ValidatedInput
+      label="Element Name"
+      value={activeElement()?.name}
+      validate={softValidation}
+      onChange={handleNameChange}
+    />
 
-  <div class="w-full pl-4 p-2 pb-1">
     <div class="label">
       <span class="label-text">Element ID</span>
+      <div class="input w-auto opacity-60 ml-3">{activeElement()?.id}</div>
     </div>
-    <div class="input w-auto opacity-60 ml-3">{activeElement()?.id}</div>
-  </div>
-
-  <div class="w-full pl-4 p-1">
+    
     <div class="label">
       <span class="label-text">Element Type</span>
+      <div class="input w-auto opacity-60 ml-3">{activeElement()?.type}</div>
     </div>
-    <div class="input w-auto opacity-60 ml-3">{activeElement()?.type}</div>
   </div>
 
   <div class="divider"></div>
