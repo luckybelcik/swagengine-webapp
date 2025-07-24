@@ -10,16 +10,16 @@
 
   let displayedAuthor = $state(getProjectAuthor());
 
-  function handleNameChange(event: any) {
-    if (event.detail.valid) {
-      setProjectName(event.detail.value);
+  function handleNameChange(newName: string, valid: boolean) {
+    if (valid && newName) {
+      setProjectName(newName);
     }
   }
 
-  function handleAuthorChange(event: any) {
-    if (event.detail.valid) {
-      setProjectAuthor(event.detail.value);
-      displayedAuthor = event.detail.value;
+  function handleAuthorChange(newAuthor: string, valid: boolean) {
+    if (valid && newAuthor) {
+      setProjectAuthor(newAuthor);
+      displayedAuthor = newAuthor;
     }
   }
 </script>
@@ -28,7 +28,7 @@
   label="Project Name"
   value={projectName}
   validate={softValidation}
-  on:change={handleNameChange}
+  onChange={handleNameChange}
 />
 
 <div class="w-full pl-4 p-2 pb-1">
@@ -42,7 +42,7 @@
   label="Project Author"
   value={projectAuthor}
   validate={softValidation}
-  on:change={handleAuthorChange}
+  onChange={handleAuthorChange}
 />
 
 <div class="w-full pl-4 p-2 pb-1">
