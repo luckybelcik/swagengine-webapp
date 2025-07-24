@@ -32,7 +32,7 @@
   }
 </script>
 
-<div class="w-full pl-4 p-2 flex flex-col gap-2 mt-4 ml-4">
+<div class="w-full pl-4 pr-10 p-2 flex flex-col gap-2 mt-4 ml-4">
   <ValidatedInput
     label="Project Name"
     value={projectName}
