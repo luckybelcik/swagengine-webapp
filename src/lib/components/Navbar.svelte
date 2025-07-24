@@ -1,58 +1,50 @@
-<!-- src/lib/components/ProjectNameEditor.svelte -->
-<script>
-    import { page } from '$app/stores';
-    import { engineStore, setProjectName } from '$lib/stores/engineStore';
+<script lang="ts">
+  import { page } from '$app/state';
+  import { engineStore, getProjectIconUrl, setProjectName } from '$lib/stores/engineStore';
 
-    let isEditingName = false;  
-    // Local variable to hold the input value while editing
-    // This prevents the store from being updated on every keystroke,
-    // only when editing finishes.
-    let currentInputName = '';  
-    // Function to start editing
-    function startEditingName() {
-      isEditingName = true;
-      currentInputName = $engineStore.projectData.name; // Initialize with current project name
-    }   
-    function finishEditingName() {
-      if (isEditingName) {
-        // Trim whitespace and ensure it's not empty
-        const newName = currentInputName.trim();
-        if (newName !== '' && newName !== $engineStore.projectData.name && newName.length <= 50) {
-          setProjectName(newName); // Update the store
-        } else if (newName === '') {
-          // Revert to old name or show an error if empty
-          currentInputName = $engineStore.projectData.name;
-        }
-        isEditingName = false; // Exit editing mode
+  let isEditingName = $state(false);  
+  let currentInputName = $state('');
+
+  const projectIconUrl = $derived(() => {
+    const engineStoreValue = $engineStore;
+
+    return engineStoreValue.projectData.iconurl;
+  });
+
+  function startEditingName() {
+    isEditingName = true;
+    currentInputName = $engineStore.projectData.name;
+  }   
+
+  function finishEditingName() {
+    if (isEditingName) {
+      const newName = currentInputName.trim();
+      if (newName !== '' && newName !== $engineStore.projectData.name && newName.length <= 50) {
+        setProjectName(newName);
+      } else if (newName === '') {
+        currentInputName = $engineStore.projectData.name;
       }
+      isEditingName = false;
     }
+  }
 
-  // Handle Enter key press to save
-  /**
-     * @param {{ key: string; }} event
-     */
-  function handleKeydown(event) {
+  function handleKeydown(event: any) {
     if (event.key === 'Enter') {
       finishEditingName();
     } else if (event.key === 'Escape') {
-      // Revert changes on Escape key
       currentInputName = $engineStore.projectData.name;
       isEditingName = false;
     }
   }
 
-  // Focus the input when editing starts
-  /**
-     * @param {{ focus: () => void; }} node
-     */
-  function focusInput(node) {
+  function focusInput(node: any) {
     node.focus();
   }
 </script>
 
-<div class="flex-1 bg-base-200">
+<div class="flex flex-1 bg-base-200">
     <a
-        href={$page.url.pathname === '/editor' ? '/editor/settings' : '/editor'}
+        href={page.url.pathname === '/editor' ? '/editor/settings' : '/editor'}
         aria-label="Open settings"
         tabindex="0"
         class="btn m-1 btn-square btn-lg bg-base-300 hover:bg-base-200"
@@ -68,21 +60,25 @@
         </svg>
     </a>
 
+    <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 mt-2 m-1">
+      <img src={projectIconUrl()} alt="Project Icon Preview" />
+    </div>
+
     {#if isEditingName}
         <input
             type="text"
-            class="input input-ghost m-1 text-xl"
+            class="input input-ghost mt-2 m-1 text-xl"
             bind:value={currentInputName}
-            on:blur={finishEditingName}
-            on:keydown={handleKeydown}
+            onblur={finishEditingName}
+            onkeydown={handleKeydown}
             use:focusInput
             aria-label="Edit project name"
         />
     {:else}
         <button
             type="button"
-            class="btn btn-ghost bg-base-300 m-0 text-xl p-2"
-            on:click={startEditingName}
+            class="btn btn-ghost bg-base-300 mt-2 m-1 text-xl p-2"
+            onclick={startEditingName}
             aria-label="Project name: {$engineStore.projectData.name}. Click to edit."
         >
             {$engineStore.projectData.name}

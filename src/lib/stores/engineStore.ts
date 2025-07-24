@@ -60,6 +60,7 @@ export interface EngineProjectData {
   id: string;
   description: string;
   author: string;
+  iconurl: string;
   projectVersion: string;
   engineVersion: string;
   webAppVersion: string;
@@ -81,6 +82,8 @@ export interface BaseOrComponentDefinition {
 export interface HooksDefinition {
   hooks: Record<string, HookDefinition>;
 }
+
+export const defaultIconUrl = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F30000%2Ft2%2Fred-apple-isolated.jpg&f=1&nofb=1&ipt=ccc6435a12be9f52147d442ddea931d20151cefa218c433212179795a09f55d3';
 
 const initialEngineStore: EngineStore = {
   elements: [
@@ -107,6 +110,7 @@ const initialEngineStore: EngineStore = {
     id: 'new_project',
     description: 'this is the default project description',
     author: 'Author',
+    iconurl: defaultIconUrl,
     projectVersion: '0.0.0',
     engineVersion: '0.0.1',
     webAppVersion: '0.0.5'
@@ -157,6 +161,20 @@ export const setEngineVersion = (version: string) => {
   }));
 };
 
+export const setIconUrl = (url: string) => {
+  engineStore.update(state => ({
+    ...state,
+    projectData: { ...state.projectData, iconurl: url }
+  }));
+};
+
+export const resetIcon = () => {
+  engineStore.update(state => ({
+    ...state,
+    projectData: { ...state.projectData, iconurl: defaultIconUrl }
+  }));
+};
+
 export const getProjectVersion = (): string => {
   return get(engineStore).projectData.projectVersion;
 }
@@ -175,6 +193,10 @@ export const getProjectAuthor = (): string => {
 
 export const getProjectDescription = (): string => {
   return get(engineStore).projectData.description;
+}
+
+export const getProjectIconUrl = (): string => {
+  return get(engineStore).projectData.iconurl;
 }
 
 export const getEngineVersion = (): string => {

@@ -2,6 +2,7 @@
   import ValidatedInput from '../components/ValidatedInput.svelte';
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable } from "../utils/validation";
+  import IconImageUpload from '../components/IconImageUpload.svelte';
 
   const projectID = getProjectID();
 
@@ -67,3 +68,7 @@
   maxCharacters={100}
   minCharacters={1}
 />
+
+<div class="w-full pl-4 p-2 pb-1">
+  <IconImageUpload />
+</div>
