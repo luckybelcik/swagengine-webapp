@@ -1,12 +1,13 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
-  import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor } from "$lib/stores/engineStore";
-  import { softValidation } from "../utils/validation";
+  import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
+  import { softValidation, softValidationVariable } from "../utils/validation";
 
   const projectID = getProjectID();
 
   let projectName = getProjectName();
   let projectAuthor = getProjectAuthor();
+  let projectDescription = getProjectDescription();
 
   let displayedAuthor = $state(getProjectAuthor());
 
@@ -20,6 +21,12 @@
     if (valid && newAuthor) {
       setProjectAuthor(newAuthor);
       displayedAuthor = newAuthor;
+    }
+  }
+
+  function handleDescriptionChange(newDescription: string, valid: boolean) {
+    if (valid && newDescription) {
+      setProjectDescription(newDescription);
     }
   }
 </script>
@@ -51,3 +58,12 @@
   </div>
   <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
 </div>
+
+<ValidatedInput
+  label="Project Description"
+  value={projectDescription}
+  validate={softValidationVariable}
+  onChange={handleDescriptionChange}
+  maxCharacters={100}
+  minCharacters={1}
+/>

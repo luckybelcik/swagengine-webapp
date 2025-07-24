@@ -1,9 +1,16 @@
 <script lang="ts">
-  let { label, value, validate, placeholder, onChange } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void}>();
+    import { softValidationVariable } from "../utils/validation";
+
+  let { label, value, validate, onChange, placeholder, maxCharacters, minCharacters } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void, maxCharacters?: number, minCharacters?: number}>();
   
   let errorMessage = $derived(() => {
-    const validation = validate(value);
-    return validation === 'safe' ? '' : validation;
+    if (validate == softValidationVariable) {
+      const validation = softValidationVariable(value, minCharacters, maxCharacters);
+      return validation === 'safe' ? '' : validation;
+    } else {
+      const validation = validate(value);
+      return validation === 'safe' ? '' : validation;
+    }
   });
 
   function handleChange(event: any) {

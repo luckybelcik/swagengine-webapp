@@ -43,6 +43,21 @@ export const softValidation = (name: string): string => {
     return 'safe';
 }
 
+/**
+ * Soft validation but with a variable character limit.
+ * @param name The input string to validate
+ * @param min_characters The minimum amount of characters required
+ * @param max_characters The maximum amount of characters required
+ * @returns Returns an error message if failed, 'safe' if succeeded
+ */
+export const softValidationVariable = (name: string, min_characters: number, max_characters: number): string => {
+    if (name.length < min_characters || name.length > max_characters) {
+      return `This field must be between ${min_characters} and ${max_characters} long.`;
+    }
+
+    return 'safe';
+}
+
 export const typeValidation = (type: string): string => {
     if (!type) {
       return 'Element Type cannot be empty.';

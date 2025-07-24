@@ -173,6 +173,10 @@ export const getProjectAuthor = (): string => {
   return get(engineStore).projectData.author;
 }
 
+export const getProjectDescription = (): string => {
+  return get(engineStore).projectData.description;
+}
+
 export const getEngineVersion = (): string => {
   return get(engineStore).projectData.engineVersion;
 }
