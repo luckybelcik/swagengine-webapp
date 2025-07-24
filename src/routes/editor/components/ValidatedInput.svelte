@@ -38,7 +38,7 @@
   {:else}
     <input
       type="text"
-      class="input input-bordered w-auto {errorMessage() ? 'input-error' : ''}"
+      class="input ml-3 input-bordered w-auto {errorMessage() ? 'input-error' : ''}"
       bind:value
       oninput={handleChange}
       placeholder={placeholder}
