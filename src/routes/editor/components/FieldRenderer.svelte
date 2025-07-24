@@ -1,8 +1,5 @@
 <script lang="ts">
-  export let field;
-  export let value: any;
-  export let onChange: (name: string, value: any) => void;
-  export let getEnumValues: (type: string) => string[];
+  let { field, value, onChange, getEnumValues } = $props<{ field: any, value: any, onChange: (name: string, value: any) => void, getEnumValues: (type: string) => string[]}>();
 
   function clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
@@ -79,10 +76,10 @@
   </label>
 
   {#if isBool(field.type)}
-  <input type="checkbox" checked={value} on:change={() => onChange(field.name, !value)} class="toggle toggle-primary" />
+  <input type="checkbox" checked={value} onchange={() => onChange(field.name, !value)} class="toggle toggle-primary" />
 
 {:else if isEnum(field.type)}
-  <select bind:value on:change={() => onChange(field.name, value)} class="select select-bordered w-full">
+  <select bind:value onchange={() => onChange(field.name, value)} class="select select-bordered w-full">
     <option disabled selected value="">-- Select {field.type} --</option>
     {#each getEnumValues(field.type) as opt}
       <option value={opt}>{opt}</option>
@@ -90,11 +87,11 @@
   </select>
 
 {:else if isBigInt(field.type)}
-  <input type="text" bind:value on:input={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
+  <input type="text" bind:value oninput={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
   <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">True value: {handleBigInt(value)}</div>
 
 {:else if isClamped(field.type)}
-  <input type="number" step="1" bind:value on:input={() =>
+  <input type="number" step="1" bind:value oninput={() =>
       onChange(field.name, clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
     class="input input-bordered w-2/5"
   />
@@ -103,7 +100,7 @@
   </div>
 
 {:else if isFloat(field.type)}
-  <input type="number" step="0.1" bind:value on:input={() => onChange(field.name, parseFloat(value))}
+  <input type="number" step="0.1" bind:value oninput={() => onChange(field.name, parseFloat(value))}
     class="input input-bordered w-2/5"
   />
   <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
@@ -111,6 +108,6 @@
   </div>
 
 {:else}
-  <input type="text" bind:value on:input={() => onChange(field.name, value)} class="input input-bordered w-full" />
+  <input type="text" bind:value oninput={() => onChange(field.name, value)} class="input input-bordered w-full" />
 {/if}
 </div>
