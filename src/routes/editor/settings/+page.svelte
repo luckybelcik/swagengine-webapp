@@ -32,43 +32,46 @@
   }
 </script>
 
-<ValidatedInput
-  label="Project Name"
-  value={projectName}
-  validate={softValidation}
-  onChange={handleNameChange}
-/>
+<div class="w-full pl-4 p-2 flex flex-col gap-2">
+  <ValidatedInput
+    label="Project Name"
+    value={projectName}
+    validate={softValidation}
+    onChange={handleNameChange}
+  />
 
-<div class="w-full pl-4 p-2 pb-1">
-  <div class="label">
-    <span class="label-text">Project ID</span>
+  <div>
+    <div class="label">
+      <span class="label-text">Project ID</span>
+    </div>
+    <div class="input w-auto opacity-60 ml-3">{projectID}</div>
   </div>
-  <div class="input w-auto opacity-60 ml-3">{projectID}</div>
-</div>
-
-<ValidatedInput
-  label="Project Author"
-  value={projectAuthor}
-  validate={softValidation}
-  onChange={handleAuthorChange}
-/>
-
-<div class="w-full pl-4 p-2 pb-1">
-  <div class="label">
-    <span class="label-text">Project Path</span>
+  
+  <ValidatedInput
+    label="Project Author"
+    value={projectAuthor}
+    validate={softValidation}
+    onChange={handleAuthorChange}
+  />
+  
+  <div>
+    <div class="label">
+      <span class="label-text">Project Path</span>
+    </div>
+    <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
   </div>
-  <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
-</div>
-
-<ValidatedInput
-  label="Project Description"
-  value={projectDescription}
-  validate={softValidationVariable}
-  onChange={handleDescriptionChange}
-  maxCharacters={100}
-  minCharacters={1}
-/>
-
-<div class="w-full pl-4 p-2 pb-1">
-  <IconImageUpload />
+  
+  <ValidatedInput
+    label="Project Description"
+    value={projectDescription}
+    validate={softValidationVariable}
+    onChange={handleDescriptionChange}
+    maxCharacters={512}
+    minCharacters={1}
+    bigInput={true}
+  />
+  
+  <div>
+    <IconImageUpload />
+  </div>
 </div>

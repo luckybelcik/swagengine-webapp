@@ -1,7 +1,7 @@
 <script lang="ts">
     import { softValidationVariable } from "../utils/validation";
 
-  let { label, value, validate, onChange, placeholder, maxCharacters, minCharacters } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void, maxCharacters?: number, minCharacters?: number}>();
+  let { label, value, validate, onChange, placeholder, maxCharacters, minCharacters, bigInput } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void, maxCharacters?: number, minCharacters?: number, bigInput?: boolean}>();
   
   let errorMessage = $derived(() => {
     if (validate == softValidationVariable) {
@@ -21,18 +21,29 @@
   }
 </script>
 
-<label class="form-control w-full pl-4">
+<label class="form-control w-full">
   <div class="label">
     <span class="label-text">{label}</span>
   </div>
 
-  <input
-    type="text"
-    class="input input-bordered w-auto ml-3 {errorMessage() ? 'input-error' : ''}"
-    bind:value
-    oninput={handleChange}
-    placeholder={placeholder}
-  />
+  {#if bigInput == true}
+    <textarea
+      class="input input-bordered w-full h-30 mt-3 p-1 pl-2 pr-2 {errorMessage() ? 'input-error' : ''}"
+      bind:value
+      oninput={handleChange}
+      placeholder={placeholder}
+      rows="4"
+      style="white-space: normal; overflow-wrap: break-word; word-break: break-word;"
+    ></textarea>
+  {:else}
+    <input
+      type="text"
+      class="input input-bordered w-auto {errorMessage() ? 'input-error' : ''}"
+      bind:value
+      oninput={handleChange}
+      placeholder={placeholder}
+    />
+  {/if}
 
   {#if errorMessage()}
     <div class="label">
