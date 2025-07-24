@@ -1,18 +1,13 @@
-<script>
+<script lang="ts">
     import { openElementTab } from '$lib/stores/editorTabsStore';
-    import { engineStore } from '$lib/stores/engineStore'; // Import createNewBlankElement
+    import { engineStore } from '$lib/stores/engineStore';
 
-    // (Keep your existing demoOpenElement function if you want to keep the list below)
-    /**
-     * @param {string} id
-     * @param {string} name
-     */
-    function demoOpenElement(id, name) {
+    function demoOpenElement(id: string, name: string) {
         openElementTab(id, name);
     }
 </script>
 
-<div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser">
+<div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser" class="ml-4 mt-2">
     <h2 class="text-3xl font-bold mb-4">Element Browser</h2>
     <p class="text-lg mb-4">Search for elements or add new ones here.</p>
     <p class="opacity-60">Search Elements</p>
