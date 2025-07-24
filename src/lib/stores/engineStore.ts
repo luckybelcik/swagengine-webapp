@@ -211,6 +211,16 @@ export const getElementCount = (): number => {
   return get(engineStore).elements.length;
 }
 
+export const getElementName = (id: string) => {
+  const elements = get(engineStore).elements;
+  const element = elements.find(el => el.id === id);
+  if (element) {
+    return element.name;
+  }
+
+  return "idk"
+}
+
 export const addElement = (newElement: Element) => {
   engineStore.update(currentData => ({
     ...currentData,
