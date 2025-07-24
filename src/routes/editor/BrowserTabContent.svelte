@@ -2,6 +2,7 @@
   import { openElementTab } from '$lib/stores/editorTabsStore';
   import { engineStore } from '$lib/stores/engineStore';
   import SearchBar from './components/SearchBar.svelte';
+    import TypeIcon from './components/TypeIcon.svelte';
 
   function demoOpenElement(id: string, name: string) {
     openElementTab(id, name);
@@ -24,11 +25,15 @@
           class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer"
           on:click={() => demoOpenElement(element.id, element.name)}
         >
-          <div class="card-body p-4">
+          <div class="card-body p-4 overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-7 overflow-hidden">
+              <TypeIcon elementType={element.type} />
+            </div>
+
             <h4 class="text-lg font-bold mb-1 truncate text-center">{element.name}</h4>
             <p class="text-sm opacity-70">Type: {element.type}</p>
             <p class="text-xs opacity-50">ID: {element.id}</p>
-            </div>
+          </div>
         </button>
       {/each}
     </div>
