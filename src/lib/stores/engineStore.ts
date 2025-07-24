@@ -5,9 +5,12 @@ import { components } from 'daisyui/imports';
 export const FIXED_ELEMENT_TYPES = ['item', 'entity', 'tile', 'command', 'boss'] as const;
 export const FIXED_ENTITY_METHOD_HOOKS = ['OnSpawn', 'OnDeath', 'OnHit', 'OnTick'] as const;
 export const FIXED_ITEM_METHOD_HOOKS = ['OnUse', 'OnEquip', 'OnUnequip', 'OnPickup'] as const;
+export const FIXED_TILE_METHOD_HOOKS = ['OnPlace', 'OnBreak', 'OnStep'] as const;
 
 export type ElementType = typeof FIXED_ELEMENT_TYPES[number];
-export type MethodHookType = typeof FIXED_ENTITY_METHOD_HOOKS[number] | typeof FIXED_ITEM_METHOD_HOOKS[number];
+export type MethodHookType = typeof FIXED_ENTITY_METHOD_HOOKS[number] |
+  typeof FIXED_ITEM_METHOD_HOOKS[number] |
+  typeof FIXED_TILE_METHOD_HOOKS[number];
 
 // --- TYPES ---
 
@@ -97,11 +100,38 @@ const initialEngineStore: EngineStore = {
     },
 
     {
-      id: 'super_item',
-      type: 'item',
-      name: 'Super Item',
-      data: { components: ["debug"] },
-      methods: [{ type: 'OnUse', code: '// Called when the item is used' }],
+      id: 'basic_dude',
+      type: 'entity',
+      name: 'Basic Dude',
+      data: { components: ["gravity_component", "hitbox_component"] },
+      methods: [{ type: 'OnSpawn', code: '// Called when the dude is spawned' }],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'money_block',
+      type: 'tile',
+      name: 'Money Block',
+      data: { components: [] },
+      methods: [{ type: 'OnPlace', code: '// Called when the block is placed' }],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'set_money',
+      type: 'command',
+      name: 'Set Money',
+      data: { components: [] },
+      methods: [],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'evil_bird_dude',
+      type: 'boss',
+      name: 'Evil Bird Dude',
+      data: { components: [] },
+      methods: [],
       createdAt: new Date().toISOString(),
     }
   ],
