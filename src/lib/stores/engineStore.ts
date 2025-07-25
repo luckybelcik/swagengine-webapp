@@ -155,7 +155,7 @@ const initialEngineStore: EngineStore = {
     iconurl: defaultIconUrl,
     projectVersion: '0.0.0',
     engineVersion: '0.0.1',
-    webAppVersion: '0.0.6'
+    webAppVersion: '0.0.7'
   }
 };
 
