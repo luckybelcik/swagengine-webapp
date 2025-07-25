@@ -126,7 +126,7 @@
 
   <div class="divider"></div>
   
-  <div class="collapse collapse-arrow form relative">
+  <div class="collapse collapse-arrow form relative bg-base-200">
     <input type="checkbox" />
     <div class="collapse-title">
       <div class="text-xl font-bold w-full">Element Data</div>
@@ -147,7 +147,7 @@
           {/each}
         {/each}
       {/if}
-      <button class="btn w-full" onclick={openComponentModificationModal}>Modify Components</button>
+      <button class="btn btn-info w-full" onclick={openComponentModificationModal}>Modify Components</button>
     </div>
   </div>
 
