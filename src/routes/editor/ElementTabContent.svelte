@@ -129,11 +129,13 @@
   <div class="collapse collapse-arrow form relative bg-base-200">
     <input type="checkbox" />
     <div class="collapse-title">
-      <div class="text-xl font-bold w-full">Element Data</div>
+      <div class="text-2xl font-bold w-full">Element Data</div>
     </div>
-    <div class="collapse-content space-y-3">
+    <div class="collapse-content">
       {#if activeElement()?.data.components}
         {#each activeElement()?.data.components as componentName}
+        <div class="divider mb-0 mt-0"></div>
+        <div class="form space-y-3 mb-4">
           <div class="flex justify-between items-center w-full">
             <div class="text-xl font-bold">{componentName}</div>
           </div>
@@ -145,8 +147,10 @@
             onChange={updateField}
             />
           {/each}
+        </div>
         {/each}
       {/if}
+      <div class="divider mt-0"></div>
       <button class="btn btn-info w-full" onclick={openComponentModificationModal}>Modify Components</button>
     </div>
   </div>
