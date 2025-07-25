@@ -36,9 +36,10 @@
   <div class="collapse collapse-arrow form relative bg-base-200">
     <input type="checkbox" />
     <div class="collapse-title">
-      <div class="text-xl font-bold w-full">Project Settings</div>
+      <div class="text-2xl font-bold w-full">Project Settings</div>
     </div>
     <div class="collapse-content flex flex-col gap-2">
+      <div class="divider m-0"></div>
       <ValidatedInput
         label="Project Name"
         value={projectName}
@@ -86,9 +87,10 @@
   <div class="collapse collapse-arrow form relative bg-base-200">
     <input type="checkbox" />
     <div class="collapse-title">
-      <div class="text-xl font-bold w-full">User Settings</div>
+      <div class="text-2xl font-bold w-full">User Settings</div>
     </div>
     <div class="collapse-content flex flex-col gap-2">
+      <div class="divider m-0"></div>
       <h>Example content</h>
     </div>
   </div>
