@@ -1,0 +1,5 @@
+{
+    "fields": [
+        { "name": "consume_time", "type": "float" }
+    ]
+}

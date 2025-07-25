@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { openElementTab } from '$lib/stores/editorTabsStore';
   import { engineStore } from '$lib/stores/engineStore';
-    import CardBackground from './components/CardBackground.svelte';
+  import { userPreferenceStore } from '$lib/stores/userPreferenceStore';
+  import CardBackground from './components/CardBackground.svelte';
+  import CommonComponentIcons from './components/CommonComponentIcons.svelte';
   import SearchBar from './components/SearchBar.svelte';
   import TypeIcon from './components/TypeIcon.svelte';
+
+  const showComponentIcons = $derived(() => $userPreferenceStore.preferences[0].showComponentIcons);
 </script>
 
 <div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser" class="ml-4 mt-2">
@@ -19,14 +22,20 @@
     <div class="grid grid-cols-fill-180 grid-cols-5 gap-4">
       {#each $engineStore.elements as element (element.id)}
         <CardBackground {element}>
-          <div class="card-body p-4 overflow-hidden">
+          <div class="card-body p-2">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-7 overflow-hidden">
               <TypeIcon elementType={element.type} />
             </div>
 
-            <h4 class="text-lg font-bold mb-1 truncate text-center">{element.name}</h4>
+            <h4 class="text-lg font-bold mb-1 truncate text-center mt-2">{element.name}</h4>
             <p class="text-sm opacity-70">Type: {element.type}</p>
             <p class="text-xs opacity-50">ID: {element.id}</p>
+
+            {#if showComponentIcons()}
+              <div style="bottom: 0;">
+                <CommonComponentIcons {element} />
+              </div>
+            {/if}
           </div>
         </CardBackground>
       {/each}

@@ -99,6 +99,13 @@
         </div>
         <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("coloredElementCards")} onchange={(event: any) => updatePreference("coloredElementCards", event.target.checked)} />
       </div>
+
+      <div>
+        <div class="label">
+          <span class="label-text">Show Component Icons</span>
+        </div>
+        <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("showComponentIcons")} onchange={(event: any) => updatePreference("showComponentIcons", event.target.checked)} />
+      </div>
     </div>
   </div>
 </div>

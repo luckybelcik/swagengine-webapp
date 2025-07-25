@@ -7,7 +7,8 @@ export interface UserPreferenceStore {
 const initialUserPreferenceStore: UserPreferenceStore = {
   preferences: [
     { coloredElementCards: true },
-    { isDarkMode: true }
+    { isDarkMode: true },
+    { showComponentIcons: true }
   ]
 }
 
