@@ -8,12 +8,11 @@
 </script>
 
 <div>
-  <div class="fixed right-0 top-0">
-    <ThemeSelector />
-    <DropdownMenu />
-  </div>
-
   <main class="flex-grow min-h-screen">
+    <div class="fixed right-0 top-0 z-[9999]">
+      <ThemeSelector />
+      <DropdownMenu />
+    </div>
     {@render children()}
   </main>
 
