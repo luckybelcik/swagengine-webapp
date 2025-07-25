@@ -1,7 +1,7 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
-  import { softValidation, softValidationVariable } from "../utils/validation";
+  import { softValidation, softValidationVariable, strictValidation } from "../utils/validation";
   import IconImageUpload from '../components/IconImageUpload.svelte';
     import { getPreference, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
 
@@ -58,7 +58,7 @@
       <ValidatedInput
         label="Project Author"
         value={projectAuthor}
-        validate={softValidation}
+        validate={strictValidation}
         onChange={handleAuthorChange}
       />
 
@@ -66,7 +66,7 @@
         <div class="label">
           <span class="label-text">Project Path</span>
         </div>
-        <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
+        <div class="input w-auto opacity-60 ml-3">{displayedAuthor.toLowerCase()}.{projectID}</div>
       </div>
 
       <ValidatedInput
