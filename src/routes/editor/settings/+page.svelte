@@ -3,6 +3,7 @@
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable } from "../utils/validation";
   import IconImageUpload from '../components/IconImageUpload.svelte';
+    import { getPreference, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
 
   const projectID = getProjectID();
 
@@ -91,7 +92,13 @@
     </div>
     <div class="collapse-content flex flex-col gap-2">
       <div class="divider m-0"></div>
-      <h>Example content</h>
+
+      <div>
+        <div class="label">
+          <span class="label-text">Colored Element Cards</span>
+        </div>
+        <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("coloredElementCards")} onchange={(event: any) => updatePreference("coloredElementCards", event.target.checked)} />
+      </div>
     </div>
   </div>
 </div>

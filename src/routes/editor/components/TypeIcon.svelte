@@ -1,10 +1,12 @@
 <script lang="ts">
+    import { getPreference } from "$lib/stores/userPreferenceStore";
+
   const { elementType } = $props<{ elementType: string }>();
 </script>
 
 {#if elementType == "item"}
   <svg
-    class="fill-current h-50 w-50"
+    class="h-50 w-50 fill-current"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg">
     <path d="M7.936,11.97a1,1,0,1,0-1.415,1.414l.373.372L3.3,17.35a1.024,1.024,0,0,0,0,1.448l1.9,1.9a1.024,1.024,0,0,0,1.448,0l3.593-3.593.372.372a1,1,0,0,0,1.414-1.415Z"></path>

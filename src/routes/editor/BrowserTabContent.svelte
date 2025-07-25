@@ -1,12 +1,9 @@
 <script lang="ts">
   import { openElementTab } from '$lib/stores/editorTabsStore';
   import { engineStore } from '$lib/stores/engineStore';
+    import CardBackground from './components/CardBackground.svelte';
   import SearchBar from './components/SearchBar.svelte';
-    import TypeIcon from './components/TypeIcon.svelte';
-
-  function demoOpenElement(id: string, name: string) {
-    openElementTab(id, name);
-  }
+  import TypeIcon from './components/TypeIcon.svelte';
 </script>
 
 <div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser" class="ml-4 mt-2">
@@ -21,10 +18,7 @@
   {#if $engineStore.elements && $engineStore.elements.length > 0}
     <div class="grid grid-cols-fill-180 grid-cols-5 gap-4">
       {#each $engineStore.elements as element (element.id)}
-        <button
-          class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer"
-          on:click={() => demoOpenElement(element.id, element.name)}
-        >
+        <CardBackground {element}>
           <div class="card-body p-4 overflow-hidden">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-7 overflow-hidden">
               <TypeIcon elementType={element.type} />
@@ -34,7 +28,7 @@
             <p class="text-sm opacity-70">Type: {element.type}</p>
             <p class="text-xs opacity-50">ID: {element.id}</p>
           </div>
-        </button>
+        </CardBackground>
       {/each}
     </div>
   {:else}

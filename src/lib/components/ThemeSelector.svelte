@@ -1,3 +1,7 @@
+<script>
+    import { updatePreference } from "$lib/stores/userPreferenceStore";
+
+</script>
 <div class="dropdown dropdown-end">
   <div tabindex="0" role="button" class="btn m-1 mr-0 btn-square btn-lg bg-base-300 hover:bg-base-200">
     <svg
@@ -13,6 +17,7 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Sunset"
+        onclick={() => updatePreference("isDarkMode", true)}
         value="sunset" />
     </li>
     <li>
@@ -21,6 +26,7 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Valentine"
+        onclick={() => updatePreference("isDarkMode", false)}
         value="valentine" />
     </li>
     <li>
@@ -29,6 +35,7 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Black"
+        onclick={() => updatePreference("isDarkMode", true)}
         value="black" />
     </li>
     <li>
@@ -37,6 +44,7 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Coffee"
+        onclick={() => updatePreference("isDarkMode", true)}
         value="coffee" />
     </li>
     <li>
@@ -45,6 +53,7 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Silk"
+        onclick={() => updatePreference("isDarkMode", false)}
         value="silk" />
     </li>
   </ul>
