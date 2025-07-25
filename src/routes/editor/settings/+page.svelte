@@ -32,46 +32,54 @@
   }
 </script>
 
-<div class="w-full pl-4 pr-10 p-2 flex flex-col gap-2 mt-4 ml-4">
-  <ValidatedInput
-    label="Project Name"
-    value={projectName}
-    validate={softValidation}
-    onChange={handleNameChange}
-  />
+<div class="w-full pl-4 pr-10 p-2 flex flex-col gap-4 mt-2">
+  <div class="collapse collapse-arrow form relative bg-base-200">
+    <input type="checkbox" />
+    <div class="collapse-title">
+      <div class="text-xl font-bold w-full">Project Settings</div>
+    </div>
+    <div class="collapse-content flex flex-col gap-2">
+      <ValidatedInput
+        label="Project Name"
+        value={projectName}
+        validate={softValidation}
+        onChange={handleNameChange}
+      />
 
-  <div>
-    <div class="label">
-      <span class="label-text">Project ID</span>
+      <div>
+        <div class="label">
+          <span class="label-text">Project ID</span>
+        </div>
+        <div class="input w-auto opacity-60 ml-3">{projectID}</div>
+      </div>
+
+      <ValidatedInput
+        label="Project Author"
+        value={projectAuthor}
+        validate={softValidation}
+        onChange={handleAuthorChange}
+      />
+
+      <div>
+        <div class="label">
+          <span class="label-text">Project Path</span>
+        </div>
+        <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
+      </div>
+
+      <ValidatedInput
+        label="Project Description"
+        value={projectDescription}
+        validate={softValidationVariable}
+        onChange={handleDescriptionChange}
+        maxCharacters={512}
+        minCharacters={1}
+        bigInput={true}
+      />
+
+      <div>
+        <IconImageUpload />
+      </div>
     </div>
-    <div class="input w-auto opacity-60 ml-3">{projectID}</div>
-  </div>
-  
-  <ValidatedInput
-    label="Project Author"
-    value={projectAuthor}
-    validate={softValidation}
-    onChange={handleAuthorChange}
-  />
-  
-  <div>
-    <div class="label">
-      <span class="label-text">Project Path</span>
-    </div>
-    <div class="input w-auto opacity-60 ml-3">{displayedAuthor}.{projectID}</div>
-  </div>
-  
-  <ValidatedInput
-    label="Project Description"
-    value={projectDescription}
-    validate={softValidationVariable}
-    onChange={handleDescriptionChange}
-    maxCharacters={512}
-    minCharacters={1}
-    bigInput={true}
-  />
-  
-  <div>
-    <IconImageUpload />
   </div>
 </div>
