@@ -82,4 +82,14 @@
       </div>
     </div>
   </div>
+
+  <div class="collapse collapse-arrow form relative bg-base-200">
+    <input type="checkbox" />
+    <div class="collapse-title">
+      <div class="text-xl font-bold w-full">User Settings</div>
+    </div>
+    <div class="collapse-content flex flex-col gap-2">
+      <h>Example content</h>
+    </div>
+  </div>
 </div>
