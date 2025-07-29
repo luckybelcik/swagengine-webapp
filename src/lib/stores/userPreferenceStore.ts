@@ -1,14 +1,5 @@
-import { LOCAL_STORAGE_KEY_PREFERENCES } from '$lib/data/_constant_data';
+import { LOCAL_STORAGE_KEY_PREFERENCES, INITIAL_USER_PREFERENCE_STORE } from '$lib/data/_constant_data';
 import { writable, get } from 'svelte/store';
-
-const initialUserPreferenceStore: Record<string, any> = {
-  preferences: {
-    coloredElementCards: true,
-    isDarkMode: true,
-    showComponentIcons: true,
-    theme: "sunset",
-  }
-}
 
 function getInitialValue() {
   if (typeof window !== 'undefined') {
@@ -36,15 +27,15 @@ function getInitialValue() {
           return { preferences: transformedPreferences };
         } else {
           console.warn("Parsed preferences are not in an expected format. Using initial defaults.");
-          return initialUserPreferenceStore;
+          return INITIAL_USER_PREFERENCE_STORE;
         }
       } catch (e) {
         console.error("Error parsing stored data from localStorage:", e);
-        return initialUserPreferenceStore;
+        return INITIAL_USER_PREFERENCE_STORE;
       }
     }
   }
-  return initialUserPreferenceStore;
+  return INITIAL_USER_PREFERENCE_STORE;
 }
 
 export const userPreferenceStore = writable<Record<string, any>>(getInitialValue());
@@ -87,8 +78,8 @@ userPreferenceStore.subscribe(value => {
 })
 
 export function resetPreferences() {
-  userPreferenceStore.set(initialUserPreferenceStore);
-  setTheme(initialUserPreferenceStore.theme);
+  userPreferenceStore.set(INITIAL_USER_PREFERENCE_STORE);
+  setTheme(INITIAL_USER_PREFERENCE_STORE.theme);
 }
 
 export function setTheme(theme: string) {

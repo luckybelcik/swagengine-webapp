@@ -1,70 +1,11 @@
 import { writable, get, derived } from 'svelte/store';
-import { CURRENT_PROJECT_ID_KEY, DEFAULT_ICON_URL, ENGINE_VERSION, WEBAPP_VERSION } from '$lib/data/_constant_data';
+import { CURRENT_PROJECT_ID_KEY, DEFAULT_ICON_URL, INITIAL_ENGINE_STORE } from '$lib/data/_constant_data';
 import { getProject, saveProject, type Project } from '$lib/db';
 import type { Element, EngineStore, Field, Schema } from '$lib/data/_definitions';
 
-const initialEngineStore: EngineStore = {
-  elements: [
-    {
-      id: 'item_sword',
-      type: 'item',
-      name: 'Iron Sword',
-      data: { components: ["sword_component"] },
-      methods: [{ type: 'OnUse', code: '// Called when the item is used' }],
-      createdAt: new Date().toISOString(),
-    },
-
-    {
-      id: 'basic_dude',
-      type: 'entity',
-      name: 'Basic Dude',
-      data: { components: ["gravity_component", "hitbox_component"] },
-      methods: [{ type: 'OnSpawn', code: '// Called when the dude is spawned' }],
-      createdAt: new Date().toISOString(),
-    },
-
-    {
-      id: 'money_block',
-      type: 'tile',
-      name: 'Money Block',
-      data: { components: [] },
-      methods: [{ type: 'OnPlace', code: '// Called when the block is placed' }],
-      createdAt: new Date().toISOString(),
-    },
-
-    {
-      id: 'set_money',
-      type: 'command',
-      name: 'Set Money',
-      data: { components: [] },
-      methods: [],
-      createdAt: new Date().toISOString(),
-    },
-
-    {
-      id: 'evil_bird_dude',
-      type: 'boss',
-      name: 'Evil Bird Dude',
-      data: { components: [] },
-      methods: [],
-      createdAt: new Date().toISOString(),
-    }
-  ],
-  projectData: {
-    name: 'New Project',
-    id: 'new_project',
-    description: 'this is the default project description',
-    author: 'Author',
-    iconurl: DEFAULT_ICON_URL,
-    projectVersion: '0.0.0',
-    engineVersion: ENGINE_VERSION,
-    webAppVersion: WEBAPP_VERSION
-  }
-};
-
 async function getInitialProjectState(): Promise<EngineStore> {
   if (typeof window === 'undefined') {
-    return initialEngineStore;
+    return INITIAL_ENGINE_STORE;
   }
 
   const savedProjectId = localStorage.getItem(CURRENT_PROJECT_ID_KEY);
@@ -84,19 +25,19 @@ async function getInitialProjectState(): Promise<EngineStore> {
     }
   }
 
-  const defaultProjectId = initialEngineStore.projectData.id;
+  const defaultProjectId = INITIAL_ENGINE_STORE.projectData.id;
   const defaultProject: Project = {
     id: defaultProjectId,
-    projectData: initialEngineStore.projectData,
-    elements: initialEngineStore.elements,
+    projectData: INITIAL_ENGINE_STORE.projectData,
+    elements: INITIAL_ENGINE_STORE.elements,
   };
   await saveProject(defaultProject);
   localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
   console.log("Initialized with default project and saved to IndexedDB.");
-  return initialEngineStore;
+  return INITIAL_ENGINE_STORE;
 }
 
-export const engineStore = writable<EngineStore>(initialEngineStore);
+export const engineStore = writable<EngineStore>(INITIAL_ENGINE_STORE);
 
 async function initializeEngineStoreFromDB() {
   const loadedState = await getInitialProjectState();

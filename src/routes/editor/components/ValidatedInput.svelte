@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { softValidationVariable } from "../utils/validation";
+    import { softValidationVariable } from "../utils/util";
 
   let { label, value, validate, onChange, placeholder, maxCharacters, minCharacters, bigInput } = $props<{ label : string, value: string | undefined, validate: Function, placeholder?: string | undefined, onChange: (newName: string, valid: boolean) => void, maxCharacters?: number, minCharacters?: number, bigInput?: boolean}>();
   

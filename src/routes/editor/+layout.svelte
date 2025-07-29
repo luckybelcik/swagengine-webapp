@@ -4,7 +4,7 @@
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
       getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount} from '$lib/stores/engineStore';
-    import { strictValidation, softValidation, typeValidation } from "./utils/validation";
+    import { strictValidation, softValidation, typeValidation } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
 

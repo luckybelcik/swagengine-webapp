@@ -1,7 +1,7 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
-  import { softValidation, softValidationVariable, strictValidation } from "../utils/validation";
+  import { softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
     import { getPreference, resetPreferences, showComponentIcons, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
 

@@ -1,4 +1,4 @@
-import type { ComponentWithIcon } from "./_definitions";
+import type { ComponentWithIcon, EditorTab, EngineStore } from "./_definitions";
 
 export const LOCAL_STORAGE_KEY_PREFERENCES = 'swaggappAutosavePreferences';
 export const CURRENT_PROJECT_ID_KEY = 'new_project';
@@ -22,3 +22,83 @@ export const COMPONENT_ICONS: Record<ComponentWithIcon, string> = {
 };
 
 export const DEFAULT_ICON_URL = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F30000%2Ft2%2Fred-apple-isolated.jpg&f=1&nofb=1&ipt=ccc6435a12be9f52147d442ddea931d20151cefa218c433212179795a09f55d3';
+
+export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
+  preferences: {
+    coloredElementCards: true,
+    isDarkMode: true,
+    showComponentIcons: true,
+    theme: "sunset",
+  }
+}
+
+export const INITIAL_ENGINE_STORE: EngineStore = {
+  elements: [
+    {
+      id: 'item_sword',
+      type: 'item',
+      name: 'Iron Sword',
+      data: { components: ["sword_component"] },
+      methods: [{ type: 'OnUse', code: '// Called when the item is used' }],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'basic_dude',
+      type: 'entity',
+      name: 'Basic Dude',
+      data: { components: ["gravity_component", "hitbox_component"] },
+      methods: [{ type: 'OnSpawn', code: '// Called when the dude is spawned' }],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'money_block',
+      type: 'tile',
+      name: 'Money Block',
+      data: { components: [] },
+      methods: [{ type: 'OnPlace', code: '// Called when the block is placed' }],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'set_money',
+      type: 'command',
+      name: 'Set Money',
+      data: { components: [] },
+      methods: [],
+      createdAt: new Date().toISOString(),
+    },
+
+    {
+      id: 'evil_bird_dude',
+      type: 'boss',
+      name: 'Evil Bird Dude',
+      data: { components: [] },
+      methods: [],
+      createdAt: new Date().toISOString(),
+    }
+  ],
+  projectData: {
+    name: 'New Project',
+    id: 'new_project',
+    description: 'this is the default project description',
+    author: 'Author',
+    iconurl: DEFAULT_ICON_URL,
+    projectVersion: '0.0.0',
+    engineVersion: ENGINE_VERSION,
+    webAppVersion: WEBAPP_VERSION
+  }
+};
+
+export const INITIAL_TABS: EditorTab[] = [
+  {
+    id: 'browser',
+    type: 'browser',
+    name: 'Browse Elements',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+           </svg>`,
+    closable: false,
+  },
+];

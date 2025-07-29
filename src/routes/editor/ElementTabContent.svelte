@@ -6,7 +6,7 @@
     deleteElement,
   } from '$lib/stores/engineStore';
   import { closeTab, reloadTab, setTabName, activeTabId } from '$lib/stores/editorTabsStore.js'
-  import { softValidation } from './utils/validation.js';
+  import { softValidation } from './utils/util.js';
   import FieldRenderer from './components/FieldRenderer.svelte';
   import ValidatedInput from './components/ValidatedInput.svelte';
   import MethodsGrid from './components/MethodsGrid.svelte';

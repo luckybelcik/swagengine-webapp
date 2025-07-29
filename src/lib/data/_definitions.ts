@@ -77,6 +77,17 @@ export interface HooksDefinition {
   hooks: Record<string, HookDefinition>;
 }
 
+export interface EditorTab {
+  id: string;
+  type: TabType;
+  name: string;
+  icon: string;
+  closable: boolean;
+  elementId?: string;
+}
+
+export type TabType = 'browser' | 'element' | 'asset' | 'method';
+
 export const modules: Record<string, JSONModule> = import.meta.glob('./schemas/**/*.json', {
   eager: true,
   import: 'default'

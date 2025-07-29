@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { getProjectName, setProjectAuthor, setProjectID, setProjectName } from "$lib/stores/engineStore";
-  import { strictValidation, softValidation } from "./editor/utils/validation";
+  import { setProjectAuthor, setProjectID, setProjectName } from "$lib/stores/engineStore";
+  import { strictValidation, softValidation } from "./editor/utils/util";
   import { goto } from "$app/navigation";
-    import FormModal from "./editor/components/FormModal.svelte";
-    import label from "daisyui/components/label";
+  import FormModal from "./editor/components/FormModal.svelte";
 
   let showCreateProjectModal = $state(false);
 
