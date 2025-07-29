@@ -1,6 +1,6 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
-  import { setProjectName, setProjectAuthor, engineStore } from "$lib/stores/engineStore";
+  import { setProjectProperty, engineStore } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
   import { getPreference, resetPreferences, showComponentIcons, updatePreference } from '$lib/stores/userPreferenceStore';
@@ -16,13 +16,13 @@
 
   function handleNameChange(newName: string, valid: boolean) {
     if (valid && newName) {
-      setProjectName(newName);
+      setProjectProperty("name", newName);;
     }
   }
 
   function handleAuthorChange(newAuthor: string, valid: boolean) {
     if (valid && newAuthor) {
-      setProjectAuthor(newAuthor);
+      setProjectProperty("author", newAuthor);;
       displayedAuthor = newAuthor;
     }
   }

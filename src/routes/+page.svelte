@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setProjectAuthor, setProjectID, setProjectName } from "$lib/stores/engineStore";
+  import { setProjectProperty } from "$lib/stores/engineStore";
   import { strictValidation, softValidation } from "./editor/utils/util";
   import { goto } from "$app/navigation";
   import FormModal from "./editor/components/FormModal.svelte";
@@ -48,9 +48,9 @@
 
     try {
       closeCreateProjectModal();
-      setProjectName(projectName);
-      setProjectID(projectID);
-      setProjectAuthor(projectAuthor);
+      setProjectProperty("name", projectName);;
+      setProjectProperty("id", projectID);;
+      setProjectProperty("author", projectAuthor);;
       goto("/editor");
     } catch (error: any) {
       console.error("Error creating element:", error);

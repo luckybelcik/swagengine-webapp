@@ -77,33 +77,14 @@ currentProjectState.subscribe((project) => {
   }
 });
 
-export const setProjectName = (name: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, name }
-  }));
-};
+type ProjectProperty = 'name' | 'id' | 'author' | 'iconurl';
 
-export const setProjectID = (id: string) => {
+export const setProjectProperty = (property: ProjectProperty, value: any) => {
   engineStore.update(state => ({
     ...state,
-    projectData: { ...state.projectData, id }
+    projectData: { ...state.projectData, [property]: value }
   }));
-};
-
-export const setProjectAuthor = (author: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, author }
-  }));
-};
-
-export const setIconUrl = (url: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, iconurl: url }
-  }));
-};
+}
 
 export const resetIcon = () => {
   engineStore.update(state => ({
@@ -273,7 +254,7 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
 
       if (!ctx) {
         console.error('Could not get 2D context for canvas.');
-        setIconUrl(img.src);
+        setProjectProperty('iconurl', img.src);
         return;
       }
 
@@ -312,12 +293,12 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
 
       const processedDataUrl = canvas.toDataURL('image/png', 0.9);
 
-      setIconUrl(processedDataUrl);
+      setProjectProperty('iconurl', processedDataUrl);
     };
 
     img.onerror = () => {
       console.error("Error loading image for processing.");
-      setIconUrl(e.target?.result as string);
+      setProjectProperty('iconurl', e.target?.result as string);
     };
   };
 

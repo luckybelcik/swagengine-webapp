@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import { engineStore, handleIconChange, setProjectName } from '$lib/stores/engineStore';
+  import { engineStore, handleIconChange, setProjectProperty } from '$lib/stores/engineStore';
 
   let isEditingName = $state(false);  
   let currentInputName = $state('');
@@ -24,7 +24,7 @@
     if (isEditingName) {
       const newName = currentInputName.trim();
       if (newName !== '' && newName !== $engineStore.projectData.name && newName.length <= 50) {
-        setProjectName(newName);
+        setProjectProperty("name", newName);
       } else if (newName === '') {
         currentInputName = $engineStore.projectData.name;
       }
