@@ -8,7 +8,6 @@
   let { element, children } = $props<{element: Element, children: Snippet}>();
 
   const coloredElementCards = $derived(() => $userPreferenceStore.preferences.coloredElementCards);
-  const isDarkMode = $derived(() => $userPreferenceStore.preferences.isDarkMode);
 
   function demoOpenElement(id: string, name: string) {
     openElementTab(id, name);
@@ -43,15 +42,7 @@
   onclick={() => demoOpenElement(element.id, element.name)}
 >
   <div
-    class="card absolute inset-0 w-full h-full z-10 mix-blend-multiply transition-opacity duration-1000 ease-in-out {overlayColor()}"
-    class:opacity-30={!isDarkMode()}
-    class:opacity-0={isDarkMode()}
-  ></div>
-
-  <div
-    class="card absolute inset-0 w-full h-full overflow-hidden z-10 mix-blend-multiply transition-opacity duration-1000 ease-in-out {overlayColor()}"
-    class:opacity-80={isDarkMode()}
-    class:opacity-0={!isDarkMode()}
+    class="card absolute inset-0 w-full h-full z-10 opacity-80 mix-blend-color {overlayColor()}"
   ></div>
 
   <div class="relative z-20 w-full h-full">
