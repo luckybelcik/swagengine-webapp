@@ -80,7 +80,7 @@ export function getPreference(preferenceName: string): any {
 userPreferenceStore.subscribe(value => {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY_PREFERENCES, JSON.stringify(value));
-    console.log("Saved to localStorage: ", value)
+    console.log("Saved preferences to localStorage: ", value)
   } catch (e) {
     console.error("Error saving preference data to localStorage:", e);
   }
