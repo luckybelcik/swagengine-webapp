@@ -1,6 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { loadSchema } from "../../routes/editor/utils/schemaLoader";
 import { components } from 'daisyui/imports';
+import { ENGINE_VERSION, WEBAPP_VERSION } from '$lib/data/_static_data';
 
 export const FIXED_ELEMENT_TYPES = ['item', 'entity', 'tile', 'command', 'boss'] as const;
 export const FIXED_ENTITY_METHOD_HOOKS = ['OnSpawn', 'OnDeath', 'OnHit', 'OnTick'] as const;
@@ -154,8 +155,8 @@ const initialEngineStore: EngineStore = {
     author: 'Author',
     iconurl: defaultIconUrl,
     projectVersion: '0.0.0',
-    engineVersion: '0.0.1',
-    webAppVersion: '0.0.7'
+    engineVersion: ENGINE_VERSION,
+    webAppVersion: WEBAPP_VERSION
   }
 };
 
