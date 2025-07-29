@@ -1,17 +1,18 @@
 <script lang="ts">
   import ValidatedInput from '../components/ValidatedInput.svelte';
-  import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
+  import { setProjectName, setProjectAuthor, engineStore } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-    import { getPreference, resetPreferences, showComponentIcons, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
+  import { getPreference, resetPreferences, showComponentIcons, updatePreference } from '$lib/stores/userPreferenceStore';
+    import { get } from 'svelte/store';
 
-  const projectID = getProjectID();
+  const projectID = get(engineStore).projectData.id;
 
-  let projectName = getProjectName();
-  let projectAuthor = getProjectAuthor();
-  let projectDescription = getProjectDescription();
+  let projectName = get(engineStore).projectData.name;
+  let projectAuthor = get(engineStore).projectData.author;
+  let projectDescription = get(engineStore).projectData.description;
 
-  let displayedAuthor = $state(getProjectAuthor());
+  let displayedAuthor = $state(get(engineStore).projectData.author);
 
   function handleNameChange(newName: string, valid: boolean) {
     if (valid && newName) {
@@ -28,8 +29,11 @@
 
   function handleDescriptionChange(newDescription: string, valid: boolean) {
     if (valid && newDescription) {
-      setProjectDescription(newDescription);
-    }
+      engineStore.update(state => ({
+          ...state,
+          projectData: { ...state.projectData, newDescription }
+      }));
+    };
   }
 
   function handleResetUserSettings() {

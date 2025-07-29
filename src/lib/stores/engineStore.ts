@@ -91,31 +91,10 @@ export const setProjectID = (id: string) => {
   }));
 };
 
-export const setProjectDescription = (description: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, description }
-  }));
-};
-
 export const setProjectAuthor = (author: string) => {
   engineStore.update(state => ({
     ...state,
     projectData: { ...state.projectData, author }
-  }));
-};
-
-export const setProjectVersion = (version: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, projectVersion: version }
-  }));
-};
-
-export const setEngineVersion = (version: string) => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, engineVersion: version }
   }));
 };
 
@@ -132,42 +111,6 @@ export const resetIcon = () => {
     projectData: { ...state.projectData, iconurl: DEFAULT_ICON_URL }
   }));
 };
-
-export const getProjectVersion = (): string => {
-  return get(engineStore).projectData.projectVersion;
-}
-
-export const getProjectName = (): string => {
-  return get(engineStore).projectData.name;
-}
-
-export const getProjectID = (): string => {
-  return get(engineStore).projectData.id;
-}
-
-export const getProjectAuthor = (): string => {
-  return get(engineStore).projectData.author;
-}
-
-export const getProjectDescription = (): string => {
-  return get(engineStore).projectData.description;
-}
-
-export const getProjectIconUrl = (): string => {
-  return get(engineStore).projectData.iconurl;
-}
-
-export const getEngineVersion = (): string => {
-  return get(engineStore).projectData.engineVersion;
-}
-
-export const getWebAppVersion = (): string => {
-  return get(engineStore).projectData.webAppVersion;
-}
-
-export const getElementCount = (): number => {
-  return get(engineStore).elements.length;
-}
 
 export const getElementName = (id: string) => {
   const elements = get(engineStore).elements;

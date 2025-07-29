@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import { engineStore, getProjectIconUrl, handleIconChange, setProjectName } from '$lib/stores/engineStore';
+  import { engineStore, handleIconChange, setProjectName } from '$lib/stores/engineStore';
 
   let isEditingName = $state(false);  
   let currentInputName = $state('');

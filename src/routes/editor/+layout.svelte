@@ -3,19 +3,20 @@
     import "../../app.css";
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
-      getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount} from '$lib/stores/engineStore';
+      engineStore} from '$lib/stores/engineStore';
     import { strictValidation, softValidation, typeValidation } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+    import { get } from "svelte/store";
 
     // --- Modal State and Logic ---
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
   let ErrorField = $state('');
-  let elementCount = $state(getElementCount());
+  let elementCount = $state(get(engineStore).elements.length);
 
-  const EngineVersion = getEngineVersion();
-  const WebAppVersion = getWebAppVersion();
+  const EngineVersion = get(engineStore).projectData.engineVersion;
+  const WebAppVersion = get(engineStore).projectData.webAppVersion;
 
   function openCreateElementModal() {
     ErrorMessage = '';
@@ -94,7 +95,7 @@
       <div class="p-2 border-t border-base-content/10">
         <p class="text-sm text-base-content/80">Engine v{EngineVersion}</p>
         <p class="text-sm text-base-content/80">Redbud v{WebAppVersion}</p>
-        <p class="text-sm text-base-content/80">{getProjectName()} v{getProjectVersion()}</p>
+        <p class="text-sm text-base-content/80">{get(engineStore).projectData.name} v{get(engineStore).projectData.projectVersion}</p>
       </div>
     </div>
 
