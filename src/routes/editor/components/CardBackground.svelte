@@ -3,7 +3,6 @@
   import { getPreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
   import { type Element } from "$lib/stores/engineStore";
   import type { Snippet } from "svelte";
-    import Page from "../+page.svelte";
 
   let { element, children } = $props<{element: Element, children: Snippet}>();
 
@@ -15,7 +14,6 @@
 
   const overlayColor = $derived(() =>
     {
-      console.log("beep boop");
       if (coloredElementCards()) {
       switch (element.type) {
         case "item":
