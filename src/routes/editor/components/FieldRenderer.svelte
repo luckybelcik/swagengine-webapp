@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { NUMBER_TYPE_CONFIGS, INT64_MAX, INT64_MIN, UINT64_MAX, UINT64_MIN } from "$lib/data/_constant_data.js" 
   let { field, value, onChange, getEnumValues } = $props<{ field: any, value: any, onChange: (name: string, value: any) => void, getEnumValues: (type: string) => string[]}>();
 
   function clamp(value: number, min: number, max: number): number {
@@ -11,23 +12,8 @@
     return value;
   };
 
-  const INT64_MIN = -9223372036854775808n;
-  const INT64_MAX = 9223372036854775807n;
-  const UINT64_MIN = 0n;
-  const UINT64_MAX = 18446744073709551615n;
-
-  const typeConfigs = {
-    u_int_8:  { min: 0, max: 255 },
-    u_int_16: { min: 0, max: 65535 },
-    u_int_32: { min: 0, max: 4294967295 },
-    int_8:    { min: -128, max: 127 },
-    int_16:   { min: -32768, max: 32767 },
-    int_32:   { min: -2147483648, max: 2147483647 },
-    percent:  { min: 0, max: 100 },
-  };
-
   const isBigInt = (type: string) => type === 'int_64' || type === 'u_int_64';
-  const isClamped = (type: string) => type in typeConfigs;
+  const isClamped = (type: string) => type in NUMBER_TYPE_CONFIGS;
   const isFloat = (type: string) => type === 'float';
   const isBool = (type: string) => type === 'bool';
   const isEnum = (type: string) => getEnumValues(type).length > 0;
@@ -92,11 +78,11 @@
 
 {:else if isClamped(field.type)}
   <input type="number" step="1" bind:value oninput={() =>
-      onChange(field.name, clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
+      onChange(field.name, clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[field.type].min, NUMBER_TYPE_CONFIGS[field.type].max))}
     class="input input-bordered w-2/5"
   />
   <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
-    True value: {handleNan(clamp(parseInt(value, 10), typeConfigs[field.type].min, typeConfigs[field.type].max))}
+    True value: {handleNan(clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[field.type].min, NUMBER_TYPE_CONFIGS[field.type].max))}
   </div>
 
 {:else if isFloat(field.type)}

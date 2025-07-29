@@ -102,3 +102,18 @@ export const INITIAL_TABS: EditorTab[] = [
     closable: false,
   },
 ];
+
+export const INT64_MIN = -9223372036854775808n;
+export const INT64_MAX = 9223372036854775807n;
+export const UINT64_MIN = 0n;
+export const UINT64_MAX = 18446744073709551615n;
+
+export const NUMBER_TYPE_CONFIGS = {
+  u_int_8:  { min: 0, max: 255 },
+  u_int_16: { min: 0, max: 65535 },
+  u_int_32: { min: 0, max: 4294967295 },
+  int_8:    { min: -128, max: 127 },
+  int_16:   { min: -32768, max: 32767 },
+  int_32:   { min: -2147483648, max: 2147483647 },
+  percent:  { min: 0, max: 100 },
+};
