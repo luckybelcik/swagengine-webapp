@@ -1,7 +1,8 @@
 import { writable, get } from 'svelte/store';
 import { loadSchema } from "../../routes/editor/utils/schemaLoader";
 import { components } from 'daisyui/imports';
-import { ENGINE_VERSION, WEBAPP_VERSION } from '$lib/data/_static_data';
+import { ENGINE_VERSION, LOCAL_STORAGE_KEY_ENGINE_STORE, WEBAPP_VERSION } from '$lib/data/_static_data';
+import { json } from 'stream/consumers';
 
 export const FIXED_ELEMENT_TYPES = ['item', 'entity', 'tile', 'command', 'boss'] as const;
 export const FIXED_ENTITY_METHOD_HOOKS = ['OnSpawn', 'OnDeath', 'OnHit', 'OnTick'] as const;
@@ -160,7 +161,33 @@ const initialEngineStore: EngineStore = {
   }
 };
 
-export const engineStore = writable<EngineStore>(initialEngineStore);
+function getInitialValue() {
+  if (typeof window !== 'undefined') {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY_ENGINE_STORE);
+    if (storedData) {
+      try {
+        const parsed = JSON.parse(storedData);
+        console.log("Loaded in engine store data from autosave");
+        return parsed;
+      } catch (e) {
+        console.error("Error parsing stored data from localStorage:", e);
+        return initialEngineStore;
+      }
+    }
+  }
+  return initialEngineStore;
+}
+
+export const engineStore = writable<EngineStore>(getInitialValue());
+
+engineStore.subscribe(value => {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY_ENGINE_STORE, JSON.stringify(value));
+    console.log("Saved to localStorage: ", value)
+  } catch (e) {
+    console.error("Error saving engineStore data to localStorage:", e);
+  }
+})
 
 export const setProjectName = (name: string) => {
   engineStore.update(state => ({

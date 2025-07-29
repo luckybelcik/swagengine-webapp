@@ -6,13 +6,19 @@
   const allowedComponentsSet = new Set<ComponentWithIcon>(COMPONENTS_WITH_ICONS);
 
   const componentsWithIcons = $derived(() => {
-    return element.data.components.filter((str: string): str is ComponentWithIcon => {
-      return allowedComponentsSet.has(str as ComponentWithIcon);
-    });
+    if (element.data.components) {
+      return element.data.components.filter((str: string): str is ComponentWithIcon => {
+        return allowedComponentsSet.has(str as ComponentWithIcon);
+      });
+    }
   })
 
   const componentWithoutIconsCount = $derived(() => {
-    return element.data.components.length - componentsWithIcons().length;
+    if (element.data.components && componentsWithIcons()) {
+      return element.data.components.length - componentsWithIcons().length;
+    } else {
+      return 0;
+    }
   })
 </script>
 
@@ -26,7 +32,7 @@
   {/each}
   {#if componentWithoutIconsCount() > 0}
     <div class="btn btn-square btn-xs component-icon">
-        {element.data.components.length - componentsWithIcons().length}+
+        {componentWithoutIconsCount()}+
     </div>
   {/if}
 </div>
