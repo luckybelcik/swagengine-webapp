@@ -1,4 +1,4 @@
-import type { Element, EngineProjectData, EngineStore } from '$lib/stores/engineStore';
+import type { Element, EngineProjectData } from '$lib/data/_definitions';
 import Dexie, { type Table } from 'dexie';
 
 export interface Project {

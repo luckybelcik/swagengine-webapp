@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEY_PREFERENCES } from '$lib/data/_static_data';
+import { LOCAL_STORAGE_KEY_PREFERENCES } from '$lib/data/_constant_data';
 import { writable, get } from 'svelte/store';
 
 const initialUserPreferenceStore: Record<string, any> = {

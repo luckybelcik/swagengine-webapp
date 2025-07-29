@@ -6,7 +6,7 @@ import type {
   BaseOrComponentDefinition,
   HooksDefinition,
   Component
-} from '../../../lib/stores/engineStore';
+} from '../../../lib/data/_definitions';
 
 export function loadSchema(elementType: string): Schema {
   const components = getComponentsForType(elementType)

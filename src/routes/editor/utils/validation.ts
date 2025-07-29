@@ -1,4 +1,5 @@
-import { elementIdExists, FIXED_ELEMENT_TYPES } from "$lib/stores/engineStore";
+import { elementIdExists } from "$lib/stores/engineStore";
+import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
 
 /**
  * Used for strict validation, mainly for IDs.

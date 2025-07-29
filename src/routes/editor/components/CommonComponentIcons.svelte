@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { COMPONENT_ICONS, COMPONENTS_WITH_ICONS, type ComponentWithIcon, type Element } from "$lib/stores/engineStore";
+  import { type ComponentWithIcon, type Element } from "$lib/data/_definitions";
+  import { COMPONENTS_WITH_ICONS, COMPONENT_ICONS } from "$lib/data/_constant_data"
 
   let { element } = $props<{ element: Element }>();
 

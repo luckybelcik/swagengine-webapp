@@ -1,21 +1,9 @@
 <script lang="ts">
-  import { get } from 'svelte/store';
   import { loadSchema } from './utils/schemaLoader.js';
   import {
     engineStore,
     updateElement,
     deleteElement,
-    type Schema,
-    type Element,
-
-    getAllFields,
-
-    removeComponent,
-
-    type Field
-
-
-
   } from '$lib/stores/engineStore';
   import { closeTab, reloadTab, setTabName, activeTabId } from '$lib/stores/editorTabsStore.js'
   import { softValidation } from './utils/validation.js';
@@ -24,7 +12,7 @@
   import MethodsGrid from './components/MethodsGrid.svelte';
   import RawDataModal from './components/RawDataModal.svelte';
   import ComponentModificationModal from './components/ComponentModificationModal.svelte';
-  import { onMount } from 'svelte';
+  import { type Field } from '$lib/data/_definitions.js';
 
   const activeElement = $derived(() => {
     const engineStoreValue = $engineStore;

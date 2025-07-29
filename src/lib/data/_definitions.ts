@@ -1,6 +1,81 @@
-import type { BaseOrComponentDefinition, Component, Schema } from "$lib/stores/engineStore";
+import type { COMPONENTS_WITH_ICONS, FIXED_ELEMENT_TYPES, FIXED_ENTITY_METHOD_HOOKS, FIXED_ITEM_METHOD_HOOKS, FIXED_TILE_METHOD_HOOKS } from "./_constant_data";
 
 type JSONModule = Record<string, any>;
+
+export type ComponentWithIcon = typeof COMPONENTS_WITH_ICONS[number];
+
+export type ElementType = typeof FIXED_ELEMENT_TYPES[number];
+export type MethodHookType = typeof FIXED_ENTITY_METHOD_HOOKS[number] | typeof FIXED_ITEM_METHOD_HOOKS[number] | typeof FIXED_TILE_METHOD_HOOKS[number];
+
+export type Field = {
+  name: string;
+  type: string;
+};
+
+export type Enum = {
+  type: "enum";
+  values: string[];
+};
+
+export type Component = {
+  name: string;
+  fields: Field[]
+}
+
+export type Schema = {
+  type: string;
+  components: Component[];
+  types?: Record<string, Enum>;
+  availableHooks?: Record<string, HookDefinition>;
+};
+
+export type PotentialElement = {
+  id: string;
+  name: string;
+  type: string;
+}
+
+export interface Method {
+  type: MethodHookType;
+  code: string;
+}
+
+export interface Element {
+  id: string;
+  type: ElementType | string;
+  name: string;
+  data: Record<string, any>;
+  methods: Method[];
+  createdAt: string;
+}
+
+export interface EngineProjectData {
+  name: string;
+  id: string;
+  description: string;
+  author: string;
+  iconurl: string;
+  projectVersion: string;
+  engineVersion: string;
+  webAppVersion: string;
+}
+
+export interface EngineStore {
+  elements: Element[];
+  projectData: EngineProjectData;
+}
+
+export interface HookDefinition {
+  [hookName: string]: any;
+}
+
+export interface BaseOrComponentDefinition {
+  fields?: Field[];
+}
+
+export interface HooksDefinition {
+  hooks: Record<string, HookDefinition>;
+}
 
 export const modules: Record<string, JSONModule> = import.meta.glob('./schemas/**/*.json', {
   eager: true,

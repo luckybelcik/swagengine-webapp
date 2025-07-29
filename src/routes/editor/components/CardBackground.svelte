@@ -1,7 +1,7 @@
 <script lang="ts">
   import { openElementTab } from "$lib/stores/editorTabsStore";
-  import { getPreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
-  import { type Element } from "$lib/stores/engineStore";
+  import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
+  import { type Element } from "$lib/data/_definitions";
   import type { Snippet } from "svelte";
 
   let { element, children } = $props<{element: Element, children: Snippet}>();

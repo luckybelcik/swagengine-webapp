@@ -1,6 +1,6 @@
 <script lang="ts">
   import { writable, derived } from 'svelte/store';
-  import { engineStore, getElementCount, getElementName, type ElementData } from '$lib/stores/engineStore';
+  import { engineStore, getElementName } from '$lib/stores/engineStore';
   import { openElementTab } from '$lib/stores/editorTabsStore';
 
   const searchQuery = writable('');

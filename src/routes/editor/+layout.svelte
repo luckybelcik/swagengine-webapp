@@ -3,10 +3,10 @@
     import "../../app.css";
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
-      getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount, 
-      FIXED_ELEMENT_TYPES} from '$lib/stores/engineStore';
+      getEngineVersion, getWebAppVersion, getProjectName, getProjectVersion, getElementCount} from '$lib/stores/engineStore';
     import { strictValidation, softValidation, typeValidation } from "./utils/validation";
     import FormModal from "./components/FormModal.svelte";
+    import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
 
     // --- Modal State and Logic ---
   let showCreateElementModal = $state(false);

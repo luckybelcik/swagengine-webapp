@@ -1,9 +1,7 @@
 <script lang="ts">
     import { getComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
-    import { activeTabId, reloadTab } from "$lib/stores/editorTabsStore";
-    import { addComponent, engineStore, hasComponent, removeComponent, type Element } from "$lib/stores/engineStore";
-    import { get } from "svelte/store";
-    import { swapBackRemove } from "../utils/swapbackArray";
+    import { activeTabId } from "$lib/stores/editorTabsStore";
+    import { addComponent, engineStore, hasComponent, removeComponent } from "$lib/stores/engineStore";
     
   let { showModal = $bindable() } = $props<{
     showModal: boolean;
@@ -85,10 +83,8 @@
       } else {
         return ["none"];
       }
-
       return availableComponents;
     }
-
     return ["none"];
   }
 
@@ -98,13 +94,10 @@
     if (availableComponents.length == 1 && availableComponents[0] == "none") {
       return false;
     }
-
     const index = availableComponents.indexOf(component_name);
-    
     if (index == -1) {
       return true;
     }
-
     return false;
   }
 </script>

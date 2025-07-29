@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { defaultIconUrl, engineStore, resetIcon } from '$lib/stores/engineStore';
+  import { engineStore, resetIcon } from '$lib/stores/engineStore';
+  import { DEFAULT_ICON_URL } from '$lib/data/_constant_data';
 
   const projectIconUrl = $derived(() => {
     const engineStoreValue = $engineStore;
@@ -14,7 +15,7 @@
   </span>
 
   <div>
-    {#if projectIconUrl() && projectIconUrl() != defaultIconUrl}
+    {#if projectIconUrl() && projectIconUrl() != DEFAULT_ICON_URL}
       <div class="avatar">
         <div class="w-30 h-30 rounded-lg overflow-hidden flex-shrink-0 m-3 ml-0">
           <img src={projectIconUrl()} alt="Project Icon Preview" />
