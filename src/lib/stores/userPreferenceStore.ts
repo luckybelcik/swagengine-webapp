@@ -23,14 +23,14 @@ function getInitialValue() {
             Object.assign(transformedPreferences, prefObj);
           });
           if (transformedPreferences.theme) {
-            document.documentElement.setAttribute('data-theme', transformedPreferences.theme);
+            setTheme(transformedPreferences.theme);
           }
           console.log("Loaded in preferences from old format.", { preferences: transformedPreferences })
           return { preferences: transformedPreferences };
         } else if (typeof parsed.preferences === 'object' && parsed.preferences !== null) {
           transformedPreferences = parsed.preferences;
           if (transformedPreferences.theme) {
-            document.documentElement.setAttribute('data-theme', transformedPreferences.theme);
+            setTheme(transformedPreferences.theme);
           }
           console.log("Loaded in preferences from new format.", { preferences: transformedPreferences })
           return { preferences: transformedPreferences };
@@ -85,3 +85,17 @@ userPreferenceStore.subscribe(value => {
     console.error("Error saving message data to localStorage:", e);
   }
 })
+
+export function resetPreferences() {
+  userPreferenceStore.set(initialUserPreferenceStore);
+  setTheme(initialUserPreferenceStore.theme);
+}
+
+export function setTheme(theme: string) {
+  document.documentElement.setAttribute('data-theme', theme);
+}
+
+export function isTheme(theme: string){
+  const currentTheme = document.documentElement.getAttribute('data-theme')
+  return theme == currentTheme ? true : false
+}

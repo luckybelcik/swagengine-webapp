@@ -3,7 +3,7 @@
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/validation";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-    import { getPreference, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
+    import { getPreference, resetPreferences, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
 
   const projectID = getProjectID();
 
@@ -30,6 +30,10 @@
     if (valid && newDescription) {
       setProjectDescription(newDescription);
     }
+  }
+
+  function handleResetUserSettings() {
+    resetPreferences()
   }
 </script>
 
@@ -107,5 +111,9 @@
         <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("showComponentIcons")} onchange={(event: any) => updatePreference("showComponentIcons", event.target.checked)} />
       </div>
     </div>
+  </div>
+
+  <div class="flex justify-end gap-2">
+    <button class="btn btn-error" onclick={handleResetUserSettings}>Reset User Settings</button>
   </div>
 </div>

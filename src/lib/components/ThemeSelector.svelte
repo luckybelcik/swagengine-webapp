@@ -1,6 +1,12 @@
 <script>
-    import { updatePreference } from "$lib/stores/userPreferenceStore";
+  import { isTheme, setTheme, updatePreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
+  let selectedTheme = $derived($userPreferenceStore.preferences.theme);
+
+  $effect(() => {
+    setTheme(selectedTheme);
+    updatePreference("theme", selectedTheme)
+  });
 </script>
 <div class="dropdown dropdown-end">
   <div tabindex="0" role="button" class="btn m-1 mr-0 btn-square btn-lg bg-base-300 hover:bg-base-200">
@@ -14,57 +20,57 @@
     <li>
       <input
         type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal relative z-[9999]"
+        name="selector"
+        class="btn btn-block font-normal relative z-[9999]"
         aria-label="Sunset"
+        value="sunset"
+        bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)
-          updatePreference("theme", "sunset")}}
-        value="sunset" />
+          updatePreference("isDarkMode", true)}}/>
     </li>
     <li>
       <input
         type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal relative z-[9999]"
+        name="selector"
+        class="btn btn-block font-normal relative z-[9999]"
         aria-label="Valentine"
+        value="valentine"
+        bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", false)
-          updatePreference("theme", "valentine")}}
-        value="valentine" />
+          updatePreference("isDarkMode", false)}}/>
     </li>
     <li>
       <input
         type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal relative z-[9999]"
+        name="selector"
+        class="btn btn-block font-normal relative z-[9999]"
         aria-label="Black"
+        value="black"
+        bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)
-          updatePreference("theme", "black")}}
-        value="black" />
+          updatePreference("isDarkMode", true)}}/>
     </li>
     <li>
       <input
         type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal relative z-[9999]"
+        name="selector"
+        class="btn btn-block font-normal relative z-[9999]"
         aria-label="Coffee"
+        value="coffee"
+        bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)
-          updatePreference("theme", "coffee")}}
-        value="coffee" />
+          updatePreference("isDarkMode", true)}}/>
     </li>
     <li>
       <input
         type="radio"
-        name="theme-dropdown"
-        class="theme-controller btn btn-block font-normal relative z-[9999]"
+        name="selector"
+        class="btn btn-block font-normal relative z-[9999]"
         aria-label="Silk"
+        value="silk"
+        bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", false)
-          updatePreference("theme", "silk")}}
-        value="silk" />
+          updatePreference("isDarkMode", false)}}/>
     </li>
   </ul>
 </div>
