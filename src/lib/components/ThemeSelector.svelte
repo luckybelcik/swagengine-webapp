@@ -17,7 +17,9 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Sunset"
-        onclick={() => updatePreference("isDarkMode", true)}
+        onclick={() => {
+          updatePreference("isDarkMode", true)
+          updatePreference("theme", "sunset")}}
         value="sunset" />
     </li>
     <li>
@@ -26,7 +28,9 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Valentine"
-        onclick={() => updatePreference("isDarkMode", false)}
+        onclick={() => {
+          updatePreference("isDarkMode", false)
+          updatePreference("theme", "valentine")}}
         value="valentine" />
     </li>
     <li>
@@ -35,7 +39,9 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Black"
-        onclick={() => updatePreference("isDarkMode", true)}
+        onclick={() => {
+          updatePreference("isDarkMode", true)
+          updatePreference("theme", "black")}}
         value="black" />
     </li>
     <li>
@@ -44,7 +50,9 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Coffee"
-        onclick={() => updatePreference("isDarkMode", true)}
+        onclick={() => {
+          updatePreference("isDarkMode", true)
+          updatePreference("theme", "coffee")}}
         value="coffee" />
     </li>
     <li>
@@ -53,7 +61,9 @@
         name="theme-dropdown"
         class="theme-controller btn btn-block font-normal relative z-[9999]"
         aria-label="Silk"
-        onclick={() => updatePreference("isDarkMode", false)}
+        onclick={() => {
+          updatePreference("isDarkMode", false)
+          updatePreference("theme", "silk")}}
         value="silk" />
     </li>
   </ul>

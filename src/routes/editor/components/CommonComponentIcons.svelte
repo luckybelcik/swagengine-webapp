@@ -6,7 +6,7 @@
 
   const allowedComponentsSet = new Set<ComponentWithIcon>(COMPONENTS_WITH_ICONS);
 
-  const isDarkMode = $derived(() => $userPreferenceStore.preferences[0].isDarkMode);
+  const isDarkMode = $derived(() => $userPreferenceStore.preferences.isDarkMode);
 
   const iconOpacity = $derived(() => isDarkMode() ? "bg-[rgba(0,0,0,0.5)]" : "bg-[rgba(255,255,255,0.5)]");
 

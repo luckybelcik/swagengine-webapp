@@ -6,7 +6,7 @@
   import SearchBar from './components/SearchBar.svelte';
   import TypeIcon from './components/TypeIcon.svelte';
 
-  const showComponentIcons = $derived(() => $userPreferenceStore.preferences[0].showComponentIcons);
+  const showComponentIcons = $derived(() => $userPreferenceStore.preferences.showComponentIcons);
 </script>
 
 <div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser" class="ml-4 mt-2">

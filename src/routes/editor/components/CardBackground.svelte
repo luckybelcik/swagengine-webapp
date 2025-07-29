@@ -7,8 +7,8 @@
 
   let { element, children } = $props<{element: Element, children: Snippet}>();
 
-  const coloredElementCards = $derived(() => $userPreferenceStore.preferences[0].coloredElementCards);
-  const isDarkMode = $derived(() => $userPreferenceStore.preferences[0].isDarkMode);
+  const coloredElementCards = $derived(() => $userPreferenceStore.preferences.coloredElementCards);
+  const isDarkMode = $derived(() => $userPreferenceStore.preferences.isDarkMode);
 
   function demoOpenElement(id: string, name: string) {
     openElementTab(id, name);

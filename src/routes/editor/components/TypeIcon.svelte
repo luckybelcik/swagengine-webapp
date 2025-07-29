@@ -3,7 +3,7 @@
 
   const { elementType } = $props<{ elementType: string }>();
 
-  const isDarkMode = $derived(() => $userPreferenceStore.preferences[0].isDarkMode);
+  const isDarkMode = $derived(() => $userPreferenceStore.preferences.isDarkMode);
 
   const iconOpacity = $derived(() => isDarkMode() ? "fill-current opacity-60" : "opacity-100");
 </script>
