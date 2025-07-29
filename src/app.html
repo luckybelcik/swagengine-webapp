@@ -9,34 +9,60 @@
     %sveltekit.head%
     <script>
   	  (function() {
-        const LOCAL_STORAGE_KEY_PREFERENCES = 'swaggappAutosavePreferences';
-        let theme = 'sunset';
+        const LOCAL_STORAGE_KEY_PREFERENCES = 'user_preferences';
         
+        let initialTheme = 'sunset';
+        let initialColoredElementCards = true;
+        let initialShowComponentIcons = true;
+        let initialIsDarkMode = true;
+
         try {
           const storedData = localStorage.getItem(LOCAL_STORAGE_KEY_PREFERENCES);
           if (storedData) {
             const parsed = JSON.parse(storedData);
-            let loadedTheme = null;
-            
+            let loadedPreferences = {};
+
             if (Array.isArray(parsed.preferences)) {
               parsed.preferences.forEach(prefObj => {
-                if (prefObj.theme) {
-                  loadedTheme = prefObj.theme;
-                }
+                Object.assign(loadedPreferences, prefObj);
               });
             } else if (typeof parsed.preferences === 'object' && parsed.preferences !== null) {
-              loadedTheme = parsed.preferences.theme;
+              loadedPreferences = parsed.preferences;
             }
-            
-            if (loadedTheme) {
-              theme = loadedTheme;
-            }
+
+            initialTheme = loadedPreferences.theme !== undefined ? loadedPreferences.theme : initialTheme;
+            initialColoredElementCards = loadedPreferences.coloredElementCards !== undefined ? loadedPreferences.coloredElementCards : initialColoredElementCards;
+            initialShowComponentIcons = loadedPreferences.showComponentIcons !== undefined ? loadedPreferences.showComponentIcons : initialShowComponentIcons;
+            initialIsDarkMode = loadedPreferences.isDarkMode !== undefined ? loadedPreferences.isDarkMode : initialIsDarkMode;
+
           }
         } catch (e) {
-          console.error("Error loading theme from localStorage:", e);
+          console.error("Error loading preferences from localStorage:", e);
         }
-  
-        document.documentElement.setAttribute('data-theme', theme);
+
+        document.documentElement.setAttribute('data-theme', initialTheme);
+
+        if (initialColoredElementCards) {
+          document.documentElement.classList.add('colored-cards-enabled');
+          document.documentElement.classList.remove('grayscale-cards');
+        } else {
+          document.documentElement.classList.remove('colored-cards-enabled');
+          document.documentElement.classList.add('grayscale-cards');
+        }
+
+        if (initialShowComponentIcons) {
+          document.documentElement.classList.add('icons-visible');
+          document.documentElement.classList.remove('icons-hidden');
+        } else {
+          document.documentElement.classList.remove('icons-visible');
+          document.documentElement.classList.add('icons-hidden');
+        }
+
+        if (initialIsDarkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       })();
   </script>
   </head>

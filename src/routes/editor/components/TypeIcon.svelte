@@ -1,14 +1,8 @@
 <script lang="ts">
-  import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
-
   const { elementType } = $props<{ elementType: string }>();
-
-  const isDarkMode = $derived(() => $userPreferenceStore.preferences.isDarkMode);
-
-  const iconOpacity = $derived(() => isDarkMode() ? "fill-current opacity-60" : "opacity-100");
 </script>
 
-<div class="{iconOpacity()}">
+<div class="icon-container">
   {#if elementType == "item"}
   <svg
     class="h-50 w-50"

@@ -95,7 +95,12 @@ export function setTheme(theme: string) {
   document.documentElement.setAttribute('data-theme', theme);
 }
 
-export function isTheme(theme: string){
-  const currentTheme = document.documentElement.getAttribute('data-theme')
-  return theme == currentTheme ? true : false
+export function setDarkMode(value: boolean) {
+  if (value) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+
+  updatePreference("isDarkMode", value)
 }

@@ -20,4 +20,3 @@
     <Footer />
   {/if}
 </div>
-

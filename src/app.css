@@ -3,7 +3,14 @@
    themes: valentine --default, sunset --prefersdark;
  }
 
+.icon-container svg {
+  opacity: 1;
+  fill: currentColor;
+}
 
+body.dark-mode .icon-container svg {
+  opacity: 0.6;
+}
 
 @plugin "daisyui/theme" {
   name: "sunset";

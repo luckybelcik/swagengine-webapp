@@ -1,5 +1,5 @@
 <script>
-  import { isTheme, setTheme, updatePreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
+  import { setDarkMode, setTheme, updatePreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
   let selectedTheme = $derived($userPreferenceStore.preferences.theme);
 
@@ -26,7 +26,7 @@
         value="sunset"
         bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)}}/>
+          setDarkMode(true)}}/>
     </li>
     <li>
       <input
@@ -37,7 +37,7 @@
         value="valentine"
         bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", false)}}/>
+          setDarkMode(false)}}/>
     </li>
     <li>
       <input
@@ -48,7 +48,7 @@
         value="black"
         bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)}}/>
+          setDarkMode(true)}}/>
     </li>
     <li>
       <input
@@ -59,7 +59,7 @@
         value="coffee"
         bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", true)}}/>
+          setDarkMode(true)}}/>
     </li>
     <li>
       <input
@@ -70,7 +70,7 @@
         value="silk"
         bind:group={selectedTheme}
         onclick={() => {
-          updatePreference("isDarkMode", false)}}/>
+          setDarkMode(false)}}/>
     </li>
   </ul>
 </div>
