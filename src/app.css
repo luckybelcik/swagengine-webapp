@@ -28,6 +28,10 @@ html.colored-cards .grayscale-card-background {
   display: none;
 }
 
+html.dark-mode .colored-card-background {
+  opacity: 0.4;
+}
+
 html.grayscale-cards .colored-card-background {
   display: none;
 }
