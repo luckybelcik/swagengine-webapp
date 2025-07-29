@@ -114,3 +114,15 @@ export function showComponentIcons(value: boolean) {
 
   updatePreference("showComponentIcons", value)
 }
+
+export function coloredElementCards(value: boolean) {
+  if (value) {
+    document.documentElement.classList.add('colored-cards');
+    document.documentElement.classList.remove('grayscale-cards');
+  } else {
+    document.documentElement.classList.remove('colored-cards');
+    document.documentElement.classList.add('grayscale-cards');
+  }
+
+  updatePreference("coloredElementCards", value)
+}

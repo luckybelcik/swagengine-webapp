@@ -40,7 +40,11 @@
   onclick={() => demoOpenElement(element.id, element.name)}
 >
   <div
-    class="card absolute inset-0 w-full h-full z-10 opacity-80 mix-blend-color {overlayColor()}"
+    class="card colored-card-background absolute inset-0 w-full h-full z-10 opacity-80 mix-blend-color {overlayColor()}"
+  ></div>
+
+  <div
+    class="card grayscale-card-background absolute inset-0 w-full h-full z-10 opacity-80 mix-blend-color bg-neutral-100"
   ></div>
 
   <div class="relative z-20 w-full h-full">
