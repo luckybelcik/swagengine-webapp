@@ -1,8 +1,9 @@
-import { writable, get } from 'svelte/store';
+import { writable, get, derived } from 'svelte/store';
 import { loadSchema } from "../../routes/editor/utils/schemaLoader";
 import { components } from 'daisyui/imports';
-import { ENGINE_VERSION, LOCAL_STORAGE_KEY_ENGINE_STORE, WEBAPP_VERSION } from '$lib/data/_static_data';
+import { CURRENT_PROJECT_ID_KEY, ENGINE_VERSION, WEBAPP_VERSION } from '$lib/data/_static_data';
 import { json } from 'stream/consumers';
+import { getProject, saveProject, type Project } from '$lib/db';
 
 export const FIXED_ELEMENT_TYPES = ['item', 'entity', 'tile', 'command', 'boss'] as const;
 export const FIXED_ENTITY_METHOD_HOOKS = ['OnSpawn', 'OnDeath', 'OnHit', 'OnTick'] as const;
@@ -161,33 +162,79 @@ const initialEngineStore: EngineStore = {
   }
 };
 
-function getInitialValue() {
-  if (typeof window !== 'undefined') {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY_ENGINE_STORE);
-    if (storedData) {
-      try {
-        const parsed = JSON.parse(storedData);
-        console.log("Loaded in engine store data from autosave");
-        return parsed;
-      } catch (e) {
-        console.error("Error parsing stored data from localStorage:", e);
-        return initialEngineStore;
+async function getInitialProjectState(): Promise<EngineStore> {
+  if (typeof window === 'undefined') {
+    return initialEngineStore;
+  }
+
+  const savedProjectId = localStorage.getItem(CURRENT_PROJECT_ID_KEY);
+
+  if (savedProjectId) {
+    try {
+      const project = await getProject(savedProjectId);
+      if (project) {
+        console.log(`Loaded project '${project.projectData.name}' from IndexedDB`);
+        return {
+          elements: project.elements,
+          projectData: project.projectData,
+        };
       }
+    } catch (e) {
+      console.error(`Error loading project '${savedProjectId}' from IndexedDB:`, e);
     }
   }
+
+  const defaultProjectId = initialEngineStore.projectData.id;
+  const defaultProject: Project = {
+    id: defaultProjectId,
+    projectData: initialEngineStore.projectData,
+    elements: initialEngineStore.elements,
+  };
+  await saveProject(defaultProject);
+  localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
+  console.log("Initialized with default project and saved to IndexedDB.");
   return initialEngineStore;
 }
 
-export const engineStore = writable<EngineStore>(getInitialValue());
+export const engineStore = writable<EngineStore>(initialEngineStore);
 
-engineStore.subscribe(value => {
+async function initializeEngineStoreFromDB() {
+  const loadedState = await getInitialProjectState();
+  engineStore.set(loadedState);
+}
+
+initializeEngineStoreFromDB();
+
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+  let timeout: ReturnType<typeof setTimeout>;
+  return function(this: ThisParameterType<T>, ...args: Parameters<T>) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+const debouncedSaveProject = debounce(async (project: Project) => {
   try {
-    localStorage.setItem(LOCAL_STORAGE_KEY_ENGINE_STORE, JSON.stringify(value));
-    console.log("Saved engineStore to localStorage: ", value)
+    await saveProject(project);
+    console.log(`Autosaved project '${project.projectData.name}' (${project.id}) to IndexedDB.`);
   } catch (e) {
-    console.error("Error saving engineStore data to localStorage:", e);
+    console.error("Error autosaving project to IndexedDB:", e);
   }
-})
+}, 2000);
+
+const currentProjectState = derived(engineStore, ($engineStore) => {
+  return {
+    id: $engineStore.projectData.id,
+    projectData: $engineStore.projectData,
+    elements: $engineStore.elements,
+  } as Project;
+});
+
+currentProjectState.subscribe((project) => {
+  if (project.id) {
+    debouncedSaveProject(project);
+  }
+});
 
 export const setProjectName = (name: string) => {
   engineStore.update(state => ({

@@ -7,11 +7,13 @@
 
   let fileInput: HTMLInputElement | undefined = $state(undefined);
 
-  const projectIconUrl = $derived(() => {
+  let projectIconUrl = $derived(($engineStore.projectData.iconurl))
+
+  engineStore.subscribe(value => {
     const engineStoreValue = $engineStore;
 
-    return engineStoreValue.projectData.iconurl;
-  });
+    projectIconUrl = engineStoreValue.projectData.iconurl;
+  })
 
   function startEditingName() {
     isEditingName = true;
@@ -63,7 +65,7 @@
   </a>
 
   <label for="file-upload-input-navbar" class="btn btn-square btn-lg overflow-hidden flex-shrink-0">
-    <img src={projectIconUrl()} alt="Project Icon Preview" />
+    <img src={projectIconUrl} alt="Project Icon Preview" />
   </label>
 
   {#if isEditingName}
