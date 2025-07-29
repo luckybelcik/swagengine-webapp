@@ -77,6 +77,8 @@ export interface HooksDefinition {
   hooks: Record<string, HookDefinition>;
 }
 
+export type ProjectProperty = 'name' | 'id' | 'author' | 'iconurl';
+
 export interface EditorTab {
   id: string;
   type: TabType;

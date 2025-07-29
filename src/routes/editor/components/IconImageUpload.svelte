@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { engineStore, resetIcon } from '$lib/stores/engineStore';
+  import { engineStore, setProjectProperty } from '$lib/stores/engineStore';
   import { DEFAULT_ICON_URL } from '$lib/data/_constant_data';
 
   const projectIconUrl = $derived(() => {
@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="flex gap-2 w-full items-center">
-        <button class="btn btn-sm btn-error" onclick={resetIcon}>Remove</button>
+        <button class="btn btn-sm btn-error" onclick={() => setProjectProperty("iconurl", DEFAULT_ICON_URL)}>Remove</button>
         <label for="file-upload-input" class="btn btn-sm btn-info flex-shrink-0 cursor-pointer">
           Select New Image
         </label>

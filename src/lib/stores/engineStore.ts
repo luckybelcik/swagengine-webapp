@@ -1,7 +1,7 @@
 import { writable, get, derived } from 'svelte/store';
 import { CURRENT_PROJECT_ID_KEY, DEFAULT_ICON_URL, INITIAL_ENGINE_STORE } from '$lib/data/_constant_data';
 import { getProject, saveProject, type Project } from '$lib/db';
-import type { Element, EngineStore, Field, Schema } from '$lib/data/_definitions';
+import type { Element, EngineStore, Field, ProjectProperty, Schema } from '$lib/data/_definitions';
 
 async function getInitialProjectState(): Promise<EngineStore> {
   if (typeof window === 'undefined') {
@@ -77,21 +77,12 @@ currentProjectState.subscribe((project) => {
   }
 });
 
-type ProjectProperty = 'name' | 'id' | 'author' | 'iconurl';
-
 export const setProjectProperty = (property: ProjectProperty, value: any) => {
   engineStore.update(state => ({
     ...state,
     projectData: { ...state.projectData, [property]: value }
   }));
 }
-
-export const resetIcon = () => {
-  engineStore.update(state => ({
-    ...state,
-    projectData: { ...state.projectData, iconurl: DEFAULT_ICON_URL }
-  }));
-};
 
 export const getElementName = (id: string) => {
   const elements = get(engineStore).elements;
@@ -237,7 +228,7 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
   if (file) {
     if (!file.type.startsWith('image/')) {
       alert('Please select an image file.');
-      resetIcon();
+      setProjectProperty("iconurl", DEFAULT_ICON_URL);
       if (fileInput) fileInput.value = '';
       return;
     }
@@ -304,6 +295,6 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
 
     reader.readAsDataURL(file);
   } else {
-    resetIcon();
+    setProjectProperty("iconurl", DEFAULT_ICON_URL);
   }
 }
