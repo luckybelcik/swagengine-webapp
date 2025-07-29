@@ -12,6 +12,20 @@ body.dark-mode .icon-container svg {
   opacity: 0.6;
 }
 
+html.component-icons-hidden .common-component-icons,
+body.component-icons-hidden .common-component-icons {
+  display: none;
+}
+
+.component-icon {
+  background-color: rgba(255,255,255,0.8);
+}
+
+html.dark-mode .component-icon,
+body.dark-mode .component-icon {
+  background-color: rgba(0,0,0,0.5);
+}
+
 @plugin "daisyui/theme" {
   name: "sunset";
   default: false;

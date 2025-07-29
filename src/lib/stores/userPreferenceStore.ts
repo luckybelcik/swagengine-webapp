@@ -97,10 +97,20 @@ export function setTheme(theme: string) {
 
 export function setDarkMode(value: boolean) {
   if (value) {
-    document.documentElement.classList.add('dark');
+    document.documentElement.classList.add('dark-mode');
   } else {
-    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.remove('dark-mode');
   }
 
   updatePreference("isDarkMode", value)
+}
+
+export function showComponentIcons(value: boolean) {
+  if (value) {
+    document.documentElement.classList.remove('component-icons-hidden');
+  } else {
+    document.documentElement.classList.add('component-icons-hidden');
+  }
+
+  updatePreference("showComponentIcons", value)
 }

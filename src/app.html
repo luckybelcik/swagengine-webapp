@@ -51,17 +51,15 @@
         }
 
         if (initialShowComponentIcons) {
-          document.documentElement.classList.add('icons-visible');
-          document.documentElement.classList.remove('icons-hidden');
+          document.documentElement.classList.remove('component-icons-hidden');
         } else {
-          document.documentElement.classList.remove('icons-visible');
-          document.documentElement.classList.add('icons-hidden');
+          document.documentElement.classList.add('component-icons-hidden');
         }
 
         if (initialIsDarkMode) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.add('dark-mode');
         } else {
-          document.documentElement.classList.remove('dark');
+          document.documentElement.classList.remove('dark-mode');
         }
       })();
     </script>

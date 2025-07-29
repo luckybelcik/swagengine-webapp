@@ -3,7 +3,7 @@
   import { getProjectID, getProjectAuthor, getProjectName, setProjectName, setProjectAuthor, getProjectDescription, setProjectDescription } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/validation";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-    import { getPreference, resetPreferences, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
+    import { getPreference, resetPreferences, showComponentIcons, updatePreference, userPreferenceStore } from '$lib/stores/userPreferenceStore';
 
   const projectID = getProjectID();
 
@@ -108,7 +108,7 @@
         <div class="label">
           <span class="label-text">Show Component Icons</span>
         </div>
-        <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("showComponentIcons")} onchange={(event: any) => updatePreference("showComponentIcons", event.target.checked)} />
+        <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("showComponentIcons")} onchange={(event: any) => showComponentIcons(event.target.checked)} />
       </div>
     </div>
   </div>

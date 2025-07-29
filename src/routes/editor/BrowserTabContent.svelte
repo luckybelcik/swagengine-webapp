@@ -31,11 +31,9 @@
             <p class="text-sm opacity-70">Type: {element.type}</p>
             <p class="text-xs opacity-50">ID: {element.id}</p>
 
-            {#if showComponentIcons()}
-              <div style="bottom: 0;">
-                <CommonComponentIcons {element} />
-              </div>
-            {/if}
+            <div style="bottom: 0;" class="common-component-icons">
+              <CommonComponentIcons {element} />
+            </div>
           </div>
         </CardBackground>
       {/each}
