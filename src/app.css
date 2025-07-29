@@ -8,7 +8,7 @@
   fill: currentColor;
 }
 
-body.dark-mode .icon-container svg {
+html.dark-mode .icon-container svg {
   opacity: 0.6;
 }
 
