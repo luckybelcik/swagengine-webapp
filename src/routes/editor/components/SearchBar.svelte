@@ -15,7 +15,7 @@
       return [];
     }
 
-    const results = $engineStore.elements.filter(element =>
+    const results = $engineStore.loadedElements.filter(element =>
       element.id.toLowerCase().includes(query)
     );
 

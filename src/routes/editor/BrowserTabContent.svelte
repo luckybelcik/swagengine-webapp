@@ -18,9 +18,9 @@
   </div>
 
   <h3 class="text-xl font-semibold mb-5">Existing Elements (Click to open tab)</h3>
-  {#if $engineStore.elements && $engineStore.elements.length > 0}
+  {#if $engineStore.loadedElements && $engineStore.loadedElements.length > 0}
     <div class="grid grid-cols-fill-180 grid-cols-5 gap-4">
-      {#each $engineStore.elements as element (element.id)}
+      {#each $engineStore.loadedElements as element (element.id)}
         <CardBackground {element}>
           <div class="card-body p-2">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-7 overflow-hidden">

@@ -16,7 +16,7 @@ async function getInitialProjectState(): Promise<EngineStore> {
       if (project) {
         console.log(`Loaded project '${project.projectData.name}' from IndexedDB`);
         return {
-          elements: project.elements,
+          loadedElements: project.elements,
           projectData: project.projectData,
         };
       }
@@ -29,7 +29,7 @@ async function getInitialProjectState(): Promise<EngineStore> {
   const defaultProject: Project = {
     id: defaultProjectId,
     projectData: INITIAL_ENGINE_STORE.projectData,
-    elements: INITIAL_ENGINE_STORE.elements,
+    elements: INITIAL_ENGINE_STORE.loadedElements,
   };
   await saveProject(defaultProject);
   localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
@@ -67,7 +67,7 @@ const currentProjectState = derived(engineStore, ($engineStore) => {
   return {
     id: $engineStore.projectData.id,
     projectData: $engineStore.projectData,
-    elements: $engineStore.elements,
+    elements: $engineStore.loadedElements,
   } as Project;
 });
 
@@ -85,7 +85,7 @@ export const setProjectProperty = (property: ProjectProperty, value: any) => {
 }
 
 export const getElementName = (id: string) => {
-  const elements = get(engineStore).elements;
+  const elements = get(engineStore).loadedElements;
   const element = elements.find(el => el.id === id);
   if (element) {
     return element.name;
@@ -97,12 +97,12 @@ export const getElementName = (id: string) => {
 export const addElement = (newElement: Element) => {
   engineStore.update(currentData => ({
     ...currentData,
-    elements: [...currentData.elements, newElement]
+    loadedElements: [...currentData.loadedElements, newElement]
   }));
 };
 
 export const elementIdExists = (id: string): boolean => {
-  return get(engineStore).elements.some(element => element.id === id);
+  return get(engineStore).loadedElements.some(element => element.id === id);
 };
 
 export const createNewElement = (name: string, id: string, type: string, components?: string[]): Element => {
@@ -126,14 +126,14 @@ export const createNewElement = (name: string, id: string, type: string, compone
 export const deleteElement = (id: string) => {
   engineStore.update(currentData => ({
     ...currentData,
-    elements: currentData.elements.filter(element => element.id !== id)
+    loadedElements: currentData.loadedElements.filter(element => element.id !== id)
   }));
 };
 
 export const updateElement = (id: string, updates: Partial<Element>) => {
   engineStore.update(currentData => ({
     ...currentData,
-    elements: currentData.elements.map(element => {
+    loadedElements: currentData.loadedElements.map(element => {
       if (element.id === id) {
         const updatedElement = { ...element, ...updates };
         if (updates.data) {
@@ -163,14 +163,14 @@ export const getAllFields = (schema: Schema): Field[] => {
 
 export const addComponent = (elementId: string, component_name: string) => {
   engineStore.update(store => {
-    const elementToUpdate = store.elements.find(el => el.id === elementId);
+    const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
 
     if (elementToUpdate) {
       const newComponents = [...(elementToUpdate.data.components || []), component_name];
 
       return {
         ...store,
-        elements: store.elements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }
+        loadedElements: store.loadedElements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }
             : el
         ),
       };
@@ -181,7 +181,7 @@ export const addComponent = (elementId: string, component_name: string) => {
 
 export const removeComponent = (elementId: string, component_name: string) => {
   engineStore.update(store => {
-    const elementToUpdate = store.elements.find(el => el.id === elementId);
+    const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
 
     if (elementToUpdate) {
       const currentComponents = elementToUpdate.data.components || [];
@@ -197,7 +197,7 @@ export const removeComponent = (elementId: string, component_name: string) => {
 
         return {
           ...store,
-          elements: store.elements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }: el ),
+          loadedElements: store.loadedElements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }: el ),
         };
       }
     }
@@ -207,7 +207,7 @@ export const removeComponent = (elementId: string, component_name: string) => {
 
 export const hasComponent = (elementId: string, component_name: string): boolean => {
   const store = get(engineStore);
-  const element = store.elements.find(el => el.id === elementId);
+  const element = store.loadedElements.find(el => el.id === elementId);
   const components = element?.data.components;
   if (components && components.length > 0) {
     const index = components.indexOf(component_name);

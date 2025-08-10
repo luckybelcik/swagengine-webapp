@@ -61,7 +61,7 @@ export interface EngineProjectData {
 }
 
 export interface EngineStore {
-  elements: Element[];
+  loadedElements: Element[];
   projectData: EngineProjectData;
 }
 

@@ -13,7 +13,7 @@
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
   let ErrorField = $state('');
-  let elementCount = $state(get(engineStore).elements.length);
+  let elementCount = $state(get(engineStore).loadedElements.length);
 
   const EngineVersion = get(engineStore).projectData.engineVersion;
   const WebAppVersion = get(engineStore).projectData.webAppVersion;

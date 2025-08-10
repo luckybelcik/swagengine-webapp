@@ -33,7 +33,7 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
 }
 
 export const INITIAL_ENGINE_STORE: EngineStore = {
-  elements: [
+  loadedElements: [
     {
       id: 'item_sword',
       type: 'item',

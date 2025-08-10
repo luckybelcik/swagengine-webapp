@@ -4,7 +4,7 @@ import Dexie, { type Table } from 'dexie';
 export interface Project {
   id: string;
   projectData: EngineProjectData;
-  elements: Element[];
+  elements?: Element[];
 }
 
 export class SwagDB extends Dexie {

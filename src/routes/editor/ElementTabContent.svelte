@@ -22,7 +22,7 @@
       return undefined;
     }
 
-    const element = engineStoreValue.elements.find(el => el.id === activeTabIdValue);
+    const element = engineStoreValue.loadedElements.find(el => el.id === activeTabIdValue);
     console.debug("Updated element")
     return element;
   });
