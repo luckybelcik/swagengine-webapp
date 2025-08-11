@@ -92,22 +92,22 @@
 
   <GeneralForm formName="User Settings">
     <div class="divider m-0">Element Card</div>
-    <UserSetting settingType="toggle" labelText="Colored Element Cards" updateFunction={(event: any) => updatePreference("coloredElementCards", event.target.checked)}/>
+    <UserSetting settingType="toggle" labelText="Colored Element Cards" updateFunction={"coloredElementCards"}/>
     <UserSetting settingType="toggle" labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
   
     <div class="divider m-0">Background Gradient</div>
     <UserSetting settingType="toggle" labelText="Show Gradient" updateFunction={(event: any) => showGradient(event.target.checked)} />
-    <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunction={(event: any) => updatePreference("gradientOpacity", event.target.value)} />
+    <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunction={"gradientOpacity"} />
     
     <div class="divider m-0">Background Image</div>
-    <UserSetting settingType="slider" maxRange={100} labelText="Background Opacity" updateFunction={(event: any) => updatePreference("backgroundOpacity", event.target.value)} />
-    <UserSetting settingType="slider" maxRange={window.innerWidth} labelText="Background X" updateFunction={(event: any) => updatePreference("backgroundX", event.target.value)} />
-    <UserSetting settingType="slider" minRange={-200} maxRange={window.innerHeight} labelText="Background Y" updateFunction={(event: any) => updatePreference("backgroundY", event.target.value)} />
-    <UserSetting settingType="slider" maxRange={200} labelText="Background Scale" updateFunction={(event: any) => updatePreference("backgroundScale", event.target.value)} />
-    <UserSetting settingType="slider" maxRange={360} labelText="Background Rotation" updateFunction={(event: any) => updatePreference("backgroundRotation", event.target.value)} />
-    <UserSetting settingType="toggle" labelText="Background Flipped" updateFunction={(event: any) => updatePreference("backgroundFlipped", event.target.checked)} />
-    <UserSetting settingType="toggle" labelText="Background On Top" updateFunction={(event: any) => updatePreference("backgroundOnTop", event.target.checked)} />
-    <UserSetting settingType="string" labelText="Background Image Link" updateFunction={(event: any) => updatePreference("backgroundImageLink", event.target.value)} />
+    <UserSetting settingType="slider" maxRange={100} labelText="Background Opacity" updateFunction={"backgroundOpacity"} />
+    <UserSetting settingType="slider" maxRange={window.innerWidth} labelText="Background X" updateFunction={"backgroundX"} />
+    <UserSetting settingType="slider" minRange={-200} maxRange={window.innerHeight} labelText="Background Y" updateFunction={"backgroundY"} />
+    <UserSetting settingType="slider" maxRange={200} labelText="Background Scale" updateFunction={"backgroundScale"} />
+    <UserSetting settingType="slider" maxRange={360} labelText="Background Rotation" updateFunction={"backgroundRotation"} />
+    <UserSetting settingType="toggle" labelText="Background Flipped" updateFunction={"backgroundFlipped"} />
+    <UserSetting settingType="toggle" labelText="Background On Top" updateFunction={"backgroundOnTop"} />
+    <UserSetting settingType="string" labelText="Background Image Link" updateFunction={"backgroundImageLink"} />
   </GeneralForm>
 
   <div class="flex justify-end gap-2">

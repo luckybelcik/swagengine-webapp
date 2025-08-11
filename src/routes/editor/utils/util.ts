@@ -97,6 +97,12 @@ export const toCamelCase = (str: string): string => {
   }).join('');
 }
 
+export const toSnakeCase = (str: string): string => {
+  return str.split(' ').map((word) => {
+    return word.toLowerCase();
+  }).join('_');
+}
+
 export const snakeCaseToCapitalized = (str: string): string => {
   if (typeof str !== 'string' || str.length === 0) {
     return '';
