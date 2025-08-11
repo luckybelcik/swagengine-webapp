@@ -14,6 +14,11 @@ export function loadSchema(elementType: string): Schema {
   let fields: Field[] = [...(baseDef?.fields || [])];
   let componentList: Component[] = [];
 
+  componentList.push({
+        name: "base",
+        fields
+      });
+
   for (const component of components) {
     const componentDef = getDefinition(elementType, component) as BaseOrComponentDefinition | null;
     if (componentDef?.fields) {

@@ -109,12 +109,18 @@ export const createNewElement = (name: string, id: string, type: string, compone
   if (elementIdExists(id)) {
     throw new Error(`Element with ID '${id}' already exists.`);
   }
+  
+  let newComponents = ["base"];
+
+  if (components != undefined) {
+    newComponents = newComponents.concat(components);
+  }
 
   const newElement: Element = {
     id,
     type,
     name,
-    data: { components },
+    data: { components: newComponents },
     methods: [],
     createdAt: new Date().toISOString()
   };
