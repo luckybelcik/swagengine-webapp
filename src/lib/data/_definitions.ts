@@ -62,6 +62,7 @@ export interface EngineProjectData {
 
 export interface EngineStore {
   loadedElements: Element[];
+  potentialElements: PotentialElement[];
   projectData: EngineProjectData;
 }
 
