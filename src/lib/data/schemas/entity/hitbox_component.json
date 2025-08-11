@@ -1,8 +1,8 @@
 {
   "fields": [
-    { "name": "hitbox_type", "type": "hitbox_type"},
-    { "name": "also_hurtbox", "type": "bool"},
-    { "name": "sizeY", "type": "float" },
-    { "name": "sizeX", "type": "float"}
+    { "name": "hitbox_type", "type": "hitbox_type", "description": "The hitbox is where the entity can get hit. Make it circular if it covers the sprite better.", "warning": "Though you can make the damage hitbox circular, the hitbox used for physics calculations will ALWAYS be rectangular."},
+    { "name": "also_hurtbox", "type": "bool", "description": "If checked, the hitbox will also be used for contact damage."},
+    { "name": "sizeY", "type": "float", "description": "Size in tiles."},
+    { "name": "sizeX", "type": "float", "description": "Size in tiles."}
   ]
 }

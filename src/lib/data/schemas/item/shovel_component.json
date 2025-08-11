@@ -1,6 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_dirt", "type": "float" },
-        { "name": "break_power_dirt", "type": "u_int_16" }
+        { "name": "break_speed_dirt", "type": "float", "description": "How fast the shovel mines per second. Caps out at 60 per second.", "warning": "Don't go crazy with this, please. Even 20 is overkill." },
+        { "name": "break_power_dirt", "type": "u_int_16", "description": "Used for both how much damage the shovel does to a block, and what kinds of blocks it can mine.", "info": "The formula is damage = break_power / block_toughness - 1. If the result is negative, no damage is dealt."}
     ]
 }

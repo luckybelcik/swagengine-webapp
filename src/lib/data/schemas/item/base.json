@@ -1,6 +1,6 @@
 {
   "fields": [
-    { "name": "max_stack_size", "type": "u_int_16" },
-    { "name": "item_rarity", "type": "rarity" }
+    { "name": "max_stack_size", "type": "u_int_16", "description": "Determines how many items can be stacked in one slot", "warning": "The durability is always 1 for items that save personal data, like items with durability, or items with storage, etc." },
+    { "name": "item_rarity", "type": "rarity", "description": "Used purely for coloring the item's name." }
   ]
 }

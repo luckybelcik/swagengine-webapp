@@ -1,5 +1,5 @@
 {
   "fields": [
-    { "name": "mass", "type": "u_int_32" }
+    { "name": "mass", "type": "u_int_32", "description": "The mass affects how fast the entity falls. Duh!", "info": "The fall speed is also affected by the hitbox size and some other stuff. The deciding factor is the terminal velocity calculation. It's too complicated to cover here, sowwy! >.<"}
   ]
 }

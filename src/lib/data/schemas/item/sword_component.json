@@ -1,8 +1,8 @@
 {
     "fields": [
-        { "name": "swing_speed", "type": "float", "description": "Sword swings per second. Swing speed beyond 60 is converted into additional damage." },
-        { "name": "sword_size", "type": "float" },
-        { "name": "damage_dealt", "type": "u_int_64" },
-        { "name": "critical_chance", "type": "percent" }
+        { "name": "swing_speed", "type": "float", "description": "Sword swings per second. The max swing speed is 1 swing per tick, aka 60 per second", "info": "Swing speed beyond 60 is converted into additional damage." },
+        { "name": "sword_size", "type": "float", "description": "Size of the sword. The formula is base_size (constant) * sword_size.", "info": "This means a sword_size of 1.6 results in a 60% bigger sword, and 0.6 results in a 40% smaller sword." },
+        { "name": "damage_dealt", "type": "u_int_64", "description": "Damage dealt by the sword. Pretty self explanatory tbh.", "info": "FYI, integer overflow is accounted for and shouldn't happen" },
+        { "name": "critical_chance", "type": "percent", "description": "The % chance for the sword to deal double damage.", "info": "If the critical chance goes above 100% in-game, the player deals 4x damage (critical_chance - 100)% of the time."}
     ]
 }

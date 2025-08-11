@@ -1,6 +1,6 @@
 {
   "fields": [
-    { "name": "size_variation_bigger", "type": "float"},
-    { "name": "size_variation_smaller", "type": "float" }
+    { "name": "size_variation_bigger", "type": "float", "description": "How much bigger the entity can be, measured in tiles." },
+    { "name": "size_variation_smaller", "type": "float", "description": "How much smaller the entity can be, measured in tiles." }
   ]
 }

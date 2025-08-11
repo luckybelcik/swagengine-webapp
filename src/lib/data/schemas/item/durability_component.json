@@ -1,5 +1,5 @@
 {
     "fields": [
-        { "name": "max_durability", "type": "u_int_32" }
+        { "name": "max_durability", "type": "u_int_32", "description": "Durability is best used for special items or gimmick tools.", "warning": "Durability is annoying on tools and weapons. If you do use it, don't let it piss people off." }
     ]
 }

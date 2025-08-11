@@ -1,5 +1,5 @@
 {
     "fields": [
-        { "name": "consume_time", "type": "float" }
+        { "name": "consume_time", "type": "u_int_8", "description": "The time in ticks it takes to consume the item. 60 ticks is 1 second.", "info": "If the server is slow, the tickrate slows down. This results in consumables taking longer to consume. You shouldn't worry about it, however. I'm just letting you know." }
     ]
 }

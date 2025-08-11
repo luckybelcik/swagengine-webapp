@@ -1,6 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_walls", "type": "float" },
-        { "name": "break_power_walls", "type": "u_int_16" }
+        { "name": "break_speed_walls", "type": "float", "description": "How fast the hammer mines per second. Caps out at 60 per second.", "info": "You can go kinda crazy with this, actually. Buuuuuut, 40 is overkill tbh. Go kinda crazy. Not too crazy." },
+        { "name": "break_power_walls", "type": "u_int_16", "description": "Used for deciding what kinds of walls it can mine.", "info": "Unlike other tools, the hammer always takes 3 hits to mine. The hammer can only mine walls, and the break power is used to avoid progression skips, etc."}
     ]
 }

@@ -1,6 +1,6 @@
 {
     "fields": [
-        { "name": "break_speed_wood", "type": "float" },
-        { "name": "break_power_wood", "type": "u_int_16" }
+        { "name": "break_speed_wood", "type": "float", "description": "How fast the axe mines per second. Caps out at 60 per second.", "warning": "Don't go crazy with this, please. Even 20 is overkill." },
+        { "name": "break_power_wood", "type": "u_int_16", "description": "Used for both how much damage the axe does to a tree, and what kinds of trees it can mine. Most trees have a toughness of 0, but some special late game trees are tougher to avoid progression skips. Keep that in mind!", "info": "The formula is damage = break_power / tree_toughness - 1. If the result is negative, no damage is dealt."}
     ]
 }

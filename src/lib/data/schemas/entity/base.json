@@ -1,7 +1,6 @@
 {
   "fields": [
-    { "name": "display_name", "type": "string"},
-    { "name": "max_hp", "type": "u_int_64" },
-    { "name": "size", "type": "float"}
+    { "name": "display_name", "type": "string", "description": "The name that will be displayed upon hovering over the entity. Stuff like, 'Skeleton Dude' or 'Dog'.. or whatever.."},
+    { "name": "max_hp", "type": "u_int_64", "description": "The amount of health the entity will have." }
   ]
 }
