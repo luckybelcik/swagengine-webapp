@@ -13,6 +13,7 @@
   import RawDataModal from './components/RawDataModal.svelte';
   import ComponentModificationModal from './components/ComponentModificationModal.svelte';
   import { type Field } from '$lib/data/_definitions.js';
+    import GeneralForm from './components/GeneralForm.svelte';
 
   const activeElement = $derived(() => {
     const engineStoreValue = $engineStore;
@@ -114,34 +115,28 @@
 
   <div class="divider"></div>
   
-  <div class="collapse collapse-arrow form relative bg-base-200">
-    <input type="checkbox" class="collapse-toggle"/>
-    <div class="collapse-title">
-      <div class="text-2xl font-bold w-full">Element Data</div>
-    </div>
-    <div class="collapse-content">
-      {#if activeElement()?.data.components}
-        {#each activeElement()?.data.components as componentName}
-        <div class="divider mb-0 mt-0"></div>
-        <div class="form space-y-3 mb-4">
-          <div class="flex justify-between items-center w-full">
-            <div class="text-xl font-bold">{componentName}</div>
-          </div>
-          {#each getComponentFields(componentName) as field }
-            <FieldRenderer
-            {field}
-            value={activeElement()?.data?.[field.name]}
-            {getEnumValues}
-            onChange={updateField}
-            />
-          {/each}
+  <GeneralForm formName="Element Data">
+    {#if activeElement()?.data.components}
+      {#each activeElement()?.data.components as componentName}
+      <div class="divider mb-0 mt-0"></div>
+      <div class="form space-y-3 mb-4">
+        <div class="flex justify-between items-center w-full">
+          <div class="text-xl font-bold">{componentName}</div>
         </div>
+        {#each getComponentFields(componentName) as field }
+          <FieldRenderer
+          {field}
+          value={activeElement()?.data?.[field.name]}
+          {getEnumValues}
+          onChange={updateField}
+          />
         {/each}
-      {/if}
-      <div class="divider mt-0"></div>
-      <button class="btn btn-info w-full" onclick={openComponentModificationModal}>Modify Components</button>
-    </div>
-  </div>
+      </div>
+      {/each}
+    {/if}
+    <div class="divider mt-0"></div>
+    <button class="btn btn-info w-full" onclick={openComponentModificationModal}>Modify Components</button>
+  </GeneralForm>
 
   <div class="divider"></div>
 
