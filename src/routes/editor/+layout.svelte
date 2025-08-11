@@ -4,11 +4,11 @@
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
       engineStore} from '$lib/stores/engineStore';
-    import { strictValidation, softValidation, typeValidation } from "./utils/util";
+    import { strictValidation, softValidation, typeValidation, parseBoolean } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
-    import { DEFAULT_BACKGROUND_URL, FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+    import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
-    import { getPreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
+    import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
     // --- Modal State and Logic ---
   let showCreateElementModal = $state(false);
@@ -21,7 +21,10 @@
   let backgroundX = $derived(`${$userPreferenceStore.preferences.backgroundX}`);
   let backgroundY = $derived(`${$userPreferenceStore.preferences.backgroundY}`);
   let backgroundScale = $derived(`${$userPreferenceStore.preferences.backgroundScale}`);
+  let backgroundRotation = $derived(`${$userPreferenceStore.preferences.backgroundRotation}`);
   let backgroundImageLink = $derived(`${$userPreferenceStore.preferences.backgroundImageLink}`);
+  let isFlipped = $derived(`${$userPreferenceStore.preferences.backgroundFlipped}`);
+  let isOnTop = $derived(`${$userPreferenceStore.preferences.backgroundOnTop}`);
 
   let backgroundNode: HTMLImageElement;
 
@@ -37,6 +40,10 @@
     backgroundNode.style.left = `${parseInt(backgroundX)}px`;
     backgroundNode.style.bottom = `${parseInt(backgroundY)}px`;
     backgroundNode.style.width = `${backgroundScale}%`;
+    backgroundNode.style.rotate = `${backgroundRotation}deg`;
+    
+    backgroundNode.style.transform = parseBoolean(isFlipped) ? 'scaleX(-1)' : 'scaleX(1)';
+    backgroundNode.style.zIndex = parseBoolean(isOnTop) ? '9999' : '-100';
   }
 
   $effect(() => {
@@ -130,7 +137,7 @@
     
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
-      <img bind:this={backgroundNode} class="fixed z-[-100] pointer-events-none {backgroundOpacity}" alt="Well, this should be a background. Oops?"/>
+      <img bind:this={backgroundNode} class="fixed pointer-events-none {backgroundOpacity}" alt="Well, this should be a background. Oops?"/>
       {@render children()}
     </main>
   </div>

@@ -36,6 +36,9 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
     backgroundX: 0,
     backgroundY: 0,
     backgroundScale: 100,
+    backgroundRotation: 0,
+    backgroundFlipped: false,
+    backgroundOnTop: false,
     backgroundImageLink: DEFAULT_BACKGROUND_URL,
 
     isDarkMode: true,

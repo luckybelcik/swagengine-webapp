@@ -138,3 +138,9 @@ export const handleNan = (value: any): string => {
   }
 }
 
+export const parseBoolean = (input: string): boolean => {
+  if (typeof input === 'string') {
+    return input.toLowerCase() === 'true';
+  }
+  return false;
+}

@@ -93,18 +93,22 @@
   </GeneralForm>
 
   <GeneralForm formName="User Settings">
-    <div class="divider m-0"></div>
-
+    <div class="divider m-0">Element Card</div>
     <UserSettingBoolean labelText="Colored Element Cards" updateFunction={(event: any) => updatePreference("coloredElementCards", event.target.checked)}/>
     <UserSettingBoolean labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
   
+    <div class="divider m-0">Background Gradient</div>
     <UserSettingBoolean labelText="Show Gradient" updateFunction={(event: any) => showGradient(event.target.checked)} />
     <UserSettingSlider maxRange={100} labelText="Gradient Opacity" updateFunction={(event: any) => updatePreference("gradientOpacity", event.target.value)} />
-
+    
+    <div class="divider m-0">Background Image</div>
     <UserSettingSlider maxRange={100} labelText="Background Opacity" updateFunction={(event: any) => updatePreference("backgroundOpacity", event.target.value)} />
     <UserSettingSlider maxRange={window.innerWidth} labelText="Background X" updateFunction={(event: any) => updatePreference("backgroundX", event.target.value)} />
-    <UserSettingSlider maxRange={window.innerHeight} labelText="Background Y" updateFunction={(event: any) => updatePreference("backgroundY", event.target.value)} />
+    <UserSettingSlider minRange={-200} maxRange={window.innerHeight} labelText="Background Y" updateFunction={(event: any) => updatePreference("backgroundY", event.target.value)} />
     <UserSettingSlider maxRange={200} labelText="Background Scale" updateFunction={(event: any) => updatePreference("backgroundScale", event.target.value)} />
+    <UserSettingSlider maxRange={360} labelText="Background Rotation" updateFunction={(event: any) => updatePreference("backgroundRotation", event.target.value)} />
+    <UserSettingBoolean labelText="Background Flipped" updateFunction={(event: any) => updatePreference("backgroundFlipped", event.target.checked)} />
+    <UserSettingBoolean labelText="Background On Top" updateFunction={(event: any) => updatePreference("backgroundOnTop", event.target.checked)} />
     <UserSettingString labelText="Background Image Link" updateFunction={(event: any) => updatePreference("backgroundImageLink", event.target.value)} />
   </GeneralForm>
 
