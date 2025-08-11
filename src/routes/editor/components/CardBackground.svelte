@@ -29,7 +29,7 @@
       }
     }
 
-    return 'bg-neutral-100'
+    return 'bg-base-200'
     }
   );
 </script>
