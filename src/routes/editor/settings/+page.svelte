@@ -42,8 +42,8 @@
 </script>
 
 <div class="w-full pl-4 pr-10 p-2 flex flex-col gap-4 mt-2">
-  <div class="collapse collapse-arrow form relative bg-base-200">
-    <input type="checkbox" />
+  <div class="collapse collapse-arrow">
+    <input type="checkbox" class="collapse-toggle"/>
     <div class="collapse-title">
       <div class="text-2xl font-bold w-full">Project Settings</div>
     </div>
@@ -93,8 +93,8 @@
     </div>
   </div>
 
-  <div class="collapse collapse-arrow form relative bg-base-200">
-    <input type="checkbox" />
+  <div class="collapse collapse-arrow">
+    <input type="checkbox" class="collapse-toggle"/>
     <div class="collapse-title">
       <div class="text-2xl font-bold w-full">User Settings</div>
     </div>

@@ -36,6 +36,19 @@ html.grayscale-cards .colored-card-background {
   display: none;
 }
 
+.collapse {
+  @apply bg-base-300;
+  @apply transition-colors;
+}
+
+.collapse:not(:has(.collapse-toggle:checked)):hover {
+  @apply bg-base-200;
+}
+
+.collapse:has(.collapse-toggle:checked) {
+  @apply bg-base-200;
+}
+
 @plugin "daisyui/theme" {
   name: "sunset";
   default: false;
