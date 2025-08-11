@@ -117,3 +117,15 @@ export function coloredElementCards(value: boolean) {
 
   updatePreference("coloredElementCards", value)
 }
+
+export function showGradient(value: boolean) {
+  if (value) {
+    document.documentElement.classList.add('background-gradient-shown');
+    document.documentElement.classList.remove('background-gradient-hidden');
+  } else {
+    document.documentElement.classList.remove('background-gradient-shown');
+    document.documentElement.classList.add('background-gradient-hidden');
+  }
+
+  updatePreference("showGradient", value)
+}

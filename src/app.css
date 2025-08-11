@@ -36,6 +36,10 @@ html.grayscale-cards .colored-card-background {
   display: none;
 }
 
+html.background-gradient-hidden .background-gradient {
+  display: none;
+}
+
 .collapse {
   @apply bg-base-300;
   @apply transition-colors;

@@ -8,12 +8,15 @@
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
+    import { getPreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
     // --- Modal State and Logic ---
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
   let ErrorField = $state('');
   let elementCount = $state(get(engineStore).loadedElements.length);
+  
+  let gradientOpacity = $derived(`opacity-${$userPreferenceStore.preferences.gradientOpacity}`);
 
   const EngineVersion = get(engineStore).projectData.engineVersion;
   const WebAppVersion = get(engineStore).projectData.webAppVersion;
@@ -101,7 +104,7 @@
 
     
     <main class="flex-grow">
-      <div class="fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary opacity-20"></div>
+      <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
       {@render children()}
     </main>
   </div>

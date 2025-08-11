@@ -3,10 +3,11 @@
   import { setProjectProperty, engineStore } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-  import { getPreference, resetPreferences, showComponentIcons, updatePreference } from '$lib/stores/userPreferenceStore';
+  import { getPreference, resetPreferences, showComponentIcons, showGradient, updatePreference } from '$lib/stores/userPreferenceStore';
     import { get } from 'svelte/store';
     import GeneralForm from '../components/GeneralForm.svelte';
     import UserSettingBoolean from '../components/UserSettingBoolean.svelte';
+    import UserSettingSlider from '../components/UserSettingSlider.svelte';
 
   const projectID = get(engineStore).projectData.id;
 
@@ -96,6 +97,10 @@
     <UserSettingBoolean labelText="Colored Element Cards" updateFunction={(event: any) => updatePreference("coloredElementCards", event.target.checked)}/>
 
     <UserSettingBoolean labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
+  
+    <UserSettingBoolean labelText="Show Gradient" updateFunction={(event: any) => showGradient(event.target.checked)} />
+
+    <UserSettingSlider labelText="Gradient Opacity" updateFunction={(event: any) => updatePreference("gradientOpacity", event.target.value)} />
   </GeneralForm>
 
   <div class="flex justify-end gap-2">

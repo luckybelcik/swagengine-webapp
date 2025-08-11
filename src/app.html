@@ -15,6 +15,7 @@
         let initialColoredElementCards = true;
         let initialShowComponentIcons = true;
         let initialIsDarkMode = true;
+        let initialShowGradient = true;
 
         try {
           const storedData = localStorage.getItem(LOCAL_STORAGE_KEY_PREFERENCES);
@@ -34,7 +35,7 @@
             initialColoredElementCards = loadedPreferences.coloredElementCards !== undefined ? loadedPreferences.coloredElementCards : initialColoredElementCards;
             initialShowComponentIcons = loadedPreferences.showComponentIcons !== undefined ? loadedPreferences.showComponentIcons : initialShowComponentIcons;
             initialIsDarkMode = loadedPreferences.isDarkMode !== undefined ? loadedPreferences.isDarkMode : initialIsDarkMode;
-
+            initialShowGradient = loadedPreferences.showGradient !== undefined ? loadedPreferences.showGradient : initialShowGradient;
           }
         } catch (e) {
           console.error("Error loading preferences from localStorage:", e);
@@ -60,6 +61,14 @@
           document.documentElement.classList.add('dark-mode');
         } else {
           document.documentElement.classList.remove('dark-mode');
+        }
+
+        if (initialShowGradient) {
+          document.documentElement.classList.add('background-gradient-shown');
+          document.documentElement.classList.remove('background-gradient-hidden');
+        } else {
+          document.documentElement.classList.remove('background-gradient-shown');
+          document.documentElement.classList.add('background-gradient-hidden');
         }
       })();
     </script>

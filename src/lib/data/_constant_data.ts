@@ -26,8 +26,10 @@ export const DEFAULT_ICON_URL = 'https://external-content.duckduckgo.com/iu/?u=h
 export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
   preferences: {
     coloredElementCards: true,
-    isDarkMode: true,
     showComponentIcons: true,
+    showGradient: true,
+    gradientOpacity: 20,
+    isDarkMode: true,
     theme: "sunset",
   }
 }
