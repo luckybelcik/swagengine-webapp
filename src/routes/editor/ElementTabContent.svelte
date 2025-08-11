@@ -114,8 +114,8 @@
 
   <div class="divider"></div>
   
-  <div class="collapse collapse-arrow">
-    <input type="checkbox" class="collapse-toggle" />
+  <div class="collapse collapse-arrow form relative bg-base-200">
+    <input type="checkbox" class="collapse-toggle"/>
     <div class="collapse-title">
       <div class="text-2xl font-bold w-full">Element Data</div>
     </div>
