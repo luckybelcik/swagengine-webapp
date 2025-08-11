@@ -41,12 +41,10 @@
   onclick={handleClickOutside}
 >
   <div class="modal-box w-11/12 max-w-5xl">
-    <h3 class="font-bold text-lg">Raw Element Data</h3>
-    <p>Note: if you just changed the element ID, you need to re-open the tab for the change to take place</p>
-    <div class="py-4">
+    <div>
       {#if element}
         <div class="absolute font-bold p-3 right-8 text-5xl opacity-30 select-none">Element Data</div>
-        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-96">{JSON.stringify(element, null, 2).trim()}</pre>
+        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-150">{JSON.stringify(element, null, 2).trim()}</pre>
       {:else}
         <p class="text-gray-500 italic">No element selected or loaded.</p>
       {/if}
@@ -55,7 +53,7 @@
 
       {#if schema}
         <div class="absolute font-bold p-3 right-8 text-5xl opacity-30 select-none">Schema</div>
-        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-96">{JSON.stringify(schema, null, 2).trim()}</pre>
+        <pre class="bg-base-300 p-3 rounded-md overflow-auto text-sm text-base-content max-h-150">{JSON.stringify(schema, null, 2).trim()}</pre>
       {:else}
         <p class="text-gray-500 italic">No schema loaded.</p>
       {/if}
