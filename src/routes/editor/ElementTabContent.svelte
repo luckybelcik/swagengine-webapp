@@ -140,7 +140,9 @@
 
   <div class="divider"></div>
 
-  <p class="text-xl font-bold p-4">Methods</p>
+  <div class="flex">
+    <div class="text-xl font-bold p-4 z-[10] text-shadow-lg">Methods</div>
+  </div>
 
   <MethodsGrid
     methods={activeElement()?.methods}

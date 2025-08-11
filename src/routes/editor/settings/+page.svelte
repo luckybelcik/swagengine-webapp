@@ -104,6 +104,6 @@
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
-    <button class="btn btn-error" onclick={handleResetUserSettings}>Reset User Settings</button>
+    <button class="btn btn-error z-10" onclick={handleResetUserSettings}>Reset User Settings</button>
   </div>
 </div>
