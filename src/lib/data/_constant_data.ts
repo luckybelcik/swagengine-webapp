@@ -79,6 +79,7 @@ export const INITIAL_ENGINE_STORE: EngineStore = {
       createdAt: new Date().toISOString(),
     }
   ],
+  potentialElements: [],
   projectData: {
     name: 'New Project',
     id: 'new_project',
