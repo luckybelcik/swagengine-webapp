@@ -1,7 +1,8 @@
 <script lang="ts">
   import { NUMBER_TYPE_CONFIGS, INT64_MAX, INT64_MIN, UINT64_MAX, UINT64_MIN, BIT_32_FLOAT_MAX, BIT_32_FLOAT_MIN } from "$lib/data/_constant_data.js" 
     import type { NumberType } from "$lib/data/_definitions";
-    import { clamp, clampBigInt, clampTo32BitFloat, handleNan } from "$lib/../routes/editor/utils/util";
+    import { clamp, clampBigInt, clampTo32BitFloat, handleNan, snakeCaseToCapitalized } from "$lib/../routes/editor/utils/util";
+    import Tooltip from "../components/Tooltip.svelte"
   let { field, value, onChange, getEnumValues } = $props<{ field: any, value: any, onChange: (name: string, value: any) => void, getEnumValues: (type: string) => string[]}>();
 
   const fieldTypeAsString: string = field.type;
@@ -9,6 +10,9 @@
   const fieldType: NumberType = Object.keys(NUMBER_TYPE_CONFIGS).includes(fieldTypeAsString)
   ? (fieldTypeAsString as NumberType)
   : "u_int_8";
+
+  let tooltipTrigger: HTMLElement | undefined = $state();
+  let isHovered: boolean = $state(false);
 
   const isBigInt = (type: string) => type === 'int_64' || type === 'u_int_64';
   const isClamped = (type: string) => type in NUMBER_TYPE_CONFIGS;
@@ -45,10 +49,21 @@
 </script>
 
 <div class="field flex items-center">
-  <label class="bg-base-200 text-base-content px-4 py-2 input mr-3 input-disabled font-bold w-1/5 shrink-0" for={field.name}>
-    {field.name}
-    <div class="opacity-60 font-normal text-xs">({field.type})</div>
-  </label>
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div class="relative group w-1/5 mr-3" bind:this={tooltipTrigger} onmouseenter={() => (isHovered = true)} onmouseleave={() => (isHovered = false)}>
+    <label class="bg-base-200 text-base-content px-4 py-2 input input-disabled font-bold shrink-0" for={field.name}>
+      {field.name}
+      <div class="opacity-60 font-normal text-xs">({field.type})</div>
+    </label>
+
+    {#if isHovered}
+      <Tooltip header={snakeCaseToCapitalized(field.name)} 
+        description={field.description}
+        warning={field.warning}
+        higlightedInfo={field.info}
+        triggerNode={tooltipTrigger}/>
+    {/if}
+  </div>
 
   {#if isBool(field.type)}
   <input type="checkbox" checked={value} onchange={() => onChange(field.name, !value)} class="toggle toggle-primary" />

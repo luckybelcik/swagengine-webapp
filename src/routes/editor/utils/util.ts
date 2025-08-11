@@ -97,6 +97,25 @@ export const toCamelCase = (str: string): string => {
   }).join('');
 }
 
+export const snakeCaseToCapitalized = (str: string): string => {
+  if (typeof str !== 'string' || str.length === 0) {
+    return '';
+  }
+  const spacedString = str.replace(/_/g, ' ');
+
+  const capitalizedString = spacedString
+    .split(' ')
+    .map(word => {
+      if (word.length > 0) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }
+      return '';
+    })
+    .join(' ');
+
+  return capitalizedString;
+}
+
 export const clamp = (value: number, min: number, max: number): number => {
     return Math.min(Math.max(value, min), max);
   }

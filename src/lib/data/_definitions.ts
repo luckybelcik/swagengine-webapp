@@ -11,6 +11,9 @@ export type NumberType = keyof typeof NUMBER_TYPE_CONFIGS;
 export type Field = {
   name: string;
   type: NumberType;
+  description?: string;
+  info?: string;
+  warning?: string;
 };
 
 export type Enum = {
@@ -20,7 +23,7 @@ export type Enum = {
 
 export type Component = {
   name: string;
-  fields: Field[]
+  fields: Field[];
 }
 
 export type Schema = {

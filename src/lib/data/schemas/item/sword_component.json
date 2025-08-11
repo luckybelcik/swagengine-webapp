@@ -1,6 +1,6 @@
 {
     "fields": [
-        { "name": "swing_speed", "type": "float" },
+        { "name": "swing_speed", "type": "float", "description": "Sword swings per second. Swing speed beyond 60 is converted into additional damage." },
         { "name": "sword_size", "type": "float" },
         { "name": "damage_dealt", "type": "u_int_64" },
         { "name": "critical_chance", "type": "percent" }
