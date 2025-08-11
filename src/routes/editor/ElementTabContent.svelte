@@ -147,8 +147,8 @@
   />
 
   <div class="mt-6 flex justify-end gap-2">
-    <button class="btn btn-base" onclick={openRawDataModal}>View Raw Data</button>
-    <button class="btn btn-error" onclick={handleDeleteElement}>Delete Element</button>
+    <button class="btn btn-base z-10" onclick={openRawDataModal}>View Raw Data</button>
+    <button class="btn btn-error z-10" onclick={handleDeleteElement}>Delete Element</button>
   </div>
 
   <RawDataModal

@@ -101,6 +101,7 @@
 
     
     <main class="flex-grow">
+      <div class="fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary opacity-20"></div>
       {@render children()}
     </main>
   </div>
