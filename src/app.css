@@ -53,6 +53,19 @@ html.background-gradient-hidden .background-gradient {
   @apply bg-base-200;
 }
 
+.collapse-bright {
+  @apply bg-base-200;
+  @apply transition-colors;
+}
+
+.collapse-bright:not(:has(.collapse-toggle:checked)):hover {
+  @apply bg-base-100;
+}
+
+.collapse-bright:has(.collapse-toggle:checked) {
+  @apply bg-base-100;
+}
+
 .hover-children-visible > div:nth-child(2) {
   display: none;
 }

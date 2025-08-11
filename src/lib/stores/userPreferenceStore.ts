@@ -76,6 +76,49 @@ export function updateImageProperty(imageName: string, imageProperty: string, ne
   });
 }
 
+export function addImage(imageName: string): void {
+  userPreferenceStore.update(currentStore => {
+    if (currentStore) {
+      let updatedImages = { ...currentStore.images, [imageName]: {
+        Opacity: 0,
+        X: 0,
+        Y: 0,
+        Scale: 0,
+        Rotation: 0,
+        Flipped: false,
+        OnTop: false,
+        ImageLink: '',
+      } };
+
+      return {
+        ...currentStore,
+        images: updatedImages
+      };
+    } else {
+      console.warn("UserPreferenceStore.images is not in the expected format or is empty. No images was updated.");
+      return currentStore;
+    }
+  });
+}
+
+export function removeImage(imageName: string): void {
+  userPreferenceStore.update(currentStore => {
+    if (currentStore) {
+      const updatedImages = { ...currentStore.images };
+      
+      delete updatedImages[imageName];
+
+      return {
+        ...currentStore,
+        images: updatedImages
+      };
+    } else {
+      console.warn("UserPreferenceStore.images is not in the expected format or is empty. No images was removed.");
+      return currentStore;
+    }
+  });
+}
+
 export function getPreference(preferenceName: string): any {
   const store = get(userPreferenceStore);
 
