@@ -6,6 +6,7 @@
   import { getPreference, resetPreferences, showComponentIcons, updatePreference } from '$lib/stores/userPreferenceStore';
     import { get } from 'svelte/store';
     import GeneralForm from '../components/GeneralForm.svelte';
+    import UserSettingBoolean from '../components/UserSettingBoolean.svelte';
 
   const projectID = get(engineStore).projectData.id;
 
@@ -92,19 +93,9 @@
   <GeneralForm formName="User Settings">
     <div class="divider m-0"></div>
 
-    <div>
-      <div class="label">
-        <span class="label-text">Colored Element Cards</span>
-      </div>
-      <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("coloredElementCards")} onchange={(event: any) => updatePreference("coloredElementCards", event.target.checked)} />
-    </div>
+    <UserSettingBoolean labelText="Colored Element Cards" updateFunction={(event: any) => updatePreference("coloredElementCards", event.target.checked)}/>
 
-    <div>
-      <div class="label">
-        <span class="label-text">Show Component Icons</span>
-      </div>
-      <input class="ml-3 toggle toggle-primary" type="checkbox" checked={getPreference("showComponentIcons")} onchange={(event: any) => showComponentIcons(event.target.checked)} />
-    </div>
+    <UserSettingBoolean labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
