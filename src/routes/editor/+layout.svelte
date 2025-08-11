@@ -27,16 +27,16 @@
 
   function updatePosition() {
     if (!backgroundNode) return;
-  
-    backgroundNode.style.left = `${backgroundX}px`;
-    backgroundNode.style.top = `${backgroundY}px`;
-    backgroundNode.style.width = `${backgroundScale}%`;
 
     if (backgroundImageLink) {
       backgroundNode.src = backgroundImageLink;
     } else {
       backgroundNode.src = '';
     }
+
+    backgroundNode.style.left = `${parseInt(backgroundX)}px`;
+    backgroundNode.style.bottom = `${parseInt(backgroundY)}px`;
+    backgroundNode.style.width = `${backgroundScale}%`;
   }
 
   $effect(() => {
