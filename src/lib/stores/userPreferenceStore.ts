@@ -23,8 +23,8 @@ function getInitialValue() {
           if (transformedPreferences.theme) {
             setTheme(transformedPreferences.theme);
           }
-          console.log("Loaded in preferences from new format.", { preferences: transformedPreferences })
-          return { preferences: transformedPreferences };
+          console.log("Loaded in preferences and images from new format.", { preferences: transformedPreferences }, { images: parsed.images })
+          return { preferences: transformedPreferences, images: parsed.images };
         } else {
           console.warn("Parsed preferences are not in an expected format. Using initial defaults.");
           return INITIAL_USER_PREFERENCE_STORE;
@@ -57,6 +57,25 @@ export function updatePreference(preferenceName: string, newValue: any): void {
   });
 }
 
+export function updateImageProperty(imageName: string, imageProperty: string, newValue: any): void {
+  userPreferenceStore.update(currentStore => {
+    if (currentStore) {
+      let updatedImages = { ...currentStore.images };
+      let updatedImage = { ...updatedImages[imageName] };
+      updatedImage[imageProperty] = newValue;
+      updatedImages[imageName] = updatedImage;
+
+      return {
+        ...currentStore,
+        images: updatedImages
+      };
+    } else {
+      console.warn("UserPreferenceStore.images is not in the expected format or is empty. No images was updated.");
+      return currentStore;
+    }
+  });
+}
+
 export function getPreference(preferenceName: string): any {
   const store = get(userPreferenceStore);
 
@@ -64,6 +83,17 @@ export function getPreference(preferenceName: string): any {
     return store.preferences[preferenceName];
   } else {
     console.warn("UserPreferenceStore.preferences is not in the expected format or is empty. Cannot retrieve preference:", preferenceName);
+    return undefined;
+  }
+}
+
+export function getImageProperty(imageName: string, imageProperty: string): any {
+  const store = get(userPreferenceStore);
+
+  if (store && store.images && store.images[imageName] && store.images[imageName].hasOwnProperty(imageProperty)) {
+    return store.images[imageName][imageProperty];
+  } else {
+    console.warn("UserPreferenceStore.images is not in the expected format or is empty. Cannot retrieve image property:", imageProperty, "of", imageName);
     return undefined;
   }
 }

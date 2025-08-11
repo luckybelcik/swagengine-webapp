@@ -10,7 +10,8 @@
     import { get } from "svelte/store";
     import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
-    // --- Modal State and Logic ---
+  let imageNodes: HTMLImageElement[] = $state([]);
+
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
   let ErrorField = $state('');
@@ -18,37 +19,32 @@
   
   let gradientOpacity = $derived(`opacity-${$userPreferenceStore.preferences.gradientOpacity}`);
   let backgroundOpacity = $derived(`opacity-${$userPreferenceStore.preferences.backgroundOpacity}`);
-  let backgroundX = $derived(`${$userPreferenceStore.preferences.backgroundX}`);
-  let backgroundY = $derived(`${$userPreferenceStore.preferences.backgroundY}`);
-  let backgroundScale = $derived(`${$userPreferenceStore.preferences.backgroundScale}`);
-  let backgroundRotation = $derived(`${$userPreferenceStore.preferences.backgroundRotation}`);
-  let backgroundImageLink = $derived(`${$userPreferenceStore.preferences.backgroundImageLink}`);
-  let isFlipped = $derived(`${$userPreferenceStore.preferences.backgroundFlipped}`);
-  let isOnTop = $derived(`${$userPreferenceStore.preferences.backgroundOnTop}`);
 
-  let backgroundNode: HTMLImageElement;
+  function updatePosition(node: HTMLImageElement, image: any) {
+    if (!node) return;
 
-  function updatePosition() {
-    if (!backgroundNode) return;
-
-    if (backgroundImageLink) {
-      backgroundNode.src = backgroundImageLink;
+    if (image.ImageLink) {
+      node.src = image.ImageLink;
     } else {
-      backgroundNode.src = '';
+      node.src = '';
     }
 
-    backgroundNode.style.left = `${parseInt(backgroundX)}px`;
-    backgroundNode.style.bottom = `${parseInt(backgroundY)}px`;
-    backgroundNode.style.width = `${backgroundScale}%`;
-    backgroundNode.style.rotate = `${backgroundRotation}deg`;
+    node.style.left = `${parseInt(image.X)}px`;
+    node.style.bottom = `${parseInt(image.Y)}px`;
+    node.style.width = `${image.Scale}%`;
+    node.style.rotate = `${image.Rotation}deg`;
     
-    backgroundNode.style.transform = parseBoolean(isFlipped) ? 'scaleX(-1)' : 'scaleX(1)';
-    backgroundNode.style.zIndex = parseBoolean(isOnTop) ? '9999' : '-100';
+    node.style.transform = image.Flipped ? 'scaleX(-1)' : 'scaleX(1)';
+    node.style.zIndex = image.OnTop ? '9999' : '-100';
   }
 
   $effect(() => {
-    updatePosition();
-  })
+    for (let i = 0; i < imageNodes.length; i++) {
+      const node = imageNodes[i];
+      const [name, imageData] = Object.entries($userPreferenceStore.images)[i];
+      if (node && imageData) updatePosition(node, imageData);
+    }
+  });
 
   const EngineVersion = get(engineStore).projectData.engineVersion;
   const WebAppVersion = get(engineStore).projectData.webAppVersion;
@@ -137,7 +133,9 @@
     
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
-      <img bind:this={backgroundNode} class="fixed pointer-events-none {backgroundOpacity}" alt="Well, this should be a background. Oops?"/>
+      {#each Object.entries($userPreferenceStore.images) as [name, image], i}
+        <img bind:this={imageNodes[i]} class="fixed pointer-events-none {backgroundOpacity}" alt="Well, this should be a {name}. Oops?"/>
+      {/each}
       {@render children()}
     </main>
   </div>

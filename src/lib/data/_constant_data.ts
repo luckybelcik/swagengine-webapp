@@ -32,18 +32,32 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
     showGradient: true,
     gradientOpacity: 20,
 
-    backgroundOpacity: 50,
-    backgroundX: 0,
-    backgroundY: 0,
-    backgroundScale: 100,
-    backgroundRotation: 0,
-    backgroundFlipped: false,
-    backgroundOnTop: false,
-    backgroundImageLink: DEFAULT_BACKGROUND_URL,
-
     isDarkMode: true,
     theme: "sunset",
-  }
+  },
+
+  images: {
+    background: {
+      Opacity: 50,
+      X: 0,
+      Y: 0,
+      Scale: 100,
+      Rotation: 0,
+      Flipped: false,
+      OnTop: false,
+      ImageLink: DEFAULT_BACKGROUND_URL,
+    },
+    thingy: {
+      Opacity: 25,
+      X: 20,
+      Y: 20,
+      Scale: 59,
+      Rotation: 60,
+      Flipped: true,
+      OnTop: false,
+      ImageLink: DEFAULT_BACKGROUND_URL,
+    },
+  },
 }
 
 export const INITIAL_ENGINE_STORE: EngineStore = {

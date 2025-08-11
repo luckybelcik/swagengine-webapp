@@ -3,7 +3,7 @@
   import { setProjectProperty, engineStore } from "$lib/stores/engineStore";
   import { softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-  import { getPreference, resetPreferences, showComponentIcons, showGradient, updatePreference } from '$lib/stores/userPreferenceStore';
+  import { resetPreferences, showComponentIcons, showGradient, userPreferenceStore } from '$lib/stores/userPreferenceStore';
     import { get } from 'svelte/store';
     import GeneralForm from '../components/GeneralForm.svelte';
     import UserSetting from '../components/UserSetting.svelte';
@@ -41,6 +41,8 @@
   function handleResetUserSettings() {
     resetPreferences()
   }
+
+  console.log($userPreferenceStore.images["thingy"])
 </script>
 
 <div class="w-full pl-4 pr-10 p-2 flex flex-col gap-4 mt-2">
@@ -92,22 +94,25 @@
 
   <GeneralForm formName="User Settings">
     <div class="divider m-0">Element Card</div>
-    <UserSetting settingType="toggle" labelText="Colored Element Cards" updateFunction={"coloredElementCards"}/>
-    <UserSetting settingType="toggle" labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
+    <UserSetting settingType="toggle" labelText="Colored Element Cards" updateFunctionOrProperty={"coloredElementCards"}/>
+    <UserSetting settingType="toggle" labelText="Show Component Icons" updateFunctionOrProperty={(event: any) => showComponentIcons(event.target.checked)} />
   
     <div class="divider m-0">Background Gradient</div>
-    <UserSetting settingType="toggle" labelText="Show Gradient" updateFunction={(event: any) => showGradient(event.target.checked)} />
-    <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunction={"gradientOpacity"} />
+    <UserSetting settingType="toggle" labelText="Show Gradient" updateFunctionOrProperty={(event: any) => showGradient(event.target.checked)} />
+    <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunctionOrProperty={"gradientOpacity"} />
     
-    <div class="divider m-0">Background Image</div>
-    <UserSetting settingType="slider" maxRange={100} labelText="Background Opacity" updateFunction={"backgroundOpacity"} />
-    <UserSetting settingType="slider" maxRange={window.innerWidth} labelText="Background X" updateFunction={"backgroundX"} />
-    <UserSetting settingType="slider" minRange={-200} maxRange={window.innerHeight} labelText="Background Y" updateFunction={"backgroundY"} />
-    <UserSetting settingType="slider" maxRange={200} labelText="Background Scale" updateFunction={"backgroundScale"} />
-    <UserSetting settingType="slider" maxRange={360} labelText="Background Rotation" updateFunction={"backgroundRotation"} />
-    <UserSetting settingType="toggle" labelText="Background Flipped" updateFunction={"backgroundFlipped"} />
-    <UserSetting settingType="toggle" labelText="Background On Top" updateFunction={"backgroundOnTop"} />
-    <UserSetting settingType="string" labelText="Background Image Link" updateFunction={"backgroundImageLink"} />
+    <div class="divider m-0">Images</div>
+    {#each Object.entries($userPreferenceStore.images) as [name, image]}
+      <div>{name}</div>
+      <UserSetting settingType="slider" imageToUpdate={name} maxRange={100} labelText="Opacity" updateFunctionOrProperty={"Opacity"} />
+      <UserSetting settingType="slider" imageToUpdate={name} maxRange={window.innerWidth} labelText="X" updateFunctionOrProperty={"X"} />
+      <UserSetting settingType="slider" imageToUpdate={name} minRange={-200} maxRange={window.innerHeight} labelText="Y" updateFunctionOrProperty={"Y"} />
+      <UserSetting settingType="slider" imageToUpdate={name} maxRange={200} labelText="Scale" updateFunctionOrProperty={"Scale"} />
+      <UserSetting settingType="slider" imageToUpdate={name} maxRange={360} labelText="Rotation" updateFunctionOrProperty={"Rotation"} />
+      <UserSetting settingType="toggle" imageToUpdate={name} labelText="Flipped" updateFunctionOrProperty={"Flipped"} />
+      <UserSetting settingType="toggle" imageToUpdate={name} labelText="On Top" updateFunctionOrProperty={"OnTop"} />
+      <UserSetting settingType="string" imageToUpdate={name} labelText="Image Link" updateFunctionOrProperty={"ImageLink"} />
+    {/each}
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
