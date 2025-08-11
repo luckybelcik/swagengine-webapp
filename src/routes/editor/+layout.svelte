@@ -6,7 +6,7 @@
       engineStore} from '$lib/stores/engineStore';
     import { strictValidation, softValidation, typeValidation } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
-    import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+    import { DEFAULT_BACKGROUND_URL, FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
     import { getPreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
@@ -21,8 +21,9 @@
   let backgroundX = $derived(`${$userPreferenceStore.preferences.backgroundX}`);
   let backgroundY = $derived(`${$userPreferenceStore.preferences.backgroundY}`);
   let backgroundScale = $derived(`${$userPreferenceStore.preferences.backgroundScale}`);
+  let backgroundImageLink = $derived(`${$userPreferenceStore.preferences.backgroundImageLink}`);
 
-  let backgroundNode: HTMLElement;
+  let backgroundNode: HTMLImageElement;
 
   function updatePosition() {
     if (!backgroundNode) return;
@@ -30,6 +31,12 @@
     backgroundNode.style.left = `${backgroundX}px`;
     backgroundNode.style.top = `${backgroundY}px`;
     backgroundNode.style.width = `${backgroundScale}%`;
+
+    if (backgroundImageLink) {
+      backgroundNode.src = backgroundImageLink;
+    } else {
+      backgroundNode.src = '';
+    }
   }
 
   $effect(() => {
@@ -123,7 +130,7 @@
     
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
-      <img bind:this={backgroundNode} class="fixed z-[-100] pointer-events-none {backgroundOpacity}" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthfvnext.bing.com%2Fth%2Fid%2FOIP.5IzYXyLj_yLHi4hqRE6yeQHaEo%3Fcb%3Dthfvnext%26pid%3DApi&f=1&ipt=631a8892003c753614470bedf23f7a2e987b46e0e176495517fd653180a0a96d" alt="Well, this should be a background. Oops?"/>
+      <img bind:this={backgroundNode} class="fixed z-[-100] pointer-events-none {backgroundOpacity}" alt="Well, this should be a background. Oops?"/>
       {@render children()}
     </main>
   </div>

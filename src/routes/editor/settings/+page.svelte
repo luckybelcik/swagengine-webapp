@@ -8,6 +8,7 @@
     import GeneralForm from '../components/GeneralForm.svelte';
     import UserSettingBoolean from '../components/UserSettingBoolean.svelte';
     import UserSettingSlider from '../components/UserSettingSlider.svelte';
+    import UserSettingString from '../components/UserSettingString.svelte';
 
   const projectID = get(engineStore).projectData.id;
 
@@ -104,6 +105,7 @@
     <UserSettingSlider maxRange={window.innerWidth} labelText="Background X" updateFunction={(event: any) => updatePreference("backgroundX", event.target.value)} />
     <UserSettingSlider maxRange={window.innerHeight} labelText="Background Y" updateFunction={(event: any) => updatePreference("backgroundY", event.target.value)} />
     <UserSettingSlider maxRange={200} labelText="Background Scale" updateFunction={(event: any) => updatePreference("backgroundScale", event.target.value)} />
+    <UserSettingString labelText="Background Image Link" updateFunction={(event: any) => updatePreference("backgroundImageLink", event.target.value)} />
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
