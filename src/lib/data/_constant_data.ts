@@ -111,6 +111,9 @@ export const INT64_MAX = 9223372036854775807n;
 export const UINT64_MIN = 0n;
 export const UINT64_MAX = 18446744073709551615n;
 
+export const BIT_32_FLOAT_MAX = 3.4028234663852886e+38;
+export const BIT_32_FLOAT_MIN = 1.1754943508222875e-38;
+
 export const NUMBER_TYPE_CONFIGS = {
   u_int_8:  { min: 0, max: 255 },
   u_int_16: { min: 0, max: 65535 },

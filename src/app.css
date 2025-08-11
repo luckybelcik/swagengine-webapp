@@ -53,6 +53,18 @@ html.background-gradient-hidden .background-gradient {
   @apply bg-base-200;
 }
 
+.hover-children-visible > div:nth-child(2) {
+  display: none;
+}
+
+.hover-children-visible:hover > div:nth-child(2) {
+  display: block;
+}
+
+.hover-children-visible:hover > div:nth-child(1) {
+  display: none;
+}
+
 @plugin "daisyui/theme" {
   name: "sunset";
   default: false;

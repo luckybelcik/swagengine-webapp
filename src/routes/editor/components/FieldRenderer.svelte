@@ -1,16 +1,14 @@
 <script lang="ts">
-  import { NUMBER_TYPE_CONFIGS, INT64_MAX, INT64_MIN, UINT64_MAX, UINT64_MIN } from "$lib/data/_constant_data.js" 
+  import { NUMBER_TYPE_CONFIGS, INT64_MAX, INT64_MIN, UINT64_MAX, UINT64_MIN, BIT_32_FLOAT_MAX, BIT_32_FLOAT_MIN } from "$lib/data/_constant_data.js" 
+    import type { NumberType } from "$lib/data/_definitions";
+    import { clamp, clampBigInt, clampTo32BitFloat, handleNan } from "$lib/../routes/editor/utils/util";
   let { field, value, onChange, getEnumValues } = $props<{ field: any, value: any, onChange: (name: string, value: any) => void, getEnumValues: (type: string) => string[]}>();
 
-  function clamp(value: number, min: number, max: number): number {
-    return Math.min(Math.max(value, min), max);
-  }
+  const fieldTypeAsString: string = field.type;
 
-  const clampBigInt = (value: bigint, min: bigint, max: bigint): bigint => {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
-  };
+  const fieldType: NumberType = Object.keys(NUMBER_TYPE_CONFIGS).includes(fieldTypeAsString)
+  ? (fieldTypeAsString as NumberType)
+  : "u_int_8";
 
   const isBigInt = (type: string) => type === 'int_64' || type === 'u_int_64';
   const isClamped = (type: string) => type in NUMBER_TYPE_CONFIGS;
@@ -44,15 +42,6 @@
 
     return "0";
   }
-
-  const handleNan = (value: any): string => {
-    if (value == undefined || Number.isNaN(value)) {
-      return "0";
-    } else {
-      return value.toString();
-    }
-  }
-
 </script>
 
 <div class="field flex items-center">
@@ -74,23 +63,47 @@
 
 {:else if isBigInt(field.type)}
   <input type="text" bind:value oninput={() => onChange(field.name, handleBigInt(value))} class="input input-bordered w-2/5" />
-  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">True value: {handleBigInt(value)}</div>
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0 hover-children-visible">
+    <div class="visible">
+      True value: {handleBigInt(value)}
+    </div>
+
+    <div class="hidden">
+      {#if field.type == "u_int_64"}
+        Max: {UINT64_MAX}, Min: {UINT64_MIN}
+      {:else}
+        Max: {INT64_MAX}, Min: {INT64_MIN}
+      {/if}
+    </div>
+  </div>
 
 {:else if isClamped(field.type)}
   <input type="number" step="1" bind:value oninput={() =>
-      onChange(field.name, clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[field.type].min, NUMBER_TYPE_CONFIGS[field.type].max))}
+      onChange(field.name, clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[fieldType].min, NUMBER_TYPE_CONFIGS[fieldType].max))}
     class="input input-bordered w-2/5"
   />
-  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
-    True value: {handleNan(clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[field.type].min, NUMBER_TYPE_CONFIGS[field.type].max))}
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0 hover-children-visible">
+    <div class="visible">
+      True value: {handleNan(clamp(parseInt(value, 10), NUMBER_TYPE_CONFIGS[fieldType].min, NUMBER_TYPE_CONFIGS[fieldType].max))}
+    </div>
+
+    <div class="hidden">
+      Max: {NUMBER_TYPE_CONFIGS[fieldType].max}, Min: {NUMBER_TYPE_CONFIGS[fieldType].min}
+    </div>
   </div>
 
 {:else if isFloat(field.type)}
   <input type="number" step="0.1" bind:value oninput={() => onChange(field.name, parseFloat(value))}
     class="input input-bordered w-2/5"
   />
-  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0">
-    True value: {handleNan(parseFloat(value))}
+  <div class="bg-base-200 ml-3 px-4 py-2 mr-3 input input-disabled w-2/5 shrink-0 hover-children-visible">
+    <div class="visible">
+      True value: {handleNan(clampTo32BitFloat(parseFloat(value)))}
+    </div>
+
+    <div class="hidden">
+      Max: {BIT_32_FLOAT_MAX}, Min: {BIT_32_FLOAT_MIN}
+    </div>
   </div>
 
 {:else}

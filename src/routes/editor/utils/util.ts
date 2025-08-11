@@ -1,5 +1,5 @@
 import { elementIdExists } from "$lib/stores/engineStore";
-import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+import { BIT_32_FLOAT_MAX, BIT_32_FLOAT_MIN, FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
 
 /**
  * Used for strict validation, mainly for IDs.
@@ -88,7 +88,7 @@ export const swapBackRemove = (array: string[], object_to_remove: string): strin
   return array;
 }
 
-export function toCamelCase(str: string) {
+export const toCamelCase = (str: string): string => {
   return str.split(' ').map((word, index) => {
     if (index === 0) {
       return word.toLowerCase();
@@ -96,3 +96,26 @@ export function toCamelCase(str: string) {
     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   }).join('');
 }
+
+export const clamp = (value: number, min: number, max: number): number => {
+    return Math.min(Math.max(value, min), max);
+  }
+
+export const clampBigInt = (value: bigint, min: bigint, max: bigint): bigint => {
+  if (value < min) return min;
+  if (value > max) return max;
+  return value;
+};
+
+export const clampTo32BitFloat = (value: number): number => {
+  return clamp(value, BIT_32_FLOAT_MIN, BIT_32_FLOAT_MAX);
+}
+
+export const handleNan = (value: any): string => {
+  if (value == undefined || Number.isNaN(value)) {
+    return "0";
+  } else {
+    return value.toString();
+  }
+}
+

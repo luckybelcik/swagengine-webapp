@@ -1,4 +1,4 @@
-import type { COMPONENTS_WITH_ICONS, FIXED_ELEMENT_TYPES, FIXED_ENTITY_METHOD_HOOKS, FIXED_ITEM_METHOD_HOOKS, FIXED_TILE_METHOD_HOOKS } from "./_constant_data";
+import type { COMPONENTS_WITH_ICONS, FIXED_ELEMENT_TYPES, FIXED_ENTITY_METHOD_HOOKS, FIXED_ITEM_METHOD_HOOKS, FIXED_TILE_METHOD_HOOKS, NUMBER_TYPE_CONFIGS } from "./_constant_data";
 
 type JSONModule = Record<string, any>;
 
@@ -6,10 +6,11 @@ export type ComponentWithIcon = typeof COMPONENTS_WITH_ICONS[number];
 
 export type ElementType = typeof FIXED_ELEMENT_TYPES[number];
 export type MethodHookType = typeof FIXED_ENTITY_METHOD_HOOKS[number] | typeof FIXED_ITEM_METHOD_HOOKS[number] | typeof FIXED_TILE_METHOD_HOOKS[number];
+export type NumberType = keyof typeof NUMBER_TYPE_CONFIGS;
 
 export type Field = {
   name: string;
-  type: string;
+  type: NumberType;
 };
 
 export type Enum = {
