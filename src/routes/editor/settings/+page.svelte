@@ -95,12 +95,15 @@
     <div class="divider m-0"></div>
 
     <UserSettingBoolean labelText="Colored Element Cards" updateFunction={(event: any) => updatePreference("coloredElementCards", event.target.checked)}/>
-
     <UserSettingBoolean labelText="Show Component Icons" updateFunction={(event: any) => showComponentIcons(event.target.checked)} />
   
     <UserSettingBoolean labelText="Show Gradient" updateFunction={(event: any) => showGradient(event.target.checked)} />
+    <UserSettingSlider maxRange={100} labelText="Gradient Opacity" updateFunction={(event: any) => updatePreference("gradientOpacity", event.target.value)} />
 
-    <UserSettingSlider labelText="Gradient Opacity" updateFunction={(event: any) => updatePreference("gradientOpacity", event.target.value)} />
+    <UserSettingSlider maxRange={100} labelText="Background Opacity" updateFunction={(event: any) => updatePreference("backgroundOpacity", event.target.value)} />
+    <UserSettingSlider maxRange={window.innerWidth} labelText="Background X" updateFunction={(event: any) => updatePreference("backgroundX", event.target.value)} />
+    <UserSettingSlider maxRange={window.innerHeight} labelText="Background Y" updateFunction={(event: any) => updatePreference("backgroundY", event.target.value)} />
+    <UserSettingSlider maxRange={200} labelText="Background Scale" updateFunction={(event: any) => updatePreference("backgroundScale", event.target.value)} />
   </GeneralForm>
 
   <div class="flex justify-end gap-2">

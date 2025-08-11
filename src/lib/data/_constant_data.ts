@@ -27,8 +27,15 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
   preferences: {
     coloredElementCards: true,
     showComponentIcons: true,
+
     showGradient: true,
     gradientOpacity: 20,
+
+    backgroundOpacity: 50,
+    backgroundX: 0,
+    backgroundY: 0,
+    backgroundScale: 100,
+
     isDarkMode: true,
     theme: "sunset",
   }

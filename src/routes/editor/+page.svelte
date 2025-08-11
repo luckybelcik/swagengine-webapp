@@ -32,7 +32,7 @@
     {/each}
   </div>
   
-  <div class="flex-grow overflow-y-auto p-4 bg-base-100 shadow-md">
+  <div class="flex-grow overflow-y-auto p-4 shadow-md">
     <div class="z-[10]">
       {#if $activeTabId === 'browser'}
         <BrowserTabContent />
