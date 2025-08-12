@@ -52,6 +52,7 @@
 
       nodeIndexToRemove.set(indicesToRemove);
       $userPreferenceStore.images = {};
+      $userPreferenceStore.preferences.isOnekoTransitioningState = false;
     }
   }
 

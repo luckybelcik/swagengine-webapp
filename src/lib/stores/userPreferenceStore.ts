@@ -158,7 +158,8 @@ userPreferenceStore.subscribe(value => {
 })
 
 export function resetPreferences() {
-  userPreferenceStore.set(INITIAL_USER_PREFERENCE_STORE);
+  const freshData = JSON.parse(JSON.stringify(INITIAL_USER_PREFERENCE_STORE));
+  userPreferenceStore.set(freshData);
   setTheme(INITIAL_USER_PREFERENCE_STORE.theme);
 }
 

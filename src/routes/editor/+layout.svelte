@@ -32,7 +32,7 @@
       node.style.pointerEvents = 'none';
     }
 
-    if (image.HoverLink && imageHoverState.has(name)) {
+    if (image.HoverLink && imageHoverState.has(name) && image.HoverLink.length > 3) {
       node.src = image.HoverLink;
     } else if (image.ImageLink) {
       node.src = image.ImageLink;
