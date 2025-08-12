@@ -26,6 +26,24 @@ export const DEFAULT_BACKGROUND_URL = 'https://external-content.duckduckgo.com/i
 
 export const HOVER_IMAGE_DELAY_MS = 250;
 
+export const ONEKO_SKINS = {
+  'ace': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/ace.png',
+  'black': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/black.png',
+  'calico': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/calico.png',
+  'default': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/default.png',
+  'fox': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/fox.png',
+  'ghost': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/ghost.png',
+  'gray': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/gray.png',
+  'jess': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/jess.png',
+  'kina': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/kina.png',
+  'lucy': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/lucy.png',
+  'maia': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/maia.png',
+  'silver': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/silver.png',
+  'silversky': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/silversky.png',
+  'spirit': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/spirit.png',
+  'valentine': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/valentine.png',
+};
+
 export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
   preferences: {
     coloredElementCards: true,
@@ -40,6 +58,7 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
     theme: "sunset",
 
     oneko: true,
+    onekoSkin: 'default',
   },
 
   images: {
