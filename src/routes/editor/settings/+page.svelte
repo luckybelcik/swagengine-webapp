@@ -39,12 +39,6 @@
       }));
     };
   }
-
-  function handleResetUserSettings() {
-    resetPreferences()
-  }
-
-  console.log($userPreferenceStore.images["thingy"])
 </script>
 
 <div class="w-full pl-4 pr-10 p-2 flex flex-col gap-4 mt-2">
@@ -141,6 +135,7 @@
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
-    <button class="btn btn-error z-10" onclick={handleResetUserSettings}>Reset User Settings</button>
+    <button class="btn btn-error z-10" onclick={()=>$userPreferenceStore.images = []}>Clear Images</button>
+    <button class="btn btn-error z-10" onclick={resetPreferences}>Reset User Settings</button>
   </div>
 </div>
