@@ -143,7 +143,13 @@
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
       {#each Object.entries($userPreferenceStore.images) as [name, image], i (name)}
-        <img bind:this={imageNodes[i]} class="fixed pointer-events-none" alt="Well, this should be a {name}. Oops?"/>
+        <img bind:this={imageNodes[i]} class="fixed pointer-events-none" alt="Image Node for {name}."
+        onerror={(e) => {
+          const image = e.target as HTMLImageElement;
+          image.src = "https://image2url.com/images/1754998813754-fe681684-e76d-4abe-ba62-1a246f0b01df.webp";
+          image.style.opacity = "0.5"
+          image.style.zIndex = "9999" 
+        }}/>
       {/each}
       {@render children()}
     </main>
