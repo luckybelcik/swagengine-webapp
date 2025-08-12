@@ -89,16 +89,13 @@ export const swapBackRemove = (array: string[], object_to_remove: string): strin
 }
 
 export const swapBackRemoveIndex = (array: any[], index_to_remove: number): any[] => {
-  if (index_to_remove !== -1) {
-    const newArray = [...array];
-
-    if (index_to_remove !== newArray.length - 1) {
-        newArray[index_to_remove] = newArray[newArray.length - 1];
-    }
-    newArray.pop();
-
-    return newArray
+  if (index_to_remove >= array.length || index_to_remove < 0) {
+    return array;
   }
+
+  [array[index_to_remove], array[array.length - 1]] = [array[array.length - 1], array[index_to_remove]];
+
+  array.pop();
 
   return array;
 }

@@ -4,7 +4,7 @@
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
       engineStore} from '$lib/stores/engineStore';
-    import { strictValidation, softValidation, typeValidation, parseBoolean } from "./utils/util";
+    import { strictValidation, softValidation, typeValidation, parseBoolean, swapBackRemoveIndex } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
@@ -43,7 +43,7 @@
     if ($nodeIndexToRemove && $nodeIndexToRemove.length > 0) {
       const indices = $nodeIndexToRemove.sort((a, b) => b - a);
       indices.forEach(index => {
-        imageNodes.splice(index, 1);
+        imageNodes = swapBackRemoveIndex(imageNodes, index);
       });
       $nodeIndexToRemove = [];
     }
