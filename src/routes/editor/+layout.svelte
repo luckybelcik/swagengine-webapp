@@ -8,7 +8,7 @@
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
-    import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
+    import { nodeIndexToRemove, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
   let imageNodes: HTMLImageElement[] = $state([]);
 
@@ -40,6 +40,14 @@
   }
 
   $effect(() => {
+    if ($nodeIndexToRemove && $nodeIndexToRemove.length > 0) {
+      const indices = $nodeIndexToRemove.sort((a, b) => b - a);
+      indices.forEach(index => {
+        imageNodes.splice(index, 1);
+      });
+      $nodeIndexToRemove = [];
+    }
+
     for (let i = 0; i < imageNodes.length; i++) {
       const node = imageNodes[i];
       const [name, imageData] = Object.entries($userPreferenceStore.images)[i];
@@ -134,7 +142,7 @@
     
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
-      {#each Object.entries($userPreferenceStore.images) as [name, image], i}
+      {#each Object.entries($userPreferenceStore.images) as [name, image], i (name)}
         <img bind:this={imageNodes[i]} class="fixed pointer-events-none" alt="Well, this should be a {name}. Oops?"/>
       {/each}
       {@render children()}

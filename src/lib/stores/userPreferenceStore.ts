@@ -40,6 +40,8 @@ function getInitialValue() {
 
 export const userPreferenceStore = writable<Record<string, any>>(getInitialValue());
 
+export const nodeIndexToRemove = writable<number[]>([]);
+
 export function updatePreference(preferenceName: string, newValue: any): void {
   userPreferenceStore.update(currentStore => {
     if (currentStore) {
@@ -106,6 +108,11 @@ export function removeImage(imageName: string): void {
     if (currentStore) {
       const updatedImages = { ...currentStore.images };
       
+      const indexToDelete = Object.keys(updatedImages).indexOf(imageName);
+      let newArray = get(nodeIndexToRemove);
+      newArray.push(indexToDelete);
+      nodeIndexToRemove.set(newArray);
+
       delete updatedImages[imageName];
 
       return {

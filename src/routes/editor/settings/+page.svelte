@@ -103,7 +103,7 @@
     <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunctionOrProperty={"gradientOpacity"} />
     
     <div class="divider m-0">Images</div>
-    {#each Object.entries($userPreferenceStore.images) as [name, image]}
+    {#each Object.entries($userPreferenceStore.images) as [name, image] (name)}
     <div class="collapse collapse-bright collapse-arrow">
       <input type="checkbox" class="collapse-toggle"/>
       <div class="collapse-title">
