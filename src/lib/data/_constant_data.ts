@@ -31,6 +31,7 @@ export const ONEKO_SKINS = {
   'black': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/black.png',
   'calico': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/calico.png',
   'default': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/default.png',
+  'dog': 'https://raw.githubusercontent.com/danielah05/oneko.js-skins/refs/heads/main/dog.gif',
   'fox': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/fox.png',
   'ghost': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/ghost.png',
   'gray': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/gray.png',
@@ -41,6 +42,7 @@ export const ONEKO_SKINS = {
   'silver': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/silver.png',
   'silversky': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/silversky.png',
   'spirit': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/spirit.png',
+  'tora': 'https://raw.githubusercontent.com/danielah05/oneko.js-skins/refs/heads/main/tora.gif',
   'valentine': 'https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/valentine.png',
 };
 
