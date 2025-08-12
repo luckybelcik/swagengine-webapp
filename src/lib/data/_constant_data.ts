@@ -36,6 +36,8 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
 
     isDarkMode: true,
     theme: "sunset",
+
+    oneko: true,
   },
 
   images: {

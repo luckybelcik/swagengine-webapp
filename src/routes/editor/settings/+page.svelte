@@ -130,6 +130,9 @@
       <div>No Images loaded</div>
     {/if}
     <AddImageInput/>
+
+    <div class="divider m-0">Sillies</div>
+    <UserSetting settingType="toggle" labelText="Oneko" updateFunctionOrProperty={"oneko"}/>
   </GeneralForm>
 
   <div class="flex justify-end gap-2">

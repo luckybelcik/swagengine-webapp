@@ -9,6 +9,7 @@
     import { FIXED_ELEMENT_TYPES, HOVER_IMAGE_DELAY_MS } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
     import { nodeIndexToRemove, userPreferenceStore } from "$lib/stores/userPreferenceStore";
+    import Oneko from "./components/Oneko.svelte";
 
   let imageNodes: HTMLImageElement[] = $state([]);
   let imageHoverState = new Set<string>();
@@ -72,7 +73,6 @@
     }
     imageHoverState.add(name);
     updatePosition(imageNode, name, image);
-    console.log("Added", name, "to hover state")
   }
 
   function handleMouseLeave(imageNode: HTMLImageElement, name: string, image: any) {
@@ -80,7 +80,6 @@
       imageHoverState.delete(name);
       hoverTimeouts.delete(name);
       updatePosition(imageNode, name, image);
-      console.log("Removed", name, "from hover state");
     }, HOVER_IMAGE_DELAY_MS);
     hoverTimeouts.set(name, timeoutId);
   }
@@ -171,6 +170,7 @@
 
     
     <main class="flex-grow">
+      <Oneko></Oneko>
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
       {#each Object.entries($userPreferenceStore.images) as [name, image], i (name)}
         <img bind:this={imageNodes[i]} class="fixed" alt="Image Node for {name}."
