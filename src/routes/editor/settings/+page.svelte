@@ -103,25 +103,31 @@
     <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunctionOrProperty={"gradientOpacity"} />
     
     <div class="divider m-0">Images</div>
-    {#each Object.entries($userPreferenceStore.images) as [name, image] (name)}
-    <div class="collapse collapse-bright collapse-arrow">
-      <input type="checkbox" class="collapse-toggle"/>
-      <div class="collapse-title">
-        <div class="text-2xl font-bold w-full">{snakeCaseToCapitalized(name)}</div>
+    {#if Object.entries($userPreferenceStore.images) && Object.entries($userPreferenceStore.images).length > 0}
+      {#each Object.entries($userPreferenceStore.images) as [name, image] (name)}
+      <div class="collapse collapse-bright collapse-arrow">
+        <input type="checkbox" class="collapse-toggle"/>
+        <div class="collapse-title">
+          <div class="text-2xl font-bold w-full">{snakeCaseToCapitalized(name)}</div>
+        </div>
+        <div class="collapse-content flex flex-col gap-2">
+          {#if typeof window !== "undefined"}
+            <UserSetting settingType="slider" imageToUpdate={name} maxRange={100} labelText="Opacity" updateFunctionOrProperty={"Opacity"} />
+            <UserSetting settingType="slider" imageToUpdate={name} maxRange={window.innerWidth} labelText="X" updateFunctionOrProperty={"X"} />
+            <UserSetting settingType="slider" imageToUpdate={name} minRange={-200} maxRange={window.innerHeight} labelText="Y" updateFunctionOrProperty={"Y"} />
+            <UserSetting settingType="slider" imageToUpdate={name} maxRange={200} labelText="Scale" updateFunctionOrProperty={"Scale"} />
+            <UserSetting settingType="slider" imageToUpdate={name} maxRange={360} labelText="Rotation" updateFunctionOrProperty={"Rotation"} />
+            <UserSetting settingType="toggle" imageToUpdate={name} labelText="Flipped" updateFunctionOrProperty={"Flipped"} />
+            <UserSetting settingType="toggle" imageToUpdate={name} labelText="On Top" updateFunctionOrProperty={"OnTop"} />
+            <UserSetting settingType="string" imageToUpdate={name} labelText="Image Link" updateFunctionOrProperty={"ImageLink"} />
+            <button class="btn btn-error z-10 w-30" onclick={()=>removeImage(name)}>Delete Image</button>
+          {/if}
+        </div>
       </div>
-      <div class="collapse-content flex flex-col gap-2">
-        <UserSetting settingType="slider" imageToUpdate={name} maxRange={100} labelText="Opacity" updateFunctionOrProperty={"Opacity"} />
-        <UserSetting settingType="slider" imageToUpdate={name} maxRange={window.innerWidth} labelText="X" updateFunctionOrProperty={"X"} />
-        <UserSetting settingType="slider" imageToUpdate={name} minRange={-200} maxRange={window.innerHeight} labelText="Y" updateFunctionOrProperty={"Y"} />
-        <UserSetting settingType="slider" imageToUpdate={name} maxRange={200} labelText="Scale" updateFunctionOrProperty={"Scale"} />
-        <UserSetting settingType="slider" imageToUpdate={name} maxRange={360} labelText="Rotation" updateFunctionOrProperty={"Rotation"} />
-        <UserSetting settingType="toggle" imageToUpdate={name} labelText="Flipped" updateFunctionOrProperty={"Flipped"} />
-        <UserSetting settingType="toggle" imageToUpdate={name} labelText="On Top" updateFunctionOrProperty={"OnTop"} />
-        <UserSetting settingType="string" imageToUpdate={name} labelText="Image Link" updateFunctionOrProperty={"ImageLink"} />
-        <button class="btn btn-error z-10 w-30" onclick={()=>removeImage(name)}>Delete Image</button>
-      </div>
-    </div>
-    {/each}
+      {/each}
+    {:else}
+      <div>No Images loaded</div>
+    {/if}
     <AddImageInput/>
   </GeneralForm>
 
