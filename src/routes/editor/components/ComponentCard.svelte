@@ -8,10 +8,10 @@
     if (activeElement){
       const id = activeElement.id;
       if (!hasComponent(id, component_name)) {
-        console.log("Adding component", component_name, "to", {id})
+        console.debug("[redbud] (componentCard) Adding component", component_name, "to", {id})
         addComponent(id, component_name);
       } else {
-        console.log("Adding component", component_name, "to", {id}, "failed")
+        console.debug("[redbud] (componentCard) Adding component", component_name, "to", {id}, "failed")
       }
     }
   }

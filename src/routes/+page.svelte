@@ -53,7 +53,7 @@
       setProjectProperty("author", projectAuthor);;
       goto("/editor");
     } catch (error: any) {
-      console.error("Error creating element:", error);
+      console.error("[redbud] (mainEditorPage) Error creating element:", error);
       ErrorMessage = `Failed to create element: ${error.message ?? String(error)}`;
     }
   }

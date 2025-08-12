@@ -112,7 +112,7 @@ export function getDefinition(type: string, name: string): unknown | null {
   if (modules[path]) {
     return modules[path];
   }
-  console.warn(`Definition not found: ${path}`);
+  console.warn(`[redbud] (_definitions) Definition not found: ${path}`);
   return null;
 }
 

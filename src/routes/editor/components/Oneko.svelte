@@ -49,7 +49,7 @@
     } else if (kittyElement) {
         kittyElement.style.opacity = '1';
     }
-    console.log(kittyState);
+    console.debug("[redbud] (oneko) Current Oneko state:", kittyState);
     const dx = mouseX - kittyX;
     const dy = mouseY - kittyY;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -125,7 +125,7 @@
     }
 
     $userPreferenceStore.preferences.isOnekoTransitioningState = true;
-    console.log(`Transitioning state to ${state} from ${kittyState} in ${delay}ms`)
+    console.debug(`[redbud] (oneko) Oneko transitioning state to ${state} from ${kittyState} in ${delay}ms`)
     transitionTimeoutId = setTimeout(() => {
         kittyState = state;
         transitionTimeoutId = undefined;

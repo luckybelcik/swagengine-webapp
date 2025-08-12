@@ -135,12 +135,12 @@
       let newElement = null;
       newElement = createNewElement(newName, newId, newType);
 
-      console.log(`Created new element with ID: ${newId} and Type: ${newType}`);
-      console.log(`New element:`, newElement);
+      console.debug(`[redbud] (mainEditorLayout) Created new element with ID: ${newId} and Type: ${newType}`);
+      console.debug(`[redbud] (mainEditorLayout) New element:`, newElement);
       elementCount++;
       closeCreateElementModal();
     } catch (error: any) {
-      console.error("Error creating element:", error.message);
+      console.error("[redbud] (mainEditorLayout) Error creating element:", error.message);
       ErrorMessage = `Failed to create element: ${error.message}`;
     }
   }

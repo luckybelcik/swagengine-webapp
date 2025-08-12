@@ -14,14 +14,14 @@ async function getInitialProjectState(): Promise<EngineStore> {
     try {
       const project = await getProject(savedProjectId);
       if (project) {
-        console.log(`Loaded project '${project.projectData.name}' from IndexedDB`);
+        console.debug(`[redbud] (engineStore) Loaded project '${project.projectData.name}' from IndexedDB`);
         return {
           loadedElements: project.elements,
           projectData: project.projectData,
         };
       }
     } catch (e) {
-      console.error(`Error loading project '${savedProjectId}' from IndexedDB:`, e);
+      console.error(`[redbud] (engineStore) Error loading project '${savedProjectId}' from IndexedDB:`, e);
     }
   }
 
@@ -33,7 +33,7 @@ async function getInitialProjectState(): Promise<EngineStore> {
   };
   await saveProject(defaultProject);
   localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
-  console.log("Initialized with default project and saved to IndexedDB.");
+  console.debug("[redbud] (engineStore) Initialized with default project and saved to IndexedDB.");
   return INITIAL_ENGINE_STORE;
 }
 
@@ -57,9 +57,9 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (
 const debouncedSaveProject = debounce(async (project: Project) => {
   try {
     await saveProject(project);
-    console.log(`Autosaved project '${project.projectData.name}' (${project.id}) to IndexedDB.`);
+    console.debug(`[redbud] (engineStore) Autosaved project '${project.projectData.name}' (${project.id}) to IndexedDB.`);
   } catch (e) {
-    console.error("Error autosaving project to IndexedDB:", e);
+    console.error("[redbud] (engineStore) Error autosaving project to IndexedDB:", e);
   }
 }, 2000);
 
@@ -250,7 +250,7 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
       const ctx = canvas.getContext('2d');
 
       if (!ctx) {
-        console.error('Could not get 2D context for canvas.');
+        console.error('[redbud] (engineStore) Could not get 2D context for canvas.');
         setProjectProperty('iconurl', img.src);
         return;
       }
@@ -294,7 +294,7 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
     };
 
     img.onerror = () => {
-      console.error("Error loading image for processing.");
+      console.error("[redbud] (engineStore) Error loading image for processing.");
       setProjectProperty('iconurl', e.target?.result as string);
     };
   };

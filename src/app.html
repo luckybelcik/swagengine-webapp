@@ -38,7 +38,7 @@
             initialShowGradient = loadedPreferences.showGradient !== undefined ? loadedPreferences.showGradient : initialShowGradient;
           }
         } catch (e) {
-          console.error("Error loading preferences from localStorage:", e);
+          console.error("[redbud] (app.html) Error loading preferences from localStorage:", e);
         }
 
         document.documentElement.setAttribute('data-theme', initialTheme);

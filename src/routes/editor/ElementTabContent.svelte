@@ -24,7 +24,7 @@
     }
 
     const element = engineStoreValue.loadedElements.find(el => el.id === activeTabIdValue);
-    console.debug("Updated element")
+    console.debug("[redbud] (elementTabContent) Updated element")
     return element;
   });
 

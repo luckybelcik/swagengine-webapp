@@ -42,7 +42,7 @@ export function loadSchema(elementType: string): Schema {
       }
     }
   } else {
-    console.warn(`No hooks.json found for ${elementType}`);
+    console.warn(`[redbud] (schemaLoader) No hooks.json found for ${elementType}`);
   }
 
   const types = globalTypesDefinition as Record<string, any>;

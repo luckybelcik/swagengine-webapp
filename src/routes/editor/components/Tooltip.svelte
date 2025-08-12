@@ -18,9 +18,6 @@
 
     tooltipNode.style.top = `${top}px`;
     tooltipNode.style.left = `${left}px`;
-
-    console.log("top:", top)
-    console.log("left:", left)
   }
 
   $effect(() => {
