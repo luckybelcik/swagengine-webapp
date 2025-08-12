@@ -160,6 +160,7 @@
   onMount(() => {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    $userPreferenceStore.preferences.isOnekoTransitioningState = false;
   });
 </script>
 
