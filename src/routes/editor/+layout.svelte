@@ -48,8 +48,8 @@
     node.style.transform = image.Flipped ? 'scaleX(-1)' : 'scaleX(1)';
     node.style.zIndex = image.OnTop ? '9999' : '-100';
 
-    node.style.pointerEvents = getPreference("hoverEffectsEnabled") ? 'none' : 'auto';
-    node.style.opacity = getPreference("hoverEffectsEnabled") ? `${image.Opacity * 0.003}` : `${image.Opacity * 0.01}`;
+    node.style.pointerEvents = getPreference("hoverEffectsEnabled") ? 'auto' : 'none';
+    node.style.opacity = getPreference("hoverEffectsEnabled") ? `${image.Opacity * 0.01}` : `${image.Opacity * 0.003}`;
   }
 
   $effect(() => {
@@ -147,13 +147,13 @@
 
   function handleKeyDown(event: any) {
     if (event.key === '`') {
-      updatePreference("hoverEffectsEnabled", true);
+      updatePreference("hoverEffectsEnabled", false);
     }
   }
 
   function handleKeyUp(event: any) {
     if (event.key === '`') {
-      updatePreference("hoverEffectsEnabled", false);
+      updatePreference("hoverEffectsEnabled", true);
     }
   }
 
