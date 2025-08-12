@@ -8,6 +8,7 @@
     import GeneralForm from '../components/GeneralForm.svelte';
     import UserSetting from '../components/UserSetting.svelte';
     import AddImageInput from '../components/AddImageInput.svelte';
+    import { ONEKO_SKINS } from '$lib/data/_constant_data';
 
   const projectID = get(engineStore).projectData.id;
 
@@ -136,6 +137,7 @@
 
     <div class="divider m-0">Sillies</div>
     <UserSetting settingType="toggle" labelText="Oneko" updateFunctionOrProperty={"oneko"}/>
+    <UserSetting settingType="option" labelText="Oneko Skin" updateFunctionOrProperty={"onekoSkin"} optionsArray={Object.keys(ONEKO_SKINS)}/>
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
