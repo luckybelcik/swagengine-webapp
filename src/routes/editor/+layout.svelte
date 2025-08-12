@@ -11,6 +11,7 @@
     import { nodeIndexToRemove, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
   let imageNodes: HTMLImageElement[] = $state([]);
+  let imageHoverState = new Set<string>();
 
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
@@ -19,10 +20,18 @@
   
   let gradientOpacity = $derived(`opacity-${$userPreferenceStore.preferences.gradientOpacity}`);
 
-  function updatePosition(node: HTMLImageElement, image: any) {
+  function updatePosition(node: HTMLImageElement, name: string, image: any) {
     if (!node) return;
 
-    if (image.ImageLink) {
+    if (image.HoverLink) {
+      node.style.pointerEvents = 'auto';
+    } else {
+      node.style.pointerEvents = 'none';
+    }
+
+    if (image.HoverLink && imageHoverState.has(name)) {
+      node.src = image.HoverLink;
+    } else if (image.ImageLink) {
       node.src = image.ImageLink;
     } else {
       node.src = '';
@@ -31,7 +40,7 @@
     node.style.left = `${parseInt(image.X)}px`;
     node.style.bottom = `${parseInt(image.Y)}px`;
     node.style.width = `${image.Scale}%`;
-    node.style.rotate = `${image.Rotation}deg`;
+    node.style.rotate = `${image.Rotation}deg`; 
     
     node.style.transform = image.Flipped ? 'scaleX(-1)' : 'scaleX(1)';
     node.style.zIndex = image.OnTop ? '9999' : '-100';
@@ -51,7 +60,7 @@
     for (let i = 0; i < imageNodes.length; i++) {
       const node = imageNodes[i];
       const [name, imageData] = Object.entries($userPreferenceStore.images)[i];
-      if (node && imageData) updatePosition(node, imageData);
+      if (node && imageData) updatePosition(node, name, imageData);
     }
   });
 
@@ -143,13 +152,14 @@
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
       {#each Object.entries($userPreferenceStore.images) as [name, image], i (name)}
-        <img bind:this={imageNodes[i]} class="fixed pointer-events-none" alt="Image Node for {name}."
+        <img bind:this={imageNodes[i]} class="fixed" alt="Image Node for {name}."
         onerror={(e) => {
           const image = e.target as HTMLImageElement;
           image.src = "https://image2url.com/images/1754998813754-fe681684-e76d-4abe-ba62-1a246f0b01df.webp";
           image.style.opacity = "0.5"
-          image.style.zIndex = "9999" 
-        }}/>
+          image.style.zIndex = "9999" }}
+        onmouseenter={() => {imageHoverState.add(name); updatePosition(imageNodes[i], name, image); console.log("Added", name, "to hover state")}}
+        onmouseleave={() => {imageHoverState.delete(name); updatePosition(imageNodes[i], name, image); console.log("Removed", name, "from hover state")}}/>
       {/each}
       {@render children()}
     </main>

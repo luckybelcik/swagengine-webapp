@@ -47,6 +47,17 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
       OnTop: false,
       ImageLink: DEFAULT_BACKGROUND_URL,
     },
+    kitten: {
+      Opacity: 100,
+      X: 0,
+      Y: 0,
+      Scale: 10,
+      Rotation: 0,
+      Flipped: false,
+      OnTop: true,
+      ImageLink: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ffreepngimg.com%2Fthumb%2Fcat%2F35912-2-black-cat-transparent-picture.png&f=1&nofb=1&ipt=12b2da0dfe2d92d0a9e18d41b01c22a78e2c2f9308f2738a0c8adc448f282f14",
+      HoverLink: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ffreepngimg.com%2Fthumb%2Fcat%2F1-cat-png-image-thumb.png&f=1&nofb=1&ipt=fcc30b21832c6854ac549435646493506e128997e010239aa1d28966e52c702f"
+    }
   },
 }
 
