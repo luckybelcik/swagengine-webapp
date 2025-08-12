@@ -31,11 +31,11 @@
 @keyframes runleft {
 	0%,
 	50% {
-		background-position: -128px -62px;
+		background-position: -128px -64px;
 	}
 	50.00001%,
 	100% {
-		background-position: -128px -94px;
+		background-position: -128px -96px;
 	}
 }
 @keyframes runup {

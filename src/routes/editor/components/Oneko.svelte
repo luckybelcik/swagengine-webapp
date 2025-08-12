@@ -1,8 +1,16 @@
 <script lang="ts">
+    import { ONEKO_SKINS } from "$lib/data/_constant_data";
     import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
   import { onDestroy, onMount } from "svelte";
 
   let kittyElement: HTMLDivElement | undefined = $state();
+
+  let kittyKind: keyof typeof ONEKO_SKINS = $derived($userPreferenceStore.preferences.onekoSkin);
+  let kittenImageUrl = $derived(ONEKO_SKINS[kittyKind]);
+
+  $effect(() => {
+    kittenImageUrl = ONEKO_SKINS[kittyKind];
+  })
 
   const animationDirections = [
     'runbottomright',
@@ -148,7 +156,10 @@
 
 <div bind:this={kittyElement} 
 class="kitty-sprite fixed z-[10000]" 
-style="animation: {currentAnimation} {animationInterval}s steps(2) infinite; left: {kittyX}px; top: {kittyY}px;">
+style="animation: {currentAnimation} {animationInterval}s steps(2) infinite;
+left: {kittyX}px;
+top: {kittyY}px;
+background-image: url('{kittenImageUrl}');">
 </div>
 
 <style>
@@ -157,7 +168,6 @@ style="animation: {currentAnimation} {animationInterval}s steps(2) infinite; lef
   .kitty-sprite {
     width: 32px;
     height: 32px;
-    background-image: url('https://raw.githubusercontent.com/MCHAMSTERYT2/onekocord/refs/heads/main/onekoskins/default.png');
     background-repeat: no-repeat;
     pointer-events: none;
     transform: translate(-50%, -50%);
