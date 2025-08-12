@@ -18,7 +18,6 @@
   let elementCount = $state(get(engineStore).loadedElements.length);
   
   let gradientOpacity = $derived(`opacity-${$userPreferenceStore.preferences.gradientOpacity}`);
-  let backgroundOpacity = $derived(`opacity-${$userPreferenceStore.preferences.backgroundOpacity}`);
 
   function updatePosition(node: HTMLImageElement, image: any) {
     if (!node) return;
@@ -36,6 +35,8 @@
     
     node.style.transform = image.Flipped ? 'scaleX(-1)' : 'scaleX(1)';
     node.style.zIndex = image.OnTop ? '9999' : '-100';
+
+    node.style.opacity = `${image.Opacity * 0.01}`;
   }
 
   $effect(() => {
@@ -134,7 +135,7 @@
     <main class="flex-grow">
       <div class="background-gradient fixed left-64 right-0 h-[40%] bottom-0 z-[0] pointer-events-none bg-gradient-to-b to-primary {gradientOpacity}"></div>
       {#each Object.entries($userPreferenceStore.images) as [name, image], i}
-        <img bind:this={imageNodes[i]} class="fixed pointer-events-none {backgroundOpacity}" alt="Well, this should be a {name}. Oops?"/>
+        <img bind:this={imageNodes[i]} class="fixed pointer-events-none" alt="Well, this should be a {name}. Oops?"/>
       {/each}
       {@render children()}
     </main>

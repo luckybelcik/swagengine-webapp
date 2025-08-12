@@ -39,21 +39,11 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
   images: {
     background: {
       Opacity: 50,
-      X: 0,
+      X: 251,
       Y: 0,
-      Scale: 100,
+      Scale: 83,
       Rotation: 0,
       Flipped: false,
-      OnTop: false,
-      ImageLink: DEFAULT_BACKGROUND_URL,
-    },
-    thingy: {
-      Opacity: 25,
-      X: 20,
-      Y: 20,
-      Scale: 59,
-      Rotation: 60,
-      Flipped: true,
       OnTop: false,
       ImageLink: DEFAULT_BACKGROUND_URL,
     },
