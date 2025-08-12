@@ -3,7 +3,7 @@ import type { ComponentWithIcon, EditorTab, EngineStore } from "./_definitions";
 export const LOCAL_STORAGE_KEY_PREFERENCES = 'swaggappAutosavePreferences';
 export const CURRENT_PROJECT_ID_KEY = 'new_project';
 export const ENGINE_VERSION = '0.0.1';
-export const WEBAPP_VERSION = '0.0.8';
+export const WEBAPP_VERSION = '0.0.10';
 
 export const FIXED_ELEMENT_TYPES = ['item', 'entity', 'tile', 'command', 'boss'] as const;
 export const FIXED_ENTITY_METHOD_HOOKS = ['OnSpawn', 'OnDeath', 'OnHit', 'OnTick'] as const;
