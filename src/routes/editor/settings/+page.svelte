@@ -39,6 +39,18 @@
       }));
     };
   }
+
+  function handleClearImages() {
+    if (confirm(`Are you sure you want to clear all images? This cannot be reverted!`)) {
+      $userPreferenceStore.images = [];
+    }
+  }
+
+  function handleResetUserSettings() {
+    if (confirm(`Are you sure you want to reset user settings? This cannot be reverted, and RESETS IMAGES AS WELL!`)) {
+      resetPreferences();
+    }
+  }
 </script>
 
 <div class="w-full pl-4 pr-10 p-2 flex flex-col gap-4 mt-2">
@@ -135,7 +147,7 @@
   </GeneralForm>
 
   <div class="flex justify-end gap-2">
-    <button class="btn btn-error z-10" onclick={()=>$userPreferenceStore.images = []}>Clear Images</button>
-    <button class="btn btn-error z-10" onclick={resetPreferences}>Reset User Settings</button>
+    <button class="btn btn-error z-10" onclick={handleClearImages}>Clear Images</button>
+    <button class="btn btn-error z-10" onclick={handleResetUserSettings}>Reset User Settings</button>
   </div>
 </div>
