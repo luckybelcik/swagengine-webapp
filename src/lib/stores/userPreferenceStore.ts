@@ -80,10 +80,10 @@ export function addImage(imageName: string): void {
   userPreferenceStore.update(currentStore => {
     if (currentStore) {
       let updatedImages = { ...currentStore.images, [imageName]: {
-        Opacity: 0,
+        Opacity: 100,
         X: 0,
         Y: 0,
-        Scale: 0,
+        Scale: 50,
         Rotation: 0,
         Flipped: false,
         OnTop: false,
