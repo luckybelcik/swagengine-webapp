@@ -3,7 +3,7 @@
   import { setProjectProperty, engineStore } from "$lib/stores/engineStore";
   import { snakeCaseToCapitalized, softValidation, softValidationVariable, strictValidation } from "../utils/util";
   import IconImageUpload from '../components/IconImageUpload.svelte';
-  import { addImage, removeImage, resetPreferences, showComponentIcons, showGradient, userPreferenceStore } from '$lib/stores/userPreferenceStore';
+  import { addImage, nodeIndexToRemove, removeImage, resetPreferences, showComponentIcons, showGradient, userPreferenceStore } from '$lib/stores/userPreferenceStore';
     import { get } from 'svelte/store';
     import GeneralForm from '../components/GeneralForm.svelte';
     import UserSetting from '../components/UserSetting.svelte';
@@ -42,7 +42,16 @@
 
   function handleClearImages() {
     if (confirm(`Are you sure you want to clear all images? This cannot be reverted!`)) {
-      $userPreferenceStore.images = [];
+      let indicesToRemove = get(nodeIndexToRemove);
+
+      let i = 0;
+      Object.keys($userPreferenceStore.images).forEach(Image => {
+        indicesToRemove.push(i);
+        i++;
+      });
+
+      nodeIndexToRemove.set(indicesToRemove);
+      $userPreferenceStore.images = {};
     }
   }
 
@@ -110,7 +119,7 @@
     <UserSetting settingType="slider" maxRange={100} labelText="Gradient Opacity" updateFunctionOrProperty={"gradientOpacity"} />
     
     <div class="divider m-0">Images</div>
-    {#if Object.entries($userPreferenceStore.images) && Object.entries($userPreferenceStore.images).length > 0}
+    {#if Object.entries($userPreferenceStore.images).length > 0}
       {#each Object.entries($userPreferenceStore.images) as [name, image] (name)}
       <div class="collapse collapse-bright collapse-arrow">
         <input type="checkbox" class="collapse-toggle"/>
