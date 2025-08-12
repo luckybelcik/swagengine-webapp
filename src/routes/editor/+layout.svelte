@@ -6,12 +6,13 @@
       engineStore} from '$lib/stores/engineStore';
     import { strictValidation, softValidation, typeValidation, parseBoolean, swapBackRemoveIndex } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
-    import { FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+    import { FIXED_ELEMENT_TYPES, HOVER_IMAGE_DELAY_MS } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
     import { nodeIndexToRemove, userPreferenceStore } from "$lib/stores/userPreferenceStore";
 
   let imageNodes: HTMLImageElement[] = $state([]);
   let imageHoverState = new Set<string>();
+  let hoverTimeouts = new Map<string, any>()
 
   let showCreateElementModal = $state(false);
   let ErrorMessage = $state('');
@@ -63,6 +64,26 @@
       if (node && imageData) updatePosition(node, name, imageData);
     }
   });
+
+  function handleMouseEnter(imageNode: HTMLImageElement, name: string, image: any) {
+    if (hoverTimeouts.has(name)) {
+      clearTimeout(hoverTimeouts.get(name));
+      hoverTimeouts.delete(name);
+    }
+    imageHoverState.add(name);
+    updatePosition(imageNode, name, image);
+    console.log("Added", name, "to hover state")
+  }
+
+  function handleMouseLeave(imageNode: HTMLImageElement, name: string, image: any) {
+    const timeoutId = setTimeout(() => {
+      imageHoverState.delete(name);
+      hoverTimeouts.delete(name);
+      updatePosition(imageNode, name, image);
+      console.log("Removed", name, "from hover state");
+    }, HOVER_IMAGE_DELAY_MS);
+    hoverTimeouts.set(name, timeoutId);
+  }
 
   const EngineVersion = get(engineStore).projectData.engineVersion;
   const WebAppVersion = get(engineStore).projectData.webAppVersion;
@@ -158,8 +179,8 @@
           image.src = "https://image2url.com/images/1754998813754-fe681684-e76d-4abe-ba62-1a246f0b01df.webp";
           image.style.opacity = "0.5"
           image.style.zIndex = "9999" }}
-        onmouseenter={() => {imageHoverState.add(name); updatePosition(imageNodes[i], name, image); console.log("Added", name, "to hover state")}}
-        onmouseleave={() => {imageHoverState.delete(name); updatePosition(imageNodes[i], name, image); console.log("Removed", name, "from hover state")}}/>
+        onmouseenter={() => handleMouseEnter(imageNodes[i], name, image)}
+        onmouseleave={() => handleMouseLeave(imageNodes[i], name, image)}/>
       {/each}
       {@render children()}
     </main>

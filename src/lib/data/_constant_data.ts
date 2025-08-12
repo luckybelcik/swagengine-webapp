@@ -24,6 +24,8 @@ export const COMPONENT_ICONS: Record<ComponentWithIcon, string> = {
 export const DEFAULT_ICON_URL = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.publicdomainpictures.net%2Fpictures%2F30000%2Ft2%2Fred-apple-isolated.jpg&f=1&nofb=1&ipt=ccc6435a12be9f52147d442ddea931d20151cefa218c433212179795a09f55d3';
 export const DEFAULT_BACKGROUND_URL = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthfvnext.bing.com%2Fth%2Fid%2FOIP.5IzYXyLj_yLHi4hqRE6yeQHaEo%3Fcb%3Dthfvnext%26pid%3DApi&f=1&ipt=631a8892003c753614470bedf23f7a2e987b46e0e176495517fd653180a0a96d';
 
+export const HOVER_IMAGE_DELAY_MS = 250;
+
 export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
   preferences: {
     coloredElementCards: true,
