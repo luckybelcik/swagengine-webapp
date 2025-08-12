@@ -75,14 +75,29 @@ export const swapBackRemove = (array: string[], object_to_remove: string): strin
   const indexToDelete = array.indexOf(object_to_remove);
 
   if (indexToDelete !== -1) {
-    const newComponents = [...array];
+    const newStringArray = [...array];
 
-    if (indexToDelete !== newComponents.length - 1) {
-        newComponents[indexToDelete] = newComponents[newComponents.length - 1];
+    if (indexToDelete !== newStringArray.length - 1) {
+        newStringArray[indexToDelete] = newStringArray[newStringArray.length - 1];
     }
-    newComponents.pop();
+    newStringArray.pop();
 
-    return newComponents
+    return newStringArray
+  }
+
+  return array;
+}
+
+export const swapBackRemoveIndex = (array: any[], index_to_remove: number): any[] => {
+  if (index_to_remove !== -1) {
+    const newArray = [...array];
+
+    if (index_to_remove !== newArray.length - 1) {
+        newArray[index_to_remove] = newArray[newArray.length - 1];
+    }
+    newArray.pop();
+
+    return newArray
   }
 
   return array;
