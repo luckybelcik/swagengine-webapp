@@ -8,8 +8,9 @@
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES, HOVER_IMAGE_DELAY_MS } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
-    import { nodeIndexToRemove, userPreferenceStore } from "$lib/stores/userPreferenceStore";
+    import { getPreference, nodeIndexToRemove, updatePreference, userPreferenceStore } from "$lib/stores/userPreferenceStore";
     import Oneko from "./components/Oneko.svelte";
+    import { onDestroy, onMount } from "svelte";
 
   let imageNodes: HTMLImageElement[] = $state([]);
   let imageHoverState = new Set<string>();
@@ -22,7 +23,7 @@
   
   let gradientOpacity = $derived(`opacity-${$userPreferenceStore.preferences.gradientOpacity}`);
 
-  function updatePosition(node: HTMLImageElement, name: string, image: any) {
+  function updateNodeData(node: HTMLImageElement, name: string, image: any) {
     if (!node) return;
 
     if (image.HoverLink) {
@@ -47,7 +48,8 @@
     node.style.transform = image.Flipped ? 'scaleX(-1)' : 'scaleX(1)';
     node.style.zIndex = image.OnTop ? '9999' : '-100';
 
-    node.style.opacity = `${image.Opacity * 0.01}`;
+    node.style.pointerEvents = getPreference("hoverEffectsEnabled") ? 'none' : 'auto';
+    node.style.opacity = getPreference("hoverEffectsEnabled") ? `${image.Opacity * 0.003}` : `${image.Opacity * 0.01}`;
   }
 
   $effect(() => {
@@ -62,7 +64,7 @@
     for (let i = 0; i < imageNodes.length; i++) {
       const node = imageNodes[i];
       const [name, imageData] = Object.entries($userPreferenceStore.images)[i];
-      if (node && imageData) updatePosition(node, name, imageData);
+      if (node && imageData) updateNodeData(node, name, imageData);
     }
   });
 
@@ -72,14 +74,14 @@
       hoverTimeouts.delete(name);
     }
     imageHoverState.add(name);
-    updatePosition(imageNode, name, image);
+    updateNodeData(imageNode, name, image);
   }
 
   function handleMouseLeave(imageNode: HTMLImageElement, name: string, image: any) {
     const timeoutId = setTimeout(() => {
       imageHoverState.delete(name);
       hoverTimeouts.delete(name);
-      updatePosition(imageNode, name, image);
+      updateNodeData(imageNode, name, image);
     }, HOVER_IMAGE_DELAY_MS);
     hoverTimeouts.set(name, timeoutId);
   }
@@ -142,6 +144,23 @@
       ErrorMessage = `Failed to create element: ${error.message}`;
     }
   }
+
+  function handleKeyDown(event: any) {
+    if (event.key === '`') {
+      updatePreference("hoverEffectsEnabled", true);
+    }
+  }
+
+  function handleKeyUp(event: any) {
+    if (event.key === '`') {
+      updatePreference("hoverEffectsEnabled", false);
+    }
+  }
+
+  onMount(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+  });
 </script>
 
 <div class="flex flex-col min-h-screen">

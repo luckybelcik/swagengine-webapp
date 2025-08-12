@@ -120,7 +120,10 @@
             <UserSetting settingType="toggle" imageToUpdate={name} labelText="Flipped" updateFunctionOrProperty={"Flipped"} />
             <UserSetting settingType="toggle" imageToUpdate={name} labelText="On Top" updateFunctionOrProperty={"OnTop"} />
             <UserSetting settingType="string" imageToUpdate={name} labelText="Image Link" updateFunctionOrProperty={"ImageLink"} />
-            <UserSetting settingType="string" imageToUpdate={name} labelText="Hover Link" updateFunctionOrProperty={"HoverLink"} />
+            <div>
+              <UserSetting settingType="string" imageToUpdate={name} labelText="Hover Link" updateFunctionOrProperty={"HoverLink"} />
+              <div class="text-xs opacity-60">If you get softlocked, use ` (backtick) to disable the hoverability and lower all image opacities</div>
+            </div>
             <button class="btn btn-error z-10 w-30" onclick={()=>removeImage(name)}>Delete Image</button>
           {/if}
         </div>

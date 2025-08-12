@@ -34,6 +34,8 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
     showGradient: true,
     gradientOpacity: 20,
 
+    hoverEffectsEnabled: true,
+
     isDarkMode: true,
     theme: "sunset",
 
