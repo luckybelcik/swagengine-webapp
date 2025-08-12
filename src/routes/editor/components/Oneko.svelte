@@ -25,10 +25,10 @@
   const timeToSleep = 1000;
   const timeToWakeUp = 250;
 
-  let mouseX = $state(0);
-  let mouseY = $state(0);
-  let kittyX = $state(0);
-  let kittyY = $state(0);
+  let mouseX = $state(0)
+  let mouseY = $state(0)
+  let kittyX = $state(-50);
+  let kittyY = $state(500);
   let currentAnimation = $state('sleep');
   let kittyState = $state('state-sleep');
   let animationInterval = $state(0.25);
