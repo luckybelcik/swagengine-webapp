@@ -40,7 +40,6 @@
   let currentAnimation = $state('sleep');
   let kittyState = $state('state-sleep');
   let animationInterval = $state(0.25);
-  let stateTransitioning = $state(false);
   let transitionTimeoutId : any | undefined;
   
   function updateKittyState() {
@@ -55,6 +54,8 @@
     const dy = mouseY - kittyY;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
+    // immediate conditional state changes
+
     if (distance > 50) {
       switch (kittyState) {
         case "state-sleep": changeState("state-waking-up"); break;
@@ -67,6 +68,8 @@
         default: break;
       }
     }
+
+    // functionality (position change, animation change, delayed state change)
 
     switch (kittyState) {
       case "state-running": {
@@ -117,11 +120,16 @@
   }
 
   function transitionState(state: string, delay: number) {
-    clearTimeout(transitionTimeoutId);
+    if ($userPreferenceStore.preferences.isOnekoTransitioningState) {
+      return;
+    }
+
+    $userPreferenceStore.preferences.isOnekoTransitioningState = true;
     console.log(`Transitioning state to ${state} from ${kittyState} in ${delay}ms`)
     transitionTimeoutId = setTimeout(() => {
         kittyState = state;
         transitionTimeoutId = undefined;
+        $userPreferenceStore.preferences.isOnekoTransitioningState = false;
     }, delay);
   }
 

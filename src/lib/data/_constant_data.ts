@@ -59,6 +59,7 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
 
     oneko: true,
     onekoSkin: 'default',
+    isOnekoTransitioningState: false,
   },
 
   images: {
