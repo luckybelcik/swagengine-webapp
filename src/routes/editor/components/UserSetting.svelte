@@ -60,6 +60,7 @@
       id="cat-select"
       class="select select-bordered"
       onchange={(event: any) => computedUpdateFunction(event)}
+      value={initialValue}
     >
       {#each optionsArray as option}
         <option value={option}>
