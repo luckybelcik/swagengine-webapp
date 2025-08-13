@@ -34,6 +34,7 @@
   const timeToGetSleepy = 3000;
   const timeToSleep = 1000;
   const timeToWakeUp = 250;
+  const transitionBreakoutTime = 5000;
 
   let mouseX = $state(0)
   let mouseY = $state(0)
@@ -45,13 +46,23 @@
   let lastFrameState = $state('');
   let animationInterval = $state(0.25);
   let transitionTimeoutId : any | undefined;
+  let lastTransitionTime = $state(0);
   
   function updateKittyState() {
     if (!$userPreferenceStore.preferences.oneko && kittyElement) {
-        kittyElement.style.opacity = '0';
-        return;
+      kittyElement.style.opacity = '0';
+      return;
     } else if (kittyElement) {
-        kittyElement.style.opacity = '1';
+      kittyElement.style.opacity = '1';
+    }
+
+    const currentTime = Date.now();
+    const timeSinceLastTransition = currentTime - lastTransitionTime;
+
+    if (timeSinceLastTransition >= transitionBreakoutTime && $staticDataStore.isOnekoTransitioningState == true) {
+      debugLog("oneko", "warn", "Oneko transition timed crossed the max time of", transitionBreakoutTime + ".", "Exiting transition state.")
+      $staticDataStore.isOnekoTransitioningState = false;
+      lastTransitionTime = currentTime;
     }
 
     if (kittyState != lastFrameState) {
@@ -135,6 +146,7 @@
     }
 
     $staticDataStore.isOnekoTransitioningState = true;
+    lastTransitionTime = Date.now();
     debugLog("oneko", "Oneko transitioning state to", state, "from", kittyState, "in", delay, "ms")
     transitionTimeoutId = setTimeout(() => {
         changeState(state, false);
@@ -146,6 +158,7 @@
   function changeState(state: string, shouldClearTimeout: boolean) {
     lastState = kittyState;
     kittyState = state;
+    lastTransitionTime = Date.now();
     if (shouldClearTimeout) clearTimeout(transitionTimeoutId);
   }
 

@@ -165,40 +165,43 @@ export const parseBoolean = (input: string): boolean => {
   return false;
 }
 
-export const initLog = (...args: any[]) => {
-  const formattedMessage = `[redbud] (${getCurrentTime()}) (INIT)`;
-  
-  const consoleArgs: any[] = [formattedMessage];
-
-  args.forEach(arg => {
-    if (typeof arg === 'string') {
-      consoleArgs[0] += ` ${arg}`;
-    } else {
-      consoleArgs.push(arg);
-    }
-  });
-
-  console.debug(...consoleArgs);
-}
-
 export const debugLog = (origin: string, ...args: any[]) => {
-  const preferences = get(userPreferenceStore).preferences;
-  switch (origin) {
-    case "engineStore": if (!preferences.logEngineStore) {return} break;
-    case "userPreferenceStore": if (!preferences.logUserPreferenceStore) {return} break;
-    case "mainEditorLayout": if (!preferences.logMainEditorLayout) {return} break;
-    case "elementTabContent": if (!preferences.logElementTabContent) {return} break;
-    case "componentCard": if (!preferences.logComponentCard) {return} break;
-    case "schemaLoader": if (!preferences.logSchemaLoader) {return} break;
-    case "oneko": if (!preferences.logOneko) {return} break;
-    default: break;
+  let isSpecialLog = false;
+  let content = args;
+
+  const firstArgument = args[0].toLowerCase();
+
+  if (firstArgument == 'warn' || firstArgument == 'error' || firstArgument == 'init') {
+    isSpecialLog = true;
+    content = args.slice(1);
   }
 
-  const formattedMessage = `[redbud] (${getCurrentTime()}) (${origin})`;
+  if (firstArgument != 'init') {
+    const preferences = get(userPreferenceStore).preferences;
+    switch (origin) {
+      case "engineStore": if (!preferences.logEngineStore) {return} break;
+      case "userPreferenceStore": if (!preferences.logUserPreferenceStore) {return} break;
+      case "mainEditorLayout": if (!preferences.logMainEditorLayout) {return} break;
+      case "elementTabContent": if (!preferences.logElementTabContent) {return} break;
+      case "componentCard": if (!preferences.logComponentCard) {return} break;
+      case "schemaLoader": if (!preferences.logSchemaLoader) {return} break;
+      case "oneko": if (!preferences.logOneko) {return} break;
+      default: break;
+    }
+  }
+
+  let info;
+
+  if (isSpecialLog && firstArgument == 'init') {
+    info = "|INIT| [redbud]";
+  } else {
+    info = "[redbud]";
+  }
+  const formattedMessage = `${info} (${getCurrentTime()}) (${origin})`;
   
   const consoleArgs: any[] = [formattedMessage];
 
-  args.forEach(arg => {
+  content.forEach(arg => {
     if (typeof arg === 'string') {
       consoleArgs[0] += ` ${arg}`;
     } else {
@@ -206,7 +209,13 @@ export const debugLog = (origin: string, ...args: any[]) => {
     }
   });
 
-  console.debug(...consoleArgs);
+  if (isSpecialLog && firstArgument == 'error') {
+    console.error(...consoleArgs);
+  } else if (isSpecialLog && firstArgument == 'warn') {
+    console.warn(...consoleArgs);
+  } else {
+    console.debug(...consoleArgs);
+  }
 }
 
 function getCurrentTime() {

@@ -1,6 +1,6 @@
 import { LOCAL_STORAGE_KEY_PREFERENCES, INITIAL_USER_PREFERENCE_STORE } from '$lib/data/_constant_data';
 import { writable, get } from 'svelte/store';
-import { debugLog, initLog } from '../../routes/editor/utils/util';
+import { debugLog } from '../../routes/editor/utils/util';
 
 function getInitialValue() {
   if (typeof window !== 'undefined') {
@@ -17,14 +17,14 @@ function getInitialValue() {
           if (transformedPreferences.theme) {
             setTheme(transformedPreferences.theme);
           }
-          initLog("Loaded in preferences from old format.", transformedPreferences, parsed.images)
+          debugLog("userPreferenceStore", "init", "Loaded in preferences from old format.", transformedPreferences, parsed.images)
           return { preferences: transformedPreferences };
         } else if (typeof parsed.preferences === 'object' && parsed.preferences !== null) {
           transformedPreferences = parsed.preferences;
           if (transformedPreferences.theme) {
             setTheme(transformedPreferences.theme);
           }
-          initLog("Loaded in preferences from new format.", transformedPreferences, parsed.images)
+          debugLog("userPreferenceStore", "init", "Loaded in preferences from new format.", transformedPreferences, parsed.images)
           return { preferences: transformedPreferences, images: parsed.images };
         } else {
           console.warn("[redbud] (userPreferenceStore) Parsed preferences are not in an expected format. Using initial defaults.");
