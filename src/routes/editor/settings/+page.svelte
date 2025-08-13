@@ -154,6 +154,15 @@
     <div class="divider m-0">Sillies</div>
     <UserSetting settingType="toggle" labelText="Oneko" updateFunctionOrProperty={"oneko"}/>
     <UserSetting settingType="option" labelText="Oneko Skin" updateFunctionOrProperty={"onekoSkin"} optionsArray={Object.keys(ONEKO_SKINS)}/>
+    
+    <div class="divider m-0">Logging</div>
+    <UserSetting settingType="toggle" labelText="Log Engine Store" updateFunctionOrProperty={"logEngineStore"}/>
+    <UserSetting settingType="toggle" labelText="Log User Preference Store" updateFunctionOrProperty={"logUserPreferenceStore"}/>
+    <UserSetting settingType="toggle" labelText="Log Main Editor Layout" updateFunctionOrProperty={"logMainEditorLayout"}/>
+    <UserSetting settingType="toggle" labelText="Log Element Tab Content" updateFunctionOrProperty={"logElementTabContent"}/>
+    <UserSetting settingType="toggle" labelText="Log Component Card" updateFunctionOrProperty={"logComponentCard"}/>
+    <UserSetting settingType="toggle" labelText="Log Schema Loader" updateFunctionOrProperty={"logSchemaLoader"}/>
+    <UserSetting settingType="toggle" labelText="Log Oneko" updateFunctionOrProperty={"logOneko"}/>
   </GeneralForm>
 
   <div class="flex justify-end gap-2">

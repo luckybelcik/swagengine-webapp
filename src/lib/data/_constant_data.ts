@@ -62,6 +62,14 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
     oneko: true,
     onekoSkin: 'default',
     isOnekoTransitioningState: false,
+
+    logEngineStore: true,
+    logUserPreferenceStore: true,
+    logMainEditorLayout: true,
+    logElementTabContent: true,
+    logComponentCard: true,
+    logSchemaLoader: true,
+    logOneko: false,
   },
 
   images: {

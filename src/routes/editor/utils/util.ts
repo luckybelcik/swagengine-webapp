@@ -1,5 +1,7 @@
 import { elementIdExists } from "$lib/stores/engineStore";
 import { BIT_32_FLOAT_MAX, BIT_32_FLOAT_MIN, FIXED_ELEMENT_TYPES } from "$lib/data/_constant_data";
+import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
+import { get } from "svelte/store";
 
 /**
  * Used for strict validation, mainly for IDs.
@@ -164,6 +166,18 @@ export const parseBoolean = (input: string): boolean => {
 }
 
 export const debugLog = (origin: string, ...args: any[]) => {
+  const preferences = get(userPreferenceStore).preferences;
+  switch (origin) {
+    case "engineStore": if (!preferences.logEngineStore) {return} break;
+    case "userPreferenceStore": if (!preferences.logUserPreferenceStore) {return} break;
+    case "mainEditorLayout": if (!preferences.logMainEditorLayout) {return} break;
+    case "elementTabContent": if (!preferences.logElementTabContent) {return} break;
+    case "componentCard": if (!preferences.logComponentCard) {return} break;
+    case "schemaLoader": if (!preferences.logSchemaLoader) {return} break;
+    case "oneko": if (!preferences.logOneko) {return} break;
+    default: break;
+  }
+
   const formattedMessage = `[redbud] (${getCurrentTime()}) (${origin})`;
   
   const consoleArgs: any[] = [formattedMessage];
