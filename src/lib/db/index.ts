@@ -22,17 +22,46 @@ export class SwagDB extends Dexie {
 export const db = new SwagDB();
 
 export async function saveProject(project: Project): Promise<string> {
-  return db.projects.put(project);
+  try {
+    return db.projects.put(project);
+  } catch (error) {
+    console.error("Failed to save project:", error);
+    return '';
+  }
 }
 
 export async function getProject(id: string): Promise<Project | undefined> {
-  return db.projects.get(id);
+  try {
+    return db.projects.get(id);
+  } catch (error) {
+    console.error("Failed to retrieve project:", error);
+    return undefined;
+  }
 }
 
 export async function getAllProjects(): Promise<Project[]> {
-  return db.projects.toArray();
+  try {
+    return db.projects.toArray();
+  } catch (error) {
+    console.error("Failed to get all projects:", error);
+    return [];
+  }
 }
 
 export async function deleteProject(id: string): Promise<void> {
-  await db.projects.delete(id);
+  try {
+    await db.projects.delete(id);
+  } catch (error) {
+    console.error("Failed to delete project:", error);
+    return;
+  }
+}
+
+export async function getAllProjectIds(): Promise<string[]> {
+  try {
+    return db.projects.toCollection().primaryKeys();
+  } catch (error) {
+    console.error("Failed to retrieve all project ids:", error);
+    return [];
+  }
 }

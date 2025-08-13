@@ -1,6 +1,7 @@
 import { LOCAL_STORAGE_KEY_PREFERENCES, INITIAL_USER_PREFERENCE_STORE } from '$lib/data/_constant_data';
 import { writable, get } from 'svelte/store';
 import { debugLog } from '../../routes/editor/utils/util';
+import { browser } from '$app/environment';
 
 function getInitialValue() {
   if (typeof window !== 'undefined') {
@@ -149,14 +150,16 @@ export function getImageProperty(imageName: string, imageProperty: string): any 
   }
 }
 
-userPreferenceStore.subscribe(value => {
-  try {
-    localStorage.setItem(LOCAL_STORAGE_KEY_PREFERENCES, JSON.stringify(value));
-    debugLog("userPreferenceStore", "Saved preferences to localStorage:", value)
-  } catch (e) {
-    console.error("[redbud] (userPreferenceStore) Error saving preference data to localStorage:", e);
-  }
-})
+if (browser) {
+  userPreferenceStore.subscribe(value => {
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY_PREFERENCES, JSON.stringify(value));
+      debugLog("userPreferenceStore", "Saved preferences to localStorage:", value)
+    } catch (e) {
+      console.error("[redbud] (userPreferenceStore) Error saving preference data to localStorage:", e);
+    }
+  })
+}
 
 export function resetPreferences() {
   const freshData = JSON.parse(JSON.stringify(INITIAL_USER_PREFERENCE_STORE));

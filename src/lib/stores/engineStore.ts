@@ -1,15 +1,19 @@
 import { writable, get, derived } from 'svelte/store';
-import { CURRENT_PROJECT_ID_KEY, DEFAULT_ICON_URL, INITIAL_ENGINE_STORE } from '$lib/data/_constant_data';
+import { DEFAULT_ICON_URL, INITIAL_ENGINE_STORE } from '$lib/data/_constant_data';
 import { getProject, saveProject, type Project } from '$lib/db';
 import type { Element, EngineStore, Field, ProjectProperty, Schema } from '$lib/data/_definitions';
 import { debugLog } from '../../routes/editor/utils/util';
+import { userPreferenceStore } from './userPreferenceStore';
+import { browser } from '$app/environment';
 
-async function getInitialProjectState(): Promise<EngineStore> {
+async function getProjectState(): Promise<EngineStore> {
   if (typeof window === 'undefined') {
     return INITIAL_ENGINE_STORE;
   }
 
-  const savedProjectId = localStorage.getItem(CURRENT_PROJECT_ID_KEY);
+  const currentProjectIdKey = get(userPreferenceStore).preferences.currentProjectIdKey
+
+  const savedProjectId = localStorage.getItem(currentProjectIdKey);
 
   if (savedProjectId) {
     try {
@@ -33,19 +37,17 @@ async function getInitialProjectState(): Promise<EngineStore> {
     elements: INITIAL_ENGINE_STORE.loadedElements,
   };
   await saveProject(defaultProject);
-  localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
+  localStorage.setItem(currentProjectIdKey, defaultProjectId);
   debugLog("engineStore", "Initialized with default project and saved to IndexedDB.");
   return INITIAL_ENGINE_STORE;
 }
 
 export const engineStore = writable<EngineStore>(INITIAL_ENGINE_STORE);
 
-async function initializeEngineStoreFromDB() {
-  const loadedState = await getInitialProjectState();
+export async function initializeEngineStore() {
+  const loadedState = await getProjectState();
   engineStore.set(loadedState);
 }
-
-initializeEngineStoreFromDB();
 
 function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout>;
@@ -56,11 +58,13 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (
 }
 
 const debouncedSaveProject = debounce(async (project: Project) => {
-  try {
-    await saveProject(project);
-    debugLog("engineStore", "Autosaved project", project.projectData.name, project.id, "to IndexedDB.");
-  } catch (e) {
-    console.error("[redbud] (engineStore) Error autosaving project to IndexedDB:", e);
+  if (browser) {
+    try {
+      await saveProject(project);
+      debugLog("engineStore", "Autosaved project", project.projectData.name, project.id, "to IndexedDB.");
+    } catch (e) {
+      console.error("[redbud] (engineStore) Error autosaving project to IndexedDB:", e);
+    }
   }
 }, 2000);
 

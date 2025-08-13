@@ -1,21 +1,25 @@
 <script lang="ts">
-  import { setProjectProperty } from "$lib/stores/engineStore";
+  import { engineStore, initializeEngineStore, setProjectProperty } from "$lib/stores/engineStore";
   import { strictValidation, softValidation } from "./editor/utils/util";
   import { goto } from "$app/navigation";
   import FormModal from "./editor/components/FormModal.svelte";
+    import { getAllProjectIds } from "$lib/db";
+    import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
+    import { page } from "$app/state";
+    import { browser } from "$app/environment";
+    import { onMount } from "svelte";
 
   let showCreateProjectModal = $state(false);
+  
+  let showOpenProjectModal = $state(false);
+  let selectedProject = $state('');
 
   let ErrorMessage = $state('');
   let ErrorField = $state('');
 
-  function openCreateProjetModal() {
-    showCreateProjectModal = true
-  }
-
-  function closeCreateProjectModal() {
-    showCreateProjectModal = false
-  }
+  let projectIdsPromise: Promise<string[]> | undefined = $state();
+  
+  if (browser) {projectIdsPromise = getAllProjectIds()}
 
   function handleCreateProject(values: Record<string, string>) {
     ErrorMessage = "";
@@ -47,7 +51,7 @@
     }
 
     try {
-      closeCreateProjectModal();
+      showCreateProjectModal = false;
       setProjectProperty("name", projectName);;
       setProjectProperty("id", projectID);;
       setProjectProperty("author", projectAuthor);;
@@ -57,13 +61,21 @@
       ErrorMessage = `Failed to create element: ${error.message ?? String(error)}`;
     }
   }
+
+  function handleOpenProject() {
+    if (browser) {
+      $userPreferenceStore.preferences.currentProjectIdKey = selectedProject;
+      initializeEngineStore();
+    }
+    goto('/editor');
+  }
 </script>
 
 {#if showCreateProjectModal}
   <FormModal
     title="New Project"
     show={showCreateProjectModal}
-    onClose={closeCreateProjectModal}
+    onClose={() => showCreateProjectModal = false}
     onSubmit={handleCreateProject}
     fields={[
       { name: "projectName", label: "Project Name", placeholder: "e.g., New Project", 
@@ -76,6 +88,41 @@
     errorMessage={ErrorMessage}
     errorField={ErrorField}
   />
+{/if}
+
+{#if showOpenProjectModal}
+  <dialog open class="modal modal-open">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg text-center text-[30px] mb-6">Open Project</h3>
+
+    <label class="form-control w-full">
+      {#await projectIdsPromise}
+        <div>Loading Autosaved Projects...</div>
+      {:then projectIds}
+        {#if projectIds && projectIds.length > 0}
+        <select class="select select-bordered w-full" bind:value={selectedProject}>
+          <option disabled selected value="">Autosaved Projects</option>
+          {#each projectIds as opt}
+              <option value={opt}>{opt}</option>
+          {/each}
+        </select>
+        {:else}
+          <div>No Projects Found</div>
+        {/if}
+      {/await}
+    </label>
+
+    <div class="modal-action">
+      <button class="btn btn-ghost" onclick={() => showOpenProjectModal = false}>Cancel</button>
+      <button class="btn btn-primary" onclick={handleOpenProject}>Submit</button>
+    </div>
+  </div>
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+  <form method="dialog" class="modal-backdrop" onclick={() => showOpenProjectModal = false}>
+    <button>close</button>
+  </form>
+</dialog>
 {/if}
 
 <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
@@ -95,8 +142,8 @@
 
 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
   <div class="flex w-full">
-    <button class="btn btn-outline btn-xl">
-      Select Project
+    <button class="btn btn-outline btn-xl" onclick={() => showOpenProjectModal = true}>
+      Open Project
       <svg 
         class="stroke-current" 
         width="24px" 
@@ -112,7 +159,7 @@
       </svg>
     </button>
     <div class="divider divider-horizontal">OR</div>
-    <button class="btn btn-outline btn-xl" onclick={openCreateProjetModal}>
+    <button class="btn btn-outline btn-xl" onclick={() => showCreateProjectModal = true}>
       Create Project
       <svg
         class="stroke-current"
