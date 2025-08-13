@@ -65,7 +65,7 @@
   }
 
   function handleDeleteProject() {
-    if (confirm(`Are you sure you want to DELETE THE PROJECT? This cannot be reverted!!`)) {
+    if (confirm(`Are you sure you want to DELETE THE PROJECT? This cannot be reverted!!`) && confirm(`Are you ABSOLUTELY SURE?!?!`) && confirm(`Okay... I warned you...`)) {
       goto('/');
       deleteProject($userPreferenceStore.preferences.currentProjectIdKey)
     }
