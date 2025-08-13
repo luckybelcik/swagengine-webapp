@@ -163,18 +163,20 @@ export const parseBoolean = (input: string): boolean => {
   return false;
 }
 
-export const debugLog = (origin: string, ...content: any[]) => {
-  let formattedContent: any = [];
+export const debugLog = (origin: string, ...args: any[]) => {
+  const formattedMessage = `[redbud] (${getCurrentTime()}) (${origin})`;
+  
+  const consoleArgs: any[] = [formattedMessage];
 
-  content.forEach(content => {
-    if (!(typeof content === 'string') && content !== null) {
-      formattedContent.push(JSON.stringify(content, null, 2));
+  args.forEach(arg => {
+    if (typeof arg === 'string') {
+      consoleArgs[0] += ` ${arg}`;
     } else {
-      formattedContent.push(content);
+      consoleArgs.push(arg);
     }
   });
 
-  console.debug(`[redbud] (${getCurrentTime()}) (${origin}) ${formattedContent.join(' ')}`)
+  console.debug(...consoleArgs);
 }
 
 function getCurrentTime() {
