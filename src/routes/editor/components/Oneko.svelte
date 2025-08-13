@@ -66,13 +66,13 @@
 
     if (distance > 50) {
       switch (kittyState) {
-        case "state-sleep": changeState("state-waking-up"); break;
-        case "state-standing": changeState("state-running"); break;
+        case "state-sleep": changeState("state-waking-up", true); break;
+        case "state-standing": changeState("state-running", true); break;
         default: break;
       }
     } else {
       switch (kittyState) {
-        case "state-running": changeState("state-standing"); break;
+        case "state-running": changeState("state-standing", true); break;
         default: break;
       }
     }
@@ -137,16 +137,16 @@
     $staticDataStore.isOnekoTransitioningState = true;
     debugLog("oneko", "Oneko transitioning state to", state, "from", kittyState, "in", delay, "ms")
     transitionTimeoutId = setTimeout(() => {
-        changeState(state);
+        changeState(state, false);
         transitionTimeoutId = undefined;
         $staticDataStore.isOnekoTransitioningState = false;
     }, delay);
   }
 
-  function changeState(state: string) {
+  function changeState(state: string, shouldClearTimeout: boolean) {
     lastState = kittyState;
     kittyState = state;
-    clearTimeout(transitionTimeoutId);
+    if (shouldClearTimeout) clearTimeout(transitionTimeoutId);
   }
 
   function handleMouseMove(event: MouseEvent) {
