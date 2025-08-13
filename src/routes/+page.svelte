@@ -52,9 +52,9 @@
 
     try {
       showCreateProjectModal = false;
-      setProjectProperty("name", projectName);;
-      setProjectProperty("id", projectID);;
-      setProjectProperty("author", projectAuthor);;
+      setProjectProperty("name", projectName);
+      setProjectProperty("id", projectID);
+      setProjectProperty("author", projectAuthor);
       goto("/editor");
     } catch (error: any) {
       console.error("[redbud] (mainEditorPage) Error creating element:", error);

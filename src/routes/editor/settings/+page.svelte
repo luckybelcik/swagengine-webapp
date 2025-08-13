@@ -9,6 +9,8 @@
     import UserSetting from '../components/UserSetting.svelte';
     import AddImageInput from '../components/AddImageInput.svelte';
     import { ONEKO_SKINS } from '$lib/data/_constant_data';
+    import { goto } from '$app/navigation';
+    import { deleteProject } from '$lib/db';
 
   const projectID = get(engineStore).projectData.id;
 
@@ -59,6 +61,13 @@
   function handleResetUserSettings() {
     if (confirm(`Are you sure you want to reset user settings? This cannot be reverted, and RESETS IMAGES AS WELL!`)) {
       resetPreferences();
+    }
+  }
+
+  function handleDeleteProject() {
+    if (confirm(`Are you sure you want to DELETE THE PROJECT? This cannot be reverted!!`)) {
+      goto('/');
+      deleteProject($userPreferenceStore.preferences.currentProjectIdKey)
     }
   }
 </script>
@@ -168,5 +177,6 @@
   <div class="flex justify-end gap-2">
     <button class="btn btn-error z-10" onclick={handleClearImages}>Clear Images</button>
     <button class="btn btn-error z-10" onclick={handleResetUserSettings}>Reset User Settings</button>
+    <button class="btn btn-error z-10" onclick={handleDeleteProject}>Delete Project</button>
   </div>
 </div>

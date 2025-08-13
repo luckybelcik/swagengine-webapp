@@ -11,13 +11,11 @@ async function getProjectState(): Promise<EngineStore> {
     return INITIAL_ENGINE_STORE;
   }
 
-  const currentProjectIdKey = get(userPreferenceStore).preferences.currentProjectIdKey
+  const currentProjectIdKey: string = get(userPreferenceStore).preferences.currentProjectIdKey
 
-  const savedProjectId = localStorage.getItem(currentProjectIdKey);
-
-  if (savedProjectId) {
+  if (currentProjectIdKey) {
     try {
-      const project = await getProject(savedProjectId);
+      const project = await getProject(currentProjectIdKey);
       if (project) {
         debugLog("engineStore", "Loaded project", project.projectData.name, "from IndexedDB");
         return {
@@ -26,10 +24,11 @@ async function getProjectState(): Promise<EngineStore> {
         };
       }
     } catch (e) {
-      console.error(`[redbud] (engineStore) Error loading project '${savedProjectId}' from IndexedDB:`, e);
+      console.error(`[redbud] (engineStore) Error loading project '${currentProjectIdKey}' from IndexedDB:`, e);
     }
   }
 
+  debugLog("engineStore", "warn", "Project of ID", currentProjectIdKey, "not found, initializing with default project.")
   const defaultProjectId = INITIAL_ENGINE_STORE.projectData.id;
   const defaultProject: Project = {
     id: defaultProjectId,
