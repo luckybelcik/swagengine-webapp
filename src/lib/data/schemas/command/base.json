@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "name": "environment", "type": "environment", "description": "Determines which environment the command runs on.", "info": "Client side means that it only interacts with the player that ran it, and things that only concern that player, like the GUI, etc., while server side means the opposite, interacting with the server itself. Client side commands can be used for utilities, while server side and both side commands are for things like giving items, damaging players, etc." },
+    { "name": "operator_level", "type": "u_int_8", "description": "Determines who can run the command.", "info": "Level 0 - every player, level 255 - only the owner." }
+  ]
+}

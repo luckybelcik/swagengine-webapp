@@ -6,5 +6,13 @@
   "enum_hitbox_type": {
     "type": "enum",
     "values": ["rectangle", "circle"]
+  },
+  "tile_type": {
+    "type": "enum",
+    "values": ["stone", "dirt", "wood"]
+  },
+  "environment": {
+    "type": "enum",
+    "values": ["client-side", "server-side", "both"]
   }
 }

@@ -1,0 +1,10 @@
+{
+    "hooks": {
+        "base": {
+            "onSpawn": { "description": "Function to execute when the boss is spawned." },
+            "onDeath": { "description": "Function to execute when the boss dies." },
+            "onHit": { "description": "Function to execute when the boss is hit." },
+            "onTick": { "description": "Function to execute when the boss is ticked." }
+        }
+    }
+}

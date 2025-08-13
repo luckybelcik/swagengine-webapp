@@ -1,0 +1,9 @@
+{
+    "hooks": {
+        "base": {
+            "onPlace": { "description": "Function to execute when the tile is placed." },
+            "onBreak": { "description": "Function to execute when the tile is broken." },
+            "onStep": { "description": "Function to execute when the tile is stepped on." }
+        }
+    }
+}

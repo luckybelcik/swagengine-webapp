@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "name": "tile_toughness", "type": "u_int_16", "description": "Determines how hard the tile is to break, and what power tool you need to damage it at all." },
+    { "name": "tile_type", "type": "tile_type", "description": "Determines which tool the tile can be broken with." }
+  ]
+}

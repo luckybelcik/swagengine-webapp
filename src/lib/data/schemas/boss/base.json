@@ -1,0 +1,6 @@
+{
+  "fields": [
+    { "name": "display_name", "type": "string", "description": "The name of the boss. Visible on the health bar and when you hover over the boss."},
+    { "name": "max_hp", "type": "u_int_64", "description": "The amount of health the boss will have." }
+  ]
+}

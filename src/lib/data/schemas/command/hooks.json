@@ -1,0 +1,7 @@
+{
+    "hooks": {
+        "base": {
+            "onRun": { "description": "Function to execute when the command is ran." }
+        }
+    }
+}
