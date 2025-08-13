@@ -174,7 +174,7 @@ export const debugLog = (origin: string, ...content: any[]) => {
     }
   });
 
-  console.debug(`[redbud] (${getCurrentTime()}) (${origin}) ${formattedContent}`)
+  console.debug(`[redbud] (${getCurrentTime()}) (${origin}) ${formattedContent.join(' ')}`)
 }
 
 function getCurrentTime() {
