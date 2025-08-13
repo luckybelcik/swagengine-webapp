@@ -61,7 +61,6 @@ export const INITIAL_USER_PREFERENCE_STORE: Record<string, any> = {
 
     oneko: true,
     onekoSkin: 'default',
-    isOnekoTransitioningState: false,
 
     logEngineStore: true,
     logUserPreferenceStore: true,
@@ -168,6 +167,10 @@ export const INITIAL_TABS: EditorTab[] = [
     closable: false,
   },
 ];
+
+export const INITIAL_STATIC_DATA_STORE: Record<string, any> = {
+  isOnekoTransitioningState: false,
+}
 
 export const INT64_MIN = -9223372036854775808n;
 export const INT64_MAX = 9223372036854775807n;

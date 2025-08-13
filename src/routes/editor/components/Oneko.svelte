@@ -3,6 +3,7 @@
     import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
   import { onDestroy, onMount } from "svelte";
     import { debugLog } from "../utils/util";
+    import { staticDataStore } from "$lib/stores/staticDataStore";
 
   let kittyElement: HTMLDivElement | undefined = $state();
 
@@ -129,16 +130,16 @@
   }
 
   function transitionState(state: string, delay: number) {
-    if ($userPreferenceStore.preferences.isOnekoTransitioningState) {
+    if ($staticDataStore.isOnekoTransitioningState) {
       return;
     }
 
-    $userPreferenceStore.preferences.isOnekoTransitioningState = true;
+    $staticDataStore.isOnekoTransitioningState = true;
     debugLog("oneko", "Oneko transitioning state to", state, "from", kittyState, "in", delay, "ms")
     transitionTimeoutId = setTimeout(() => {
         changeState(state);
         transitionTimeoutId = undefined;
-        $userPreferenceStore.preferences.isOnekoTransitioningState = false;
+        $staticDataStore.isOnekoTransitioningState = false;
     }, delay);
   }
 
