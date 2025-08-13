@@ -7,11 +7,11 @@
     "type": "enum",
     "values": ["rectangle", "circle"]
   },
-  "tile_type": {
+  "enum_tile_type": {
     "type": "enum",
     "values": ["stone", "dirt", "wood"]
   },
-  "environment": {
+  "enum_environment": {
     "type": "enum",
     "values": ["client-side", "server-side", "both"]
   }
