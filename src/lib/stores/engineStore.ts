@@ -94,6 +94,16 @@ export const getElementName = (id: string) => {
   return "idk"
 }
 
+export const getElementType = (id: string) => {
+  const elements = get(engineStore).loadedElements;
+  const element = elements.find(el => el.id === id);
+  if (element) {
+    return element.type;
+  }
+
+  return "idk"
+}
+
 export const addElement = (newElement: Element) => {
   engineStore.update(currentData => ({
     ...currentData,

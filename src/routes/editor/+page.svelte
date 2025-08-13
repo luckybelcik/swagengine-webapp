@@ -15,7 +15,9 @@
         aria-controls={`tab-content-${tab.id}`}
         id={`tab-header-${tab.id}`}
       >
-        {@html tab.icon}
+        <div class="svg-container fill-current">
+          {@html tab.icon}
+        </div>
         <span class="ml-2">{tab.name}</span>
         {#if tab.closable}
           <span
@@ -42,3 +44,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .svg-container {
+    width: 20px;
+    height: 20px;
+  }
+</style>

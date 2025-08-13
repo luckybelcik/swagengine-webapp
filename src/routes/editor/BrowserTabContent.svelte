@@ -1,12 +1,11 @@
 <script lang="ts">
+    import { TYPE_ICON_SVGS } from '$lib/data/_constant_data';
   import { engineStore } from '$lib/stores/engineStore';
   import { userPreferenceStore } from '$lib/stores/userPreferenceStore';
   import CardBackground from './components/CardBackground.svelte';
   import CommonComponentIcons from './components/CommonComponentIcons.svelte';
   import SearchBar from './components/SearchBar.svelte';
   import TypeIcon from './components/TypeIcon.svelte';
-
-  const showComponentIcons = $derived(() => $userPreferenceStore.preferences.showComponentIcons);
 </script>
 
 <div id="tab-content-browser" role="tabpanel" aria-labelledby="tab-header-browser" class="ml-4 mt-2">
@@ -24,7 +23,7 @@
         <CardBackground {element}>
           <div class="card-body p-2">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 opacity-7 overflow-hidden">
-              <TypeIcon elementType={element.type} />
+              <TypeIcon elementType={element.type as keyof typeof TYPE_ICON_SVGS} />
             </div>
 
             <h4 class="text-lg font-bold mb-1 truncate text-center mt-2">{element.name}</h4>
