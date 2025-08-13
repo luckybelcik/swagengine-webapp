@@ -63,11 +63,13 @@
   }
 
   function handleOpenProject() {
-    if (browser) {
-      $userPreferenceStore.preferences.currentProjectIdKey = selectedProject;
-      initializeEngineStore();
+    if (selectedProject != '') {
+      if (browser) {
+        $userPreferenceStore.preferences.currentProjectIdKey = selectedProject;
+        initializeEngineStore();
+      }
+      goto('/editor');
     }
-    goto('/editor');
   }
 </script>
 
@@ -96,18 +98,19 @@
     <h3 class="font-bold text-lg text-center text-[30px] mb-6">Open Project</h3>
 
     <label class="form-control w-full">
+      <div class="text-lg font-bold">Autosaved Projects</div>
       {#await projectIdsPromise}
-        <div>Loading Autosaved Projects...</div>
+      <div class="bg-base-100 text-base-content w-full input input-disabled font-bold shrink-0">Loading Autosaved Projects...</div>
       {:then projectIds}
         {#if projectIds && projectIds.length > 0}
         <select class="select select-bordered w-full" bind:value={selectedProject}>
-          <option disabled selected value="">Autosaved Projects</option>
+          <option disabled selected value="">-- Select A Project --</option>
           {#each projectIds as opt}
               <option value={opt}>{opt}</option>
           {/each}
         </select>
         {:else}
-          <div>No Projects Found</div>
+        <div class="bg-base-100 text-base-content w-full input input-disabled font-bold shrink-0">No Projects Found</div>
         {/if}
       {/await}
     </label>
