@@ -1,6 +1,7 @@
 <script lang="ts">
     import { type Element, getComponentsForType, getNumberOfFieldsOnComponent } from "$lib/data/_definitions";
   import { addComponent, hasComponent, removeComponent } from "$lib/stores/engineStore";
+    import { debugLog } from "../utils/util";
 
   let { activeElement, componentName } = $props<{ activeElement: Element | undefined, componentName: string }>();
 
@@ -8,10 +9,10 @@
     if (activeElement){
       const id = activeElement.id;
       if (!hasComponent(id, component_name)) {
-        console.debug("[redbud] (componentCard) Adding component", component_name, "to", {id})
+        debugLog("componentCard", "Adding component", component_name, "to", id)
         addComponent(id, component_name);
       } else {
-        console.debug("[redbud] (componentCard) Adding component", component_name, "to", {id}, "failed")
+        debugLog("componentCard", "Adding component", component_name, "to", id, "failed")
       }
     }
   }

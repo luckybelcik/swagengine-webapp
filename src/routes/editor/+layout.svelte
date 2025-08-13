@@ -4,7 +4,7 @@
     import Navbar from "$lib/components/Navbar.svelte";
     import { createNewElement,
       engineStore} from '$lib/stores/engineStore';
-    import { strictValidation, softValidation, typeValidation, parseBoolean, swapBackRemoveIndex } from "./utils/util";
+    import { strictValidation, softValidation, typeValidation, parseBoolean, swapBackRemoveIndex, debugLog } from "./utils/util";
     import FormModal from "./components/FormModal.svelte";
     import { FIXED_ELEMENT_TYPES, HOVER_IMAGE_DELAY_MS } from "$lib/data/_constant_data";
     import { get } from "svelte/store";
@@ -135,8 +135,8 @@
       let newElement = null;
       newElement = createNewElement(newName, newId, newType);
 
-      console.debug(`[redbud] (mainEditorLayout) Created new element with ID: ${newId} and Type: ${newType}`);
-      console.debug(`[redbud] (mainEditorLayout) New element:`, newElement);
+      debugLog("mainEditorLayout", "Created new element with ID:", newId, "and Type:", newType);
+      debugLog("mainEditorLayout", "New element:", newElement);
       elementCount++;
       closeCreateElementModal();
     } catch (error: any) {

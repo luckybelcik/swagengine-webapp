@@ -2,6 +2,7 @@ import { writable, get, derived } from 'svelte/store';
 import { CURRENT_PROJECT_ID_KEY, DEFAULT_ICON_URL, INITIAL_ENGINE_STORE } from '$lib/data/_constant_data';
 import { getProject, saveProject, type Project } from '$lib/db';
 import type { Element, EngineStore, Field, ProjectProperty, Schema } from '$lib/data/_definitions';
+import { debugLog } from '../../routes/editor/utils/util';
 
 async function getInitialProjectState(): Promise<EngineStore> {
   if (typeof window === 'undefined') {
@@ -14,7 +15,7 @@ async function getInitialProjectState(): Promise<EngineStore> {
     try {
       const project = await getProject(savedProjectId);
       if (project) {
-        console.debug(`[redbud] (engineStore) Loaded project '${project.projectData.name}' from IndexedDB`);
+        debugLog("engineStore", "Loaded project", project.projectData.name, "from IndexedDB");
         return {
           loadedElements: project.elements,
           projectData: project.projectData,
@@ -33,7 +34,7 @@ async function getInitialProjectState(): Promise<EngineStore> {
   };
   await saveProject(defaultProject);
   localStorage.setItem(CURRENT_PROJECT_ID_KEY, defaultProjectId);
-  console.debug("[redbud] (engineStore) Initialized with default project and saved to IndexedDB.");
+  debugLog("engineStore", "Initialized with default project and saved to IndexedDB.");
   return INITIAL_ENGINE_STORE;
 }
 
@@ -57,7 +58,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (
 const debouncedSaveProject = debounce(async (project: Project) => {
   try {
     await saveProject(project);
-    console.debug(`[redbud] (engineStore) Autosaved project '${project.projectData.name}' (${project.id}) to IndexedDB.`);
+    debugLog("engineStore", "Autosaved project", project.projectData.name, project.id, "to IndexedDB.");
   } catch (e) {
     console.error("[redbud] (engineStore) Error autosaving project to IndexedDB:", e);
   }

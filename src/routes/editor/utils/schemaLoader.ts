@@ -7,6 +7,7 @@ import type {
   HooksDefinition,
   Component
 } from '../../../lib/data/_definitions';
+import { debugLog } from './util';
 
 export function loadSchema(elementType: string): Schema {
   const components = getComponentsForType(elementType)
@@ -47,5 +48,7 @@ export function loadSchema(elementType: string): Schema {
 
   const types = globalTypesDefinition as Record<string, any>;
 
-  return { type: elementType, components: componentList, availableHooks: hooks, types };
+  const schema: Schema = { type: elementType, components: componentList, availableHooks: hooks, types };
+  debugLog("schemaLoader", "Loaded schema", hooks)
+  return schema;
 }

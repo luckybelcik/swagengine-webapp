@@ -2,6 +2,7 @@
     import { ONEKO_SKINS } from "$lib/data/_constant_data";
     import { userPreferenceStore } from "$lib/stores/userPreferenceStore";
   import { onDestroy, onMount } from "svelte";
+    import { debugLog } from "../utils/util";
 
   let kittyElement: HTMLDivElement | undefined = $state();
 
@@ -39,6 +40,8 @@
   let kittyY = $state(500);
   let currentAnimation = $state('sleep');
   let kittyState = $state('state-sleep');
+  let lastState = $state('');
+  let lastFrameState = $state('');
   let animationInterval = $state(0.25);
   let transitionTimeoutId : any | undefined;
   
@@ -49,7 +52,11 @@
     } else if (kittyElement) {
         kittyElement.style.opacity = '1';
     }
-    console.debug("[redbud] (oneko) Current Oneko state:", kittyState);
+
+    if (kittyState != lastFrameState) {
+      debugLog("oneko", "Current Oneko state:", kittyState, "|| Last Oneko state:", lastState);
+    }
+
     const dx = mouseX - kittyX;
     const dy = mouseY - kittyY;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -117,6 +124,8 @@
 
       default: break;
     }
+
+    lastFrameState = kittyState;
   }
 
   function transitionState(state: string, delay: number) {
@@ -125,15 +134,16 @@
     }
 
     $userPreferenceStore.preferences.isOnekoTransitioningState = true;
-    console.debug(`[redbud] (oneko) Oneko transitioning state to ${state} from ${kittyState} in ${delay}ms`)
+    debugLog("oneko", "Oneko transitioning state to", state, "from", kittyState, "in", delay, "ms")
     transitionTimeoutId = setTimeout(() => {
-        kittyState = state;
+        changeState(state);
         transitionTimeoutId = undefined;
         $userPreferenceStore.preferences.isOnekoTransitioningState = false;
     }, delay);
   }
 
   function changeState(state: string) {
+    lastState = kittyState;
     kittyState = state;
     clearTimeout(transitionTimeoutId);
   }

@@ -1,5 +1,6 @@
 import { LOCAL_STORAGE_KEY_PREFERENCES, INITIAL_USER_PREFERENCE_STORE } from '$lib/data/_constant_data';
 import { writable, get } from 'svelte/store';
+import { debugLog } from '../../routes/editor/utils/util';
 
 function getInitialValue() {
   if (typeof window !== 'undefined') {
@@ -16,14 +17,14 @@ function getInitialValue() {
           if (transformedPreferences.theme) {
             setTheme(transformedPreferences.theme);
           }
-          console.debug("[redbud] (userPreferenceStore) Loaded in preferences from old format.", { preferences: transformedPreferences })
+          debugLog("userPreferenceStore", "Loaded in preferences from old format.", transformedPreferences, parsed.images)
           return { preferences: transformedPreferences };
         } else if (typeof parsed.preferences === 'object' && parsed.preferences !== null) {
           transformedPreferences = parsed.preferences;
           if (transformedPreferences.theme) {
             setTheme(transformedPreferences.theme);
           }
-          console.debug("[redbud] (userPreferenceStore) Loaded in preferences and images from new format.", { preferences: transformedPreferences }, { images: parsed.images })
+          debugLog("userPreferenceStore", "Loaded in preferences from new format.", transformedPreferences, parsed.images)
           return { preferences: transformedPreferences, images: parsed.images };
         } else {
           console.warn("[redbud] (userPreferenceStore) Parsed preferences are not in an expected format. Using initial defaults.");
@@ -151,7 +152,7 @@ export function getImageProperty(imageName: string, imageProperty: string): any 
 userPreferenceStore.subscribe(value => {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY_PREFERENCES, JSON.stringify(value));
-    console.debug("[redbud] (userPreferenceStore) Saved preferences to localStorage: ", value)
+    debugLog("userPreferenceStore", "Saved preferences to localStorage:", value)
   } catch (e) {
     console.error("[redbud] (userPreferenceStore) Error saving preference data to localStorage:", e);
   }

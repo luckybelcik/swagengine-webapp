@@ -162,3 +162,26 @@ export const parseBoolean = (input: string): boolean => {
   }
   return false;
 }
+
+export const debugLog = (origin: string, ...content: any[]) => {
+  let formattedContent: any = [];
+
+  content.forEach(content => {
+    if (!(typeof content === 'string') && content !== null) {
+      formattedContent.push(JSON.stringify(content, null, 2));
+    } else {
+      formattedContent.push(content);
+    }
+  });
+
+  console.debug(`[redbud] (${getCurrentTime()}) (${origin}) ${formattedContent}`)
+}
+
+function getCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+  return `${hours}:${minutes}:${seconds}`;
+}
