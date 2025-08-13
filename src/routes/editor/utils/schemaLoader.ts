@@ -49,6 +49,6 @@ export function loadSchema(elementType: string): Schema {
   const types = globalTypesDefinition as Record<string, any>;
 
   const schema: Schema = { type: elementType, components: componentList, availableHooks: hooks, types };
-  debugLog("schemaLoader", "Loaded schema", hooks)
+  debugLog("schemaLoader", "Loaded schema", schema)
   return schema;
 }

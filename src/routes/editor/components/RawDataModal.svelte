@@ -1,8 +1,10 @@
 <script lang="ts">
+    import type { Element, Schema } from "$lib/data/_definitions";
+
   let { showModal = $bindable(), element, schema } = $props<{
     showModal: boolean;
-    element: any;
-    schema: any;
+    element: Element;
+    schema: Schema;
   }>();
 
   let dialogElement: HTMLDialogElement;

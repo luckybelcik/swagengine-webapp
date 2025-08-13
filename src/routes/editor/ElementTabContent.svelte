@@ -23,13 +23,14 @@
     const activeTabIdValue = $activeTabId;
 
     if (!activeTabIdValue || activeTabIdValue === 'browser') {
+      debugLog("elementTabContent", `Not loading element because the active tab is browser or the active tab ID is undefined`)
       activeElement = undefined;
+    } else {
+      debugLog("elementTabContent", `Loading element...`)
+      const element = engineStoreValue.loadedElements.find(el => el.id === activeTabIdValue);
+      debugLog("elementTabContent", "Found and loaded element")
+      activeElement = element;
     }
-    
-    debugLog("elementTabContent", `Loading element...`)
-    const element = engineStoreValue.loadedElements.find(el => el.id === activeTabIdValue);
-    debugLog("elementTabContent", "Found and loaded element")
-    activeElement = element;
   };
 
   $: {
@@ -37,8 +38,9 @@
     if (element) {
       debugLog("elementTabContent", "Loading schema...")
       schema = loadSchema(element.type);
+    } else {
+      schema = undefined;
     }
-    schema = undefined;
   };
 
   function getEnumValues(typeName: string): string[] {
@@ -98,7 +100,7 @@
   }
 </script>
 
-{#if activeElement}
+{#if activeElement && schema}
   <div class="w-full pl-4 p-2 pb-1 flex flex-col gap-2">
     <ValidatedInput
       label="Element Name"
@@ -169,5 +171,11 @@
   />
   
 {:else}
-  <p class="text-center text-gray-500 p-4">No element found.</p>
+  {#if activeElement == undefined}
+    <p class="text-center text-gray-500 p-4">No element found.</p>
+  {/if}
+
+  {#if schema == undefined}
+    <p class="text-center text-gray-500 p-4">No schema found.</p>
+  {/if}
 {/if}
