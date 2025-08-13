@@ -18,6 +18,8 @@
   let activeElement: Element | undefined;
   let schema: Schema | undefined;
 
+  let lastLoadedType: string = '';
+
   $: {
     const engineStoreValue = $engineStore;
     const activeTabIdValue = $activeTabId;
@@ -25,19 +27,29 @@
     if (!activeTabIdValue || activeTabIdValue === 'browser') {
       debugLog("elementTabContent", `Not loading element because the active tab is browser or the active tab ID is undefined`)
       activeElement = undefined;
+      lastLoadedType = '';
     } else {
       debugLog("elementTabContent", `Loading element...`)
       const element = engineStoreValue.loadedElements.find(el => el.id === activeTabIdValue);
-      debugLog("elementTabContent", "Found and loaded element")
-      activeElement = element;
+      if (element) {
+        debugLog("elementTabContent", "Found and loaded element")
+        activeElement = element;
+      } else {
+        debugLog("elementTabContent", "Element not found")
+      }
     }
   };
 
   $: {
     const element = activeElement
     if (element) {
-      debugLog("elementTabContent", "Loading schema...")
-      schema = loadSchema(element.type);
+      if (element.type != lastLoadedType) {
+        debugLog("elementTabContent", "Loading schema...")
+        schema = loadSchema(element.type);
+        lastLoadedType = element.type;
+      } else {
+        debugLog("elementTabContent", "Skipping reloading schema because element types are the same")
+      }
     } else {
       schema = undefined;
     }
