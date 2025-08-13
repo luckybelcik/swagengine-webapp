@@ -165,6 +165,22 @@ export const parseBoolean = (input: string): boolean => {
   return false;
 }
 
+export const initLog = (...args: any[]) => {
+  const formattedMessage = `[redbud] (${getCurrentTime()}) (INIT)`;
+  
+  const consoleArgs: any[] = [formattedMessage];
+
+  args.forEach(arg => {
+    if (typeof arg === 'string') {
+      consoleArgs[0] += ` ${arg}`;
+    } else {
+      consoleArgs.push(arg);
+    }
+  });
+
+  console.debug(...consoleArgs);
+}
+
 export const debugLog = (origin: string, ...args: any[]) => {
   const preferences = get(userPreferenceStore).preferences;
   switch (origin) {
