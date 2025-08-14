@@ -233,37 +233,14 @@ export const handleIconChange = (event: Event, fileInput: HTMLInputElement | und
       }
 
       const MAX_SIZE = 512;
-      let width = img.width;
-      let height = img.height;
-
-      if (width > height) {
-        if (width > MAX_SIZE) {
-          height *= MAX_SIZE / width;
-          width = MAX_SIZE;
-        }
-      } else {
-        if (height > MAX_SIZE) {
-          width *= MAX_SIZE / height;
-          height = MAX_SIZE;
-        }
-      }
-
-      const size = Math.min(width, height);
-      canvas.width = MAX_SIZE;
-      canvas.height = MAX_SIZE;
-
+      const size = Math.min(img.width, img.height);
       const sx = (img.width - size) / 2;
       const sy = (img.height - size) / 2;
-      const sWidth = size;
-      const sHeight = size;
 
-      const dx = (MAX_SIZE - width) / 2;
-      const dy = (MAX_SIZE - height) / 2;
-      const dWidth = width;
-      const dHeight = height;
-
+      canvas.width = MAX_SIZE;
+      canvas.height = MAX_SIZE;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, MAX_SIZE, MAX_SIZE);
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, MAX_SIZE, MAX_SIZE);
 
       const processedDataUrl = canvas.toDataURL('image/png', 0.9);
 
