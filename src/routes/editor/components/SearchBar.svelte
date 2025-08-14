@@ -1,6 +1,6 @@
 <script lang="ts">
   import { writable, derived } from 'svelte/store';
-  import { engineStore, getElementName } from '$lib/stores/engineStore';
+  import { engineStore, getElementProperty } from '$lib/stores/engineStore';
   import { openElementTab } from '$lib/stores/editorTabsStore';
 
   const searchQuery = writable('');
@@ -31,7 +31,7 @@
     $searchQuery = id;
     showResults = false
     searchInput.focus()
-    openElementTab(id, getElementName(id));
+    openElementTab(id, getElementProperty(id, "name") as string);
   }
 
   function handleFocus() {

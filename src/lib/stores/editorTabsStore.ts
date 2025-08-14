@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { type EditorTab } from '$lib/data/_definitions';
 import { INITIAL_TABS, TYPE_ICON_SVGS } from '$lib/data/_constant_data';
-import { getElementType } from './engineStore';
+import { getElementProperty } from './engineStore';
 
 export const openTabs = writable<EditorTab[]>(INITIAL_TABS);
 export const activeTabId = writable<string>(INITIAL_TABS[0].id);
@@ -43,7 +43,7 @@ export const openElementTab = (elementId: string, elementName: string) => {
     id: elementId,
     type: 'element',
     name: elementName,
-    icon: TYPE_ICON_SVGS[getElementType(elementId) as keyof typeof TYPE_ICON_SVGS],
+    icon: TYPE_ICON_SVGS[getElementProperty(elementId, "type") as keyof typeof TYPE_ICON_SVGS],
     closable: true,
     elementId,
   });

@@ -88,25 +88,10 @@ export const setProjectProperty = (property: ProjectProperty, value: any) => {
   }));
 }
 
-export const getElementName = (id: string) => {
-  const elements = get(engineStore).loadedElements;
-  const element = elements.find(el => el.id === id);
-  if (element) {
-    return element.name;
-  }
-
-  return "idk"
-}
-
-export const getElementType = (id: string) => {
-  const elements = get(engineStore).loadedElements;
-  const element = elements.find(el => el.id === id);
-  if (element) {
-    return element.type;
-  }
-
-  return "idk"
-}
+export const getElementProperty = (id: string, property: keyof Element) => {
+    const element = get(engineStore).loadedElements.find(el => el.id === id);
+    return element ? element[property] : "unknown";
+};
 
 export const addElement = (newElement: Element) => {
   engineStore.update(currentData => ({
