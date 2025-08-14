@@ -204,19 +204,8 @@ export const removeComponent = (elementId: string, component_name: string) => {
 };
 
 export const hasComponent = (elementId: string, component_name: string): boolean => {
-  const store = get(engineStore);
-  const element = store.loadedElements.find(el => el.id === elementId);
-  const components = element?.data.components;
-  if (components && components.length > 0) {
-    const index = components.indexOf(component_name);
-    if (index == -1) {
-      return false;
-    }
-  } else {
-    return false;
-  }
-
-  return true;
+    const element = get(engineStore).loadedElements.find(el => el.id === elementId);
+    return !!element?.data?.components?.includes(component_name);
 }
 
 export const handleIconChange = (event: Event, fileInput: HTMLInputElement | undefined): void => {
