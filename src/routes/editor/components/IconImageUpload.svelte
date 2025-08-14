@@ -23,7 +23,7 @@
       </div>
       <div class="flex gap-2 w-full items-center">
         <button class="btn btn-sm btn-error" onclick={() => setProjectProperty("iconurl", DEFAULT_ICON_URL)}>Remove</button>
-        <label for="file-upload-input" class="btn btn-sm btn-info flex-shrink-0 cursor-pointer">
+        <label for="file-upload-input-navbar" class="btn btn-sm btn-info flex-shrink-0 cursor-pointer">
           Select New Image
         </label>
       </div>
