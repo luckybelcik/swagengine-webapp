@@ -36,7 +36,6 @@ async function getProjectState(): Promise<EngineStore> {
     elements: INITIAL_ENGINE_STORE.loadedElements,
   };
   await saveProject(defaultProject);
-  localStorage.setItem(currentProjectIdKey, defaultProjectId);
   debugLog("engineStore", "Initialized with default project and saved to IndexedDB.");
   return INITIAL_ENGINE_STORE;
 }
