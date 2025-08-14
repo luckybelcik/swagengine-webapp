@@ -140,14 +140,11 @@ export const updateElement = (id: string, updates: Partial<Element>) => {
     ...currentData,
     loadedElements: currentData.loadedElements.map(element => {
       if (element.id === id) {
-        const updatedElement = { ...element, ...updates };
-        if (updates.data) {
-          updatedElement.data = {
-            ...element.data,
-            ...updates.data
-          };
-        }
-        return updatedElement;
+        return {
+          ...element,
+          ...updates,
+          data: updates.data ? { ...element.data, ...updates.data } : element.data
+        };
       }
       return element;
     })
@@ -185,27 +182,27 @@ export const addComponent = (elementId: string, component_name: string) => {
 };
 
 export const removeComponent = (elementId: string, component_name: string) => {
-    engineStore.update(store => {
-        const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
+  engineStore.update(store => {
+    const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
 
-        if (elementToUpdate) {
-            const newComponents = (elementToUpdate.data.components || []).filter(
-                (component: any) => component !== component_name
-            );
+    if (elementToUpdate) {
+      const newComponents = (elementToUpdate.data.components || []).filter(
+          (component: any) => component !== component_name
+      );
 
-            const updatedElements = store.loadedElements.map(el =>
-                el.id === elementId ? { ...el, data: { ...el.data, components: newComponents } } : el
-            );
+      const updatedElements = store.loadedElements.map(el =>
+          el.id === elementId ? { ...el, data: { ...el.data, components: newComponents } } : el
+      );
 
-            return { ...store, loadedElements: updatedElements };
-        }
-        return store;
-    });
+      return { ...store, loadedElements: updatedElements };
+    }
+    return store;
+  });
 };
 
 export const hasComponent = (elementId: string, component_name: string): boolean => {
-    const element = get(engineStore).loadedElements.find(el => el.id === elementId);
-    return !!element?.data?.components?.includes(component_name);
+  const element = get(engineStore).loadedElements.find(el => el.id === elementId);
+  return !!element?.data?.components?.includes(component_name);
 }
 
 export const handleIconChange = (event: Event, fileInput: HTMLInputElement | undefined): void => {
