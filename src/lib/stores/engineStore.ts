@@ -185,29 +185,22 @@ export const addComponent = (elementId: string, component_name: string) => {
 };
 
 export const removeComponent = (elementId: string, component_name: string) => {
-  engineStore.update(store => {
-    const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
+    engineStore.update(store => {
+        const elementToUpdate = store.loadedElements.find(el => el.id === elementId);
 
-    if (elementToUpdate) {
-      const currentComponents = elementToUpdate.data.components || [];
-      const indexToDelete = currentComponents.indexOf(component_name);
+        if (elementToUpdate) {
+            const newComponents = (elementToUpdate.data.components || []).filter(
+                (component: any) => component !== component_name
+            );
 
-      if (indexToDelete !== -1) {
-        const newComponents = [...currentComponents];
+            const updatedElements = store.loadedElements.map(el =>
+                el.id === elementId ? { ...el, data: { ...el.data, components: newComponents } } : el
+            );
 
-        if (indexToDelete !== newComponents.length - 1) {
-            newComponents[indexToDelete] = newComponents[newComponents.length - 1];
+            return { ...store, loadedElements: updatedElements };
         }
-        newComponents.pop();
-
-        return {
-          ...store,
-          loadedElements: store.loadedElements.map(el => el.id === elementId ? { ...el, data: { ...el.data, components: newComponents, }, }: el ),
-        };
-      }
-    }
-    return store;
-  });
+        return store;
+    });
 };
 
 export const hasComponent = (elementId: string, component_name: string): boolean => {
